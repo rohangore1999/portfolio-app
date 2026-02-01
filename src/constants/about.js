@@ -1,0 +1,22 @@
+// Words for AboutSection animation
+export const aboutWords = [
+  "Discipline,",
+  "consistency,",
+  "iteration.",
+  "The",
+  "principles",
+  "that",
+  "build",
+  "great",
+  "code",
+  "also",
+  "build",
+  "great",
+  "physique.",
+  "I",
+  "share",
+  "insights",
+  "from",
+  "both",
+  "worlds.",
+];
