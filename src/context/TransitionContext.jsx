@@ -6,11 +6,34 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const TransitionContext = createContext();
 
+const PATH_LABELS = {
+  "/about": "about",
+  "/work": "work",
+  "/blog": "blog",
+  "/contact": "contact",
+};
+
 export function TransitionProvider({ children }) {
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [transitionLabel, setTransitionLabel] = useState("");
   const router = useRouter();
   const pathname = usePathname();
+
+  // Show entrance transition on initial page load / refresh
+  useEffect(() => {
+    const label = PATH_LABELS[pathname];
+    if (!label) return;
+
+    setTransitionLabel(label);
+    setIsTransitioning(true);
+
+    const exitTimer = setTimeout(() => {
+      setIsTransitioning(false);
+    }, 700);
+
+    return () => clearTimeout(exitTimer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Reset transition state when route changes (with delay for exit animation)
   useEffect(() => {
@@ -19,7 +42,7 @@ export function TransitionProvider({ children }) {
       const exitTimer = setTimeout(() => {
         setIsTransitioning(false);
       }, 700); // 0.4s slide in + 0.3s pause = 0.7s total before exit starts
-      
+
       return () => clearTimeout(exitTimer);
     }
   }, [pathname, isTransitioning]);
@@ -29,14 +52,17 @@ export function TransitionProvider({ children }) {
     setTransitionLabel(label);
     setIsTransitioning(true);
 
-    // Wait for transition screen to appear and pause, then navigate
     setTimeout(() => {
+      // Flag soft nav to home so StartScreen is skipped
+      if (href === "/") {
+        sessionStorage.setItem("softNavToHome", "true");
+      }
       router.push(href);
-    }, 700); // Navigate after slide in (0.4s) + pause (0.3s)
+    }, 700);
   };
 
   return (
-    <TransitionContext.Provider value={{ navigate }}>
+    <TransitionContext.Provider value={{ navigate, isTransitioning }}>
       {/* Global transition screen that appears before navigation */}
       <AnimatePresence mode="wait">
         {isTransitioning && (
@@ -45,9 +71,9 @@ export function TransitionProvider({ children }) {
             initial={{ y: "100%" }}
             animate={{ y: 0 }}
             exit={{ y: "-100%" }}
-            transition={{ 
+            transition={{
               duration: 0.4,
-              ease: [0.76, 0, 0.24, 1]
+              ease: [0.76, 0, 0.24, 1],
             }}
           >
             <motion.span

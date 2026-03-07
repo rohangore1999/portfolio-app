@@ -6,27 +6,29 @@ import StartScreen from "@/components/StartScreen";
 import HeroSection from "@/components/home/HeroSection";
 import AboutSection from "@/components/home/AboutSection";
 import WorkSection from "@/components/home/WorkSection";
+import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
 import { useTransition } from "@/context/TransitionContext";
 
 export default function Home() {
+  // Start hidden; only show StartScreen on a true page refresh/direct load
   const [showLoading, setShowLoading] = useState(false);
   const { navigate } = useTransition();
+
+  useEffect(() => {
+    const isSoftNav = sessionStorage.getItem("softNavToHome");
+    if (isSoftNav) {
+      // Arrived via logo click / soft nav — consume flag, skip StartScreen
+      sessionStorage.removeItem("softNavToHome");
+    } else {
+      // No flag means true browser reload or direct URL load
+      setShowLoading(true);
+    }
+  }, []);
 
   const handleAboutClick = () => {
     navigate("/about", "about");
   };
-
-  // Check if this is a fresh page load (not navigation)
-  useEffect(() => {
-    const hasShownGreeting = sessionStorage.getItem("greetingShown");
-    
-    // Only show greeting if it hasn't been shown in this session
-    if (!hasShownGreeting) {
-      setShowLoading(true);
-      sessionStorage.setItem("greetingShown", "true");
-    }
-  }, []);
 
   const handleGreetingComplete = () => {
     setShowLoading(false);
@@ -54,6 +56,11 @@ export default function Home() {
         <AboutSection onAboutClick={handleAboutClick} />
 
         <WorkSection />
+
+        {/* Footer as snap section */}
+        <section className="snap-start">
+          <Footer />
+        </section>
       </motion.div>
     </>
   );

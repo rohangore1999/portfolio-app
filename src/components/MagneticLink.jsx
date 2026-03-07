@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { useMagnetic } from "@/hooks/useMagnetic";
 
-export default function MagneticLink({ href, onClick, children, className = "" }) {
+export default function MagneticLink({ href, onClick, children, className = "", target }) {
   const { position, handleMouseMove, handleMouseLeave } = useMagnetic(0.3);
 
   // If it's a button (no href)
@@ -42,7 +42,7 @@ export default function MagneticLink({ href, onClick, children, className = "" }
         mass: 0.1,
       }}
     >
-      <Link href={href} onClick={onClick} className={className}>
+      <Link href={href} onClick={onClick} className={className} target={target} rel={target === "_blank" ? "noopener noreferrer" : undefined}>
         {children}
       </Link>
     </motion.div>

@@ -20,7 +20,10 @@ export default function LogoLink({ onClick }) {
   return (
     <motion.a
       href="/"
-      onClick={onClick}
+      onClick={(e) => {
+        e.preventDefault();
+        onClick(e);
+      }}
       className="relative text-xl font-semibold text-black dark:text-white hover:opacity-70 transition-opacity overflow-hidden inline-block cursor-pointer"
       onMouseMove={handleMouseMove}
       onMouseEnter={handleMouseEnter}

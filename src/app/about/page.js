@@ -1,11 +1,15 @@
 "use client";
 
-import Link from "next/link";
+import { motion } from "framer-motion";
 import Navigation from "@/components/Navigation";
+import Footer from "@/components/Footer";
 import { useTransition } from "@/context/TransitionContext";
+import AboutHeroSection from "@/components/about/AboutHeroSection";
+import ExperienceSection from "@/components/about/ExperienceSection";
+import PhilosophySection from "@/components/about/PhilosophySection";
 
 export default function AboutPage() {
-  const { navigate } = useTransition();
+  const { navigate, isTransitioning } = useTransition();
 
   const handleAboutClick = () => {
     navigate("/about", "about");
@@ -14,22 +18,28 @@ export default function AboutPage() {
   return (
     <div className="min-h-screen bg-black">
       <Navigation onAboutClick={handleAboutClick} />
-      <div className="flex items-center justify-center px-8 min-h-screen">
-        <div className="max-w-4xl">
-          <h1 className="text-5xl md:text-7xl font-bold text-white mb-8">
-            About Me
-          </h1>
-          <p className="text-xl md:text-2xl text-white/80 mb-8">
-            This is the about page. Coming soon...
-          </p>
-          <Link
-            href="/"
-            className="text-lg text-orange-500 hover:text-orange-600 transition-colors"
-          >
-            ← Back to Home
-          </Link>
-        </div>
-      </div>
+
+      {/* Snap Scroll Container */}
+      <motion.div
+        className="h-screen overflow-y-scroll snap-y snap-mandatory"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: isTransitioning ? 0 : 1 }}
+        transition={{ duration: 0.4, delay: 0.1 }}
+      >
+        {/* Hero + Image + Bio Section */}
+        <AboutHeroSection />
+
+        {/* Work Experience Timeline */}
+        <ExperienceSection />
+
+        {/* Philosophy Section */}
+        <PhilosophySection />
+
+        {/* Footer Section */}
+        <section className="snap-start">
+          <Footer />
+        </section>
+      </motion.div>
     </div>
   );
 }

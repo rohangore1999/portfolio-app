@@ -12,10 +12,8 @@ export default function Navigation({ onAboutClick }) {
 
   const handleHomeClick = (e) => {
     e.preventDefault();
-    // Clear the greeting flag so it shows again
-    sessionStorage.removeItem("greetingShown");
-    // Reload the page to show StartScreen
-    window.location.href = "/";
+    setIsMobileMenuOpen(false);
+    navigate("/", "home");
   };
 
   const handleWorkClick = (e) => {

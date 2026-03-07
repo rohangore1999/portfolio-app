@@ -1,20 +1,27 @@
 "use client";
 
+import { motion } from "framer-motion";
 import Link from "next/link";
 import Navigation from "@/components/Navigation";
+import Footer from "@/components/Footer";
 import { useTransition } from "@/context/TransitionContext";
 
 export default function WorkPage() {
-  const { navigate } = useTransition();
+  const { navigate, isTransitioning } = useTransition();
 
   const handleAboutClick = () => {
     navigate("/about", "about");
   };
 
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen bg-black flex flex-col">
       <Navigation onAboutClick={handleAboutClick} />
-      <div className="flex items-center justify-center px-8 min-h-screen">
+      <motion.div
+        className="flex-1 flex items-center justify-center px-8"
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: isTransitioning ? 0 : 1, y: isTransitioning ? 30 : 0 }}
+        transition={{ duration: 0.4, delay: 0.1 }}
+      >
         <div className="max-w-4xl">
           <h1 className="text-5xl md:text-7xl font-bold text-white mb-8">
             My Work
@@ -29,7 +36,8 @@ export default function WorkPage() {
             ← Back to Home
           </Link>
         </div>
-      </div>
+      </motion.div>
+      <Footer />
     </div>
   );
 }
