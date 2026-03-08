@@ -1,5 +1,6 @@
 "use client";
 
+import { useRef } from "react";
 import { motion } from "framer-motion";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
@@ -10,18 +11,23 @@ import PhilosophySection from "@/components/about/PhilosophySection";
 
 export default function AboutPage() {
   const { navigate, isTransitioning } = useTransition();
+  const scrollContainerRef = useRef(null);
 
-  const handleAboutClick = () => {
-    navigate("/about", "about");
+  const handleAboutClick = () => navigate("/about", "about");
+
+  const handleContactClick = () => {
+    const footer = scrollContainerRef.current?.querySelector("#contact");
+    footer?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
     <div className="min-h-screen bg-black">
-      <Navigation onAboutClick={handleAboutClick} />
+      <Navigation onAboutClick={handleAboutClick} onContactClick={handleContactClick} />
 
       {/* Snap Scroll Container */}
       <motion.div
-        className="h-screen overflow-y-scroll snap-y snap-mandatory"
+        ref={scrollContainerRef}
+        className="h-screen h-dvh overflow-y-scroll snap-y snap-mandatory"
         initial={{ opacity: 0 }}
         animate={{ opacity: isTransitioning ? 0 : 1 }}
         transition={{ duration: 0.4, delay: 0.1 }}

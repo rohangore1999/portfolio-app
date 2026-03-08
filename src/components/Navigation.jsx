@@ -6,7 +6,7 @@ import MagneticLink from "./MagneticLink";
 import LogoLink from "./LogoLink";
 import { useTransition } from "@/context/TransitionContext";
 
-export default function Navigation({ onAboutClick }) {
+export default function Navigation({ onAboutClick, onContactClick }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { navigate } = useTransition();
 
@@ -18,31 +18,31 @@ export default function Navigation({ onAboutClick }) {
 
   const handleWorkClick = (e) => {
     e.preventDefault();
-    setIsMobileMenuOpen(false); // Close mobile menu first
+    setIsMobileMenuOpen(false);
     navigate("/work", "work");
   };
 
   const handleBlogClick = (e) => {
     e.preventDefault();
-    setIsMobileMenuOpen(false); // Close mobile menu first
+    setIsMobileMenuOpen(false);
     navigate("/blog", "blog");
   };
 
   const handleContactClick = (e) => {
     e.preventDefault();
-    setIsMobileMenuOpen(false); // Close mobile menu first
-    navigate("/contact", "contact");
+    setIsMobileMenuOpen(false);
+    onContactClick?.();
   };
 
   const handleAboutClickMobile = () => {
-    setIsMobileMenuOpen(false); // Close mobile menu first
-    onAboutClick(); // This already uses navigate() from parent
+    setIsMobileMenuOpen(false);
+    onAboutClick();
   };
 
   return (
     <>
       <motion.nav
-        className="fixed top-0 left-0 right-0 z-40 dark:bg-black/80 backdrop-blur-sm dark:border-zinc-800"
+        className="fixed top-0 left-0 right-0 z-40"
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, ease: "easeOut" }}

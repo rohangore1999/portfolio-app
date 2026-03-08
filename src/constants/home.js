@@ -16,8 +16,8 @@ export const greetings = [
 ];
 
 export const recentWork = [
-  { title: "Applique", category: "Design & Development", href: "/work", image: "/images/about/hero-section.jpg" },
-  { title: "Portfolio", category: "Interaction & Development", href: "/work", image: "/images/about/about-image.jpeg" },
-  { title: "Dashboard UI", category: "Design & Development", href: "/work", image: "/images/about/hero-section.jpg" },
-  { title: "Mobile App", category: "Design & Development", href: "/work", image: "/images/about/about-image.jpeg" },
+  { title: "Applique", slug: "applique", category: "Design & Development", href: "/work/applique", image: "/images/home/hero-section-mobile.jpg" },
+  { title: "Portfolio", slug: "portfolio", category: "Interaction & Development", href: "/work/portfolio", image: "/images/about/about-image.jpeg" },
+  { title: "Dashboard UI", slug: "dashboard-ui", category: "Design & Development", href: "/work/dashboard-ui", image: "/images/home/hero-section-mobile.jpg" },
+  { title: "Mobile App", slug: "mobile-app", category: "Design & Development", href: "/work/mobile-app", image: "/images/about/about-image.jpeg" },
 ];

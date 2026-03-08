@@ -10,7 +10,6 @@ const PATH_LABELS = {
   "/about": "about",
   "/work": "work",
   "/blog": "blog",
-  "/contact": "contact",
 };
 
 export function TransitionProvider({ children }) {
@@ -21,7 +20,10 @@ export function TransitionProvider({ children }) {
 
   // Show entrance transition on initial page load / refresh
   useEffect(() => {
-    const label = PATH_LABELS[pathname];
+    // For dynamic routes like /work/applique, derive label from the last segment
+    const label = PATH_LABELS[pathname] ?? 
+      (pathname.startsWith("/work/") ? pathname.split("/").pop() : null) ??
+      (pathname.startsWith("/blog/") ? pathname.split("/").pop() : null);
     if (!label) return;
 
     setTransitionLabel(label);
@@ -77,7 +79,7 @@ export function TransitionProvider({ children }) {
             }}
           >
             <motion.span
-              className="text-black text-5xl md:text-7xl font-bold"
+              className="text-black text-5xl md:text-7xl font-bold px-[10px] md:px-0"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}

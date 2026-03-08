@@ -1,0 +1,42 @@
+---
+title: "Micro-frontends at scale"
+category: "Architecture"
+date: "2026-02-20"
+image: "/images/home/hero-section-mobile.jpg"
+excerpt: "Practical lessons from splitting a monolithic React app into micro-frontends — what worked, what didn't, and what we'd do differently."
+---
+
+## Why We Split
+
+Our monolith had 12 teams, 400k lines of TypeScript, and a 45-minute CI pipeline. Something had to change.
+
+## The Approach: Module Federation
+
+Webpack 5's Module Federation lets you share code between independently deployed apps at runtime.
+
+```js
+// webpack.config.js (host app)
+new ModuleFederationPlugin({
+  remotes: {
+    checkout: 'checkout@https://checkout.example.com/remoteEntry.js',
+    catalog: 'catalog@https://catalog.example.com/remoteEntry.js',
+  },
+  shared: ['react', 'react-dom'],
+})
+```
+
+## What Worked
+
+- **Independent deployments** — teams ship without coordination
+- **Shared design system** — single source of truth via a shared remote
+- **Isolated failures** — one broken remote doesn't crash the host
+
+## What Didn't Work
+
+- **Shared state** — passing state between remotes is painful; we ended up with a shared event bus
+- **TypeScript across boundaries** — type safety stops at the remote boundary without extra tooling
+- **Bundle size** — shared dependencies need careful versioning or you ship React twice
+
+## Verdict
+
+Micro-frontends are a people problem as much as a technical one. If your teams are small and aligned, a monorepo with good tooling is probably better.

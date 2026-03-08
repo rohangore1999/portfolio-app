@@ -3,14 +3,15 @@
 import { motion } from "framer-motion";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
-import WorkList from "@/components/work/WorkList";
+import ItemList from "@/components/common/ItemList";
 import { useTransition } from "@/context/TransitionContext";
 
-export default function WorkPage() {
+export default function BlogPageClient({ posts }) {
   const { navigate, isTransitioning } = useTransition();
 
   const handleAboutClick = () => navigate("/about", "about");
-  const handleContactClick = () => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+  const handleContactClick = () =>
+    document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
 
   return (
     <div className="min-h-screen bg-black flex flex-col">
@@ -24,13 +25,13 @@ export default function WorkPage() {
       >
         {/* Hero */}
         <div className="px-8 md:px-16 pt-36 pb-16">
+          <p className="text-xs uppercase tracking-widest text-white/40 mb-6">Blog</p>
           <h1 className="text-5xl md:text-8xl font-light text-white leading-tight max-w-4xl">
-            Engineering ideas into products
+            Thoughts on code & craft
           </h1>
         </div>
 
-        {/* Work list */}
-        <WorkList />
+        <ItemList items={posts} label="Articles" badgeLabel="Read" />
       </motion.div>
 
       <Footer />

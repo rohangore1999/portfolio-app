@@ -89,7 +89,7 @@ export default function WorkSection() {
           <div
             key={item.title}
             className="group flex items-center justify-between py-4 md:py-6 border-b border-white/20 cursor-pointer"
-            onClick={() => navigate(item.href, "work")}
+            onClick={() => navigate(item.href, item.title.toLowerCase())}
             onMouseEnter={() => {
               setIsHovering(true);
               setHoveredImage(item.image);

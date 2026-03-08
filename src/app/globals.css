@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@plugin "@tailwindcss/typography";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -115,6 +116,10 @@
 }
 
 @layer base {
+  :root {
+    --nav-height: 4rem;
+  }
+
   * {
     @apply border-border outline-ring/50;
   }

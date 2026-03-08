@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Navigation from "@/components/Navigation";
 import StartScreen from "@/components/StartScreen";
 import HeroSection from "@/components/home/HeroSection";
@@ -11,28 +11,27 @@ import { motion } from "framer-motion";
 import { useTransition } from "@/context/TransitionContext";
 
 export default function Home() {
-  // Start hidden; only show StartScreen on a true page refresh/direct load
   const [showLoading, setShowLoading] = useState(false);
   const { navigate } = useTransition();
+  const scrollContainerRef = useRef(null);
 
   useEffect(() => {
     const isSoftNav = sessionStorage.getItem("softNavToHome");
     if (isSoftNav) {
-      // Arrived via logo click / soft nav — consume flag, skip StartScreen
       sessionStorage.removeItem("softNavToHome");
     } else {
-      // No flag means true browser reload or direct URL load
       setShowLoading(true);
     }
   }, []);
 
-  const handleAboutClick = () => {
-    navigate("/about", "about");
+  const handleAboutClick = () => navigate("/about", "about");
+
+  const handleContactClick = () => {
+    const footer = scrollContainerRef.current?.querySelector("#contact");
+    footer?.scrollIntoView({ behavior: "smooth" });
   };
 
-  const handleGreetingComplete = () => {
-    setShowLoading(false);
-  };
+  const handleGreetingComplete = () => setShowLoading(false);
 
   return (
     <>
@@ -43,10 +42,11 @@ export default function Home() {
       />
 
       {/* Navigation */}
-      {!showLoading && <Navigation onAboutClick={handleAboutClick} />}
+      {!showLoading && <Navigation onAboutClick={handleAboutClick} onContactClick={handleContactClick} />}
 
       <motion.div
-        className="h-screen overflow-y-scroll snap-y snap-mandatory dark:bg-black"
+        ref={scrollContainerRef}
+        className="h-screen h-dvh overflow-y-scroll snap-y snap-mandatory dark:bg-black"
         initial={{ opacity: 0 }}
         animate={{ opacity: showLoading ? 0 : 1 }}
         transition={{ duration: 0.5, delay: 0.3 }}

@@ -7,7 +7,7 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-black border-t border-white/10 py-16 px-6">
+    <footer id="contact" className="bg-black border-t border-white/10 py-16 px-6">
       <div className="max-w-7xl mx-auto">
         {/* Large Email with Arrow */}
         <motion.div

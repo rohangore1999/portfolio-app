@@ -1,0 +1,50 @@
+---
+title: "Next.js App Router deep dive"
+category: "Frontend"
+date: "2026-02-01"
+image: "/images/about/about-image.jpeg"
+excerpt: "Everything I learned migrating a large Next.js project from Pages Router to App Router — pitfalls, wins, and mental model shifts."
+---
+
+## The Mental Model Shift
+
+The App Router isn't just a new file structure — it's a fundamentally different mental model. Server Components are the default. You opt into client-side interactivity with `"use client"`.
+
+## Server vs Client Components
+
+```tsx
+// Server Component — no "use client", runs on server only
+export default async function Page() {
+  const data = await fetch('https://api.example.com/data')
+  return <div>{data}</div>
+}
+
+// Client Component — interactive, runs in browser
+"use client"
+import { useState } from 'react'
+export default function Counter() {
+  const [count, setCount] = useState(0)
+  return <button onClick={() => setCount(c => c + 1)}>{count}</button>
+}
+```
+
+## Layouts and Nesting
+
+Layouts persist across navigation — they don't remount. This is huge for performance but requires rethinking where state lives.
+
+## Data Fetching
+
+Forget `getServerSideProps` and `getStaticProps`. Now it's just `async` components with `fetch`, `cache`, and `revalidate`.
+
+```tsx
+async function BlogPost({ slug }: { slug: string }) {
+  const post = await getPost(slug) // cached by default
+  return <article>{post.content}</article>
+}
+```
+
+## Key Takeaways
+
+- Push state as close to the leaf as possible
+- Keep layouts lean — they affect every nested route
+- `loading.tsx` and `error.tsx` are your new best friends
