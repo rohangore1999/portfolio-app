@@ -24,7 +24,7 @@ export default function BlogPageClient({ posts }) {
         transition={{ duration: 0.4, delay: 0.1 }}
       >
         {/* Hero */}
-        <div className="px-8 md:px-16 pt-36 pb-16">
+        <div className="px-8 md:px-16 pt-24 md:pt-36 pb-16">
           <p className="text-xs uppercase tracking-widest text-white/40 mb-6">Blog</p>
           <h1 className="text-5xl md:text-8xl font-light text-white leading-tight max-w-4xl">
             Thoughts on code & craft

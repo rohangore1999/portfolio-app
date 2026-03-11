@@ -91,8 +91,10 @@ export default function WorkSection() {
             className="group flex items-center justify-between py-4 md:py-6 border-b border-white/20 cursor-pointer"
             onClick={() => navigate(item.href, item.title.toLowerCase())}
             onMouseEnter={() => {
-              setIsHovering(true);
-              setHoveredImage(item.image);
+              if (item.image) {
+                setIsHovering(true);
+                setHoveredImage(item.image);
+              }
             }}
             onMouseLeave={() => {
               setIsHovering(false);

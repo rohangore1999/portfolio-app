@@ -23,7 +23,7 @@ export default function WorkPage() {
         transition={{ duration: 0.4, delay: 0.1 }}
       >
         {/* Hero */}
-        <div className="px-8 md:px-16 pt-36 pb-16">
+        <div className="px-8 md:px-16 pt-24 md:pt-36 pb-16">
           <h1 className="text-5xl md:text-8xl font-light text-white leading-tight max-w-4xl">
             Engineering ideas into products
           </h1>

@@ -1,8 +1,8 @@
 "use client";
 
 import ItemList from "@/components/common/ItemList";
-import { recentWork } from "@/constants/home";
+import { allProjects } from "@/constants/work";
 
 export default function WorkList() {
-  return <ItemList items={recentWork} label="Work" />;
+  return <ItemList items={allProjects} label="Work" />;
 }

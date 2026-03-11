@@ -42,7 +42,7 @@ export default function Navigation({ onAboutClick, onContactClick }) {
   return (
     <>
       <motion.nav
-        className="fixed top-0 left-0 right-0 z-40"
+        className="fixed md:absolute top-0 left-0 right-0 z-40 backdrop-blur-xs"
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, ease: "easeOut" }}

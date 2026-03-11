@@ -79,7 +79,7 @@ export function TransitionProvider({ children }) {
             }}
           >
             <motion.span
-              className="text-black text-5xl md:text-7xl font-bold px-[10px] md:px-0"
+              className="text-black text-5xl md:text-7xl font-bold px-[10px] md:px-0 text-center block max-w-[90vw]"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}

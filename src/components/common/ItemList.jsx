@@ -85,26 +85,57 @@ export default function ItemList({
       <div className="border-t border-white/20" />
 
       {/* Items */}
-      {items.map((item) => (
+      {items.map((item, i) => (
         <div
           key={item.title}
-          className="group flex items-center justify-between py-5 md:py-8 border-b border-white/20 cursor-pointer"
+          className={`group flex items-center justify-between py-5 md:py-8 cursor-pointer ${i < items.length - 1 ? "border-b border-white/20" : ""}`}
           onClick={() => navigate(item.href, item.title.toLowerCase())}
           onMouseEnter={() => {
-            setIsHovering(true);
-            setHoveredImage(item.image);
+            if (item.image) {
+              setIsHovering(true);
+              setHoveredImage(item.image);
+            }
           }}
           onMouseLeave={() => {
             setIsHovering(false);
             setHoveredImage(null);
           }}
         >
-          <h2 className="text-3xl md:text-6xl font-light text-white transition-all duration-300 group-hover:opacity-60 group-hover:scale-105 group-hover:translate-x-2 origin-left">
-            {item.title}
-          </h2>
-          <span className="text-xs md:text-sm text-white/40 transition-all duration-300 group-hover:opacity-60 group-hover:scale-105 group-hover:-translate-x-2 hidden md:block">
-            {item.category}
-          </span>
+          {/* Left: title + description + tags */}
+          <div className="transition-all duration-300 group-hover:translate-x-2 origin-left flex-1 min-w-0 pr-6">
+            <h2 className="text-3xl md:text-6xl font-light text-white transition-all duration-300 group-hover:opacity-60 group-hover:scale-105 origin-left">
+              {item.title}
+            </h2>
+            {item.description && (
+              <p className="hidden md:block mt-2 text-sm text-white/35 leading-relaxed max-w-xl transition-all duration-300 group-hover:opacity-60">
+                {item.description}
+              </p>
+            )}
+            {item.tags?.length > 0 && (
+              <div className="flex flex-wrap gap-2 mt-2 md:mt-3">
+                {item.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="text-[10px] md:text-xs uppercase tracking-widest text-white/40 border border-white/15 px-2 py-0.5 rounded-full"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Right: year + category */}
+          <div className="hidden md:flex flex-col items-end gap-1 transition-all duration-300 group-hover:opacity-60 group-hover:-translate-x-2 shrink-0 ml-8">
+            {item.year && (
+              <span className="text-xs uppercase tracking-widest text-white/25">
+                {item.year}
+              </span>
+            )}
+            <span className="text-xs md:text-sm text-white/40">
+              {item.category}
+            </span>
+          </div>
         </div>
       ))}
     </div>

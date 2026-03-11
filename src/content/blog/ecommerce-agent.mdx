@@ -1,0 +1,115 @@
+---
+title: "Building a voice-enabled AI shopping agent with human-in-the-loop"
+category: "Engineering"
+date: "2025-02-15"
+image: "/images/work/applique/cover.png"
+excerpt: "How I built a conversational shopping agent with voice in, voice out, full cart operations, AI product recommendations, and a live human support handoff — using OpenAI GPT-4.1 and the Agents SDK."
+---
+
+## The starting point
+
+I came across Patrick Marlow's demo of a voice shopping agent and it immediately clicked — this is what the future of e-commerce UX looks like. Not clicking through filters and dropdowns, just talking. "Add a white t-shirt to my cart." "What goes well with the denim jacket I just added?" Natural, fast, no friction.
+
+I built my own version to understand exactly how it works under the hood.
+
+## What it does
+
+The agent supports the full shopping loop by voice or text:
+
+- Search for products by description
+- Add items to cart by saying their name
+- Remove items, clear the cart
+- Get contextual recommendations based on what's already in the cart
+- Hand off to a live human support agent when the AI hits its limits
+
+Everything works through conversation. No clicking required.
+
+## The architecture
+
+Three separate services talk to each other:
+
+**React frontend** — the UI with a chat widget that handles both text and voice. Built with Vite and ShadCN components.
+
+**Node.js/Express backend** — the product catalog and cart API. Stores cart state in memory per session, handles product search with both exact and fuzzy name matching, and runs a recommendation scoring algorithm.
+
+**Python Flask AI agent** — the brain. Receives user messages, decides which tools to call, calls the Express backend, and sends back a structured response.
+
+## The agent layer
+
+The AI agent is built with OpenAI's Agents SDK using GPT-4.1. It has five function tools:
+
+```python
+@function_tool
+async def get_cart_items() -> dict:
+    """Retrieve cart contents"""
+
+@function_tool
+async def recommend_products(cart_item: str) -> dict:
+    """Get AI recommendations based on a cart item"""
+
+@function_tool
+async def add_product_to_cart(product_name: str) -> dict:
+    """Add product by natural language name"""
+
+@function_tool
+async def remove_product_from_cart(product_name: str) -> dict:
+    """Remove product by natural language name"""
+
+@function_tool
+async def get_connect_to_support_agent(text: str) -> str:
+    """Human-in-the-loop handoff"""
+```
+
+The product name tools use a two-step resolution pattern: first resolve the natural language name to a product ID (trying exact match, falling back to partial match), then perform the cart operation with the ID. This way the agent doesn't need to know anything about internal IDs — it just works with how users naturally refer to things.
+
+## Voice in, voice out
+
+The voice pipeline runs entirely in the browser:
+
+**Input** — Web Speech API with `continuous: false` and `interimResults: true`. Interim results show the user what's being recognised in real time. Once speech pauses, the transcript is sent.
+
+**Output** — OpenAI's TTS API turns the agent's response into audio. A real-time audio waveform visualises playback so the user knows the agent is "speaking."
+
+The tricky part is coordination. While the agent is speaking, you don't want the microphone picking up its own output. The browser can't suppress its own audio going back into the mic, so I implemented a simple state machine: `isListening` pauses when `isSpeaking` is true, and restarts automatically when the TTS audio ends.
+
+```javascript
+audioElement.onended = () => {
+  setIsSpeaking(false);
+  restartListeningAfterSpeech();
+};
+```
+
+## Human-in-the-loop
+
+This was one of the more interesting parts to build. When the agent determines it can't help — a returns question, a billing issue, something that needs a real person — it calls the `get_connect_to_support_agent` tool.
+
+In the demo this pipes to a terminal where a human can type a response. In production this would be a websocket to a support agent's interface. But the key insight is that the transition is seamless from the user's perspective: the conversation continues in the same chat window, they just get a human answering instead of the model.
+
+```python
+@function_tool
+async def get_connect_to_support_agent(text: str) -> str:
+    loop = asyncio.get_event_loop()
+    response = await loop.run_in_executor(None, input, "Support Agent: ")
+    return response
+```
+
+## The recommendation engine
+
+The backend's recommendation algorithm scores candidate products across four dimensions:
+
+- **Category match** — 50 points if the category matches. Highest weight because same-category products are usually what you want.
+- **Price similarity** — up to 30 points, linearly scaled within a 30% price range. Products priced wildly differently from your cart item don't get recommended.
+- **Rating similarity** — up to 20 points. If you added a 4.8-star product, you probably want other highly rated items.
+- **In-stock bonus** — 10 points for availability. Out-of-stock products rank lower.
+
+It's a simple weighted sum, but it produces sensible results and is easy to tune.
+
+## What I'd change
+
+**Session management** — the demo uses a hardcoded session ID. Real production needs JWT or cookie-based sessions tied to user accounts.
+
+**Streaming responses** — right now the agent waits for the full response before sending anything. Streaming would make the voice experience feel much more natural, especially for longer answers.
+
+**Faster TTS** — OpenAI's TTS is high quality but adds latency. For a voice-first experience, you want the first audio chunk playing within a second of the response starting.
+
+The code is on [GitHub](https://github.com/rohangore1999/ecommerce-agent).

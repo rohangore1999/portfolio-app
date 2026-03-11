@@ -1,0 +1,98 @@
+---
+title: "Chat with any YouTube video using a Chrome extension and RAG"
+category: "Engineering"
+date: "2024-09-20"
+image: "/images/work/yt-chrome-extension/architecture.png"
+excerpt: "How I built a Chrome extension that lets you have AI-powered conversations with YouTube videos — extracting transcripts, chunking them into Qdrant, and answering questions with clickable timestamps."
+---
+
+## The itch
+
+I watch a lot of long-form YouTube content — conference talks, tutorials, interviews. The problem is always the same: I remember that a video covered something useful, but I can't remember where. Scrubbing through a 90-minute video to find a 2-minute section is a productivity black hole.
+
+What I wanted was simple: click a button on any YouTube video, ask a question, and jump straight to the timestamp where the answer lives.
+
+So I built it.
+
+![System architecture — Chrome extension talking to a Flask backend with Qdrant for vector search](/images/work/yt-chrome-extension/architecture.png)
+
+## How it works
+
+The system has two sides: a Chrome extension that runs in the browser, and a Flask backend that handles all the heavy lifting.
+
+### The Chrome extension
+
+The extension is a Manifest V3 Chrome extension with three moving parts working together:
+
+**Background script** — starts when the extension loads, handles icon clicks, and routes messages between the other parts.
+
+**Content script** — injected into every YouTube page. Its main job is watching the URL for navigation changes (YouTube is a SPA, so the page doesn't reload between videos), extracting the video ID, and creating the popup overlay when triggered.
+
+**React app** — the actual chat UI. It loads inside an iframe that the content script injects into the page. Keeps the extension's UI fully isolated from whatever YouTube is doing on the page.
+
+The tricky part is getting these three to talk to each other. Chrome extensions don't have a shared memory space, so everything goes through `chrome.runtime.sendMessage` and `chrome.storage.sync`. It's a bit of a message-passing puzzle, but once you have the channel architecture right it's solid.
+
+### The backend
+
+The Flask backend does the real work:
+
+**Transcript extraction** — uses the YouTube Transcript API to pull captions. It handles multiple language preferences and falls back gracefully if the primary language isn't available. For Hindi content (common in what I watch), I added a translation layer — though I made it chunk-level rather than line-by-line after the per-entry approach caused Gunicorn timeouts.
+
+**Chunking** — raw transcripts get split into chunks of 2500 characters with 625-character overlap (25%). The overlap is important: a question that straddles two chunk boundaries shouldn't get a half-answer.
+
+**Qdrant** — each video gets its own collection, named after the video ID. This means there's no cross-video contamination, and if you've watched the video before, the extension skips re-ingestion entirely and goes straight to answering.
+
+**Gemini embeddings** — I used Google's `embedding-001` model for converting text to vectors. It's fast, cheap, and good enough for transcript-level semantic search.
+
+![System flow — from extension click to AI response with timestamps](/images/work/yt-chrome-extension/system-flow.png)
+
+![Extension initialisation flow — background, content script, and React app load order](/images/work/yt-chrome-extension/extension-init.png)
+
+![Content script flow — video ID extraction, overlay creation, and message handling](/images/work/yt-chrome-extension/extension-contentjs.png)
+
+![Background script flow — icon click handling and message routing](/images/work/yt-chrome-extension/extension-backgroundjs.png)
+
+![Frontend service layer — request cancellation with AbortController and API key management](/images/work/yt-chrome-extension/frontend-service-layer.png)
+
+![Backend transcript API — ingestion pipeline from extraction to vector storage](/images/work/yt-chrome-extension/backend-transcript.png)
+
+![Backend query API — semantic search and AI response generation](/images/work/yt-chrome-extension/backend-query.png)
+
+![Qdrant store flow — collection management, embedding generation, and similarity search](/images/work/yt-chrome-extension/qdrant-store-flow.png)
+
+## The skip-ingest optimisation
+
+The first version re-ingested the transcript every time you opened the extension. For a 45-minute video that was taking 45+ seconds — most of it waiting for vector storage to finish.
+
+The fix was straightforward: before ingesting, check if a Qdrant collection for this video ID already exists and has points. If it does, skip straight to generating quick questions and answering queries. 
+
+The improvement was dramatic:
+
+| | Before | After (repeat visit) |
+|---|---|---|
+| Transcript fetch | ~5s | skipped |
+| Vector storage | ~9s | skipped |
+| Quick questions | ~20s | ~4–6s |
+| **Total** | **~46s** | **~5–8s** |
+
+## Quick questions
+
+One thing I added that turned out to be genuinely useful: when you first open the extension on a video, it generates 3 suggested questions based on the transcript. Not generic questions — questions that are actually answerable from this specific video's content.
+
+It uses a smaller, faster model (`gemini-1.5-flash`) and only pulls 2 transcript chunks to generate them, keeping it snappy.
+
+## Timestamp links
+
+The AI responses include clickable timestamps. When you click one, the extension sends a message from the React app → content script → YouTube player to seek to that exact moment.
+
+Getting this to work across the iframe boundary required a `postMessage` bridge, since the React app runs in an iframe that's cross-origin from the YouTube page. The content script acts as the relay.
+
+## What I learned
+
+**Per-video collection isolation is worth it.** An alternative is one big collection with video IDs as metadata filters. That works at small scale, but it means every query scans more data and you can't easily clean up old videos. Separate collections make each video self-contained.
+
+**Transcript quality varies wildly.** Auto-generated captions for some content (especially non-native English speakers or technical terms) are rough. There's not much you can do besides acknowledge it in the UI.
+
+**The translation timeout problem was real.** If Google's translation API is slow on a single line, and you're translating hundreds of lines sequentially, your Gunicorn worker times out. Moving to chunk-level translation with a hard per-call timeout solved it properly.
+
+The code is on [GitHub](https://github.com/rohangore1999/yt-chrome-extension) if you want to adapt it for your own use.

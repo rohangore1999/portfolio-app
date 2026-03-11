@@ -24,7 +24,7 @@ export default function BlogDetailClient({ post, content }) {
         transition={{ duration: 0.4, delay: 0.1 }}
       >
         {/* Hero */}
-        <div className="px-8 md:px-16 pt-36 pb-12">
+        <div className="px-8 md:px-16 pt-24 md:pt-36 pb-12">
           <button
             onClick={() => navigate("/blog", "blog")}
             className="text-sm uppercase tracking-widest text-white/50 hover:text-white transition-colors mb-10 block"
@@ -34,7 +34,7 @@ export default function BlogDetailClient({ post, content }) {
           <p className="text-xs uppercase tracking-widest text-white/40 mb-6">
             {post.category}
           </p>
-          <h1 className="text-6xl md:text-9xl font-light text-white leading-none max-w-5xl">
+          <h1 className="text-4xl md:text-6xl font-light text-white leading-tight max-w-5xl">
             {post.title}
           </h1>
         </div>
@@ -52,14 +52,15 @@ export default function BlogDetailClient({ post, content }) {
         </div>
 
         {/* MDX content */}
-        <div className="px-8 md:px-16 pb-24 max-w-3xl prose prose-invert prose-lg
+        <div className="px-8 md:px-16 pb-24 max-w-3xl md:max-w-none prose prose-invert prose-lg
           prose-headings:font-light prose-headings:text-white
           prose-p:text-white/70 prose-p:leading-relaxed
           prose-a:text-orange-500 prose-a:no-underline hover:prose-a:text-orange-400
           prose-code:text-orange-400 prose-code:bg-white/5 prose-code:px-1 prose-code:rounded
           prose-pre:bg-white/5 prose-pre:border prose-pre:border-white/10
           prose-blockquote:border-l-orange-500 prose-blockquote:text-white/50
-          prose-strong:text-white prose-li:text-white/70">
+          prose-strong:text-white prose-li:text-white/70
+          prose-img:rounded-xl prose-img:border prose-img:border-white/10 prose-img:w-full prose-img:my-10">
           {content}
         </div>
       </motion.div>

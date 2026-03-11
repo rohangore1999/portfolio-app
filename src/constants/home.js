@@ -16,8 +16,25 @@ export const greetings = [
 ];
 
 export const recentWork = [
-  { title: "Applique", slug: "applique", category: "Design & Development", href: "/work/applique", image: "/images/home/hero-section-mobile.jpg" },
-  { title: "Portfolio", slug: "portfolio", category: "Interaction & Development", href: "/work/portfolio", image: "/images/about/about-image.jpeg" },
-  { title: "Dashboard UI", slug: "dashboard-ui", category: "Design & Development", href: "/work/dashboard-ui", image: "/images/home/hero-section-mobile.jpg" },
-  { title: "Mobile App", slug: "mobile-app", category: "Design & Development", href: "/work/mobile-app", image: "/images/about/about-image.jpeg" },
+  {
+    title: "Applique",
+    slug: "applique",
+    category: "AI & Design System",
+    href: "/work/applique",
+    image: "/images/work/applique/thumbnail.png",
+  },
+  {
+    title: "YT Chrome Extension",
+    slug: "yt-chrome-extension",
+    category: "AI & Browser Extension",
+    href: "/work/yt-chrome-extension",
+    image: "/images/work/yt-chrome-extension/yt-video-chat.png",
+  },
+  {
+    title: "Ecommerce Agent",
+    slug: "ecommerce-agent",
+    category: "AI & Voice",
+    href: "/work/ecommerce-agent",
+    image: "/images/work/ecommerce-agent/thumbnail.png",
+  },
 ];
