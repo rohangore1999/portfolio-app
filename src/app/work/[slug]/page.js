@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { useParams } from "next/navigation";
 import Image from "next/image";
+import { useState } from "react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { useTransition } from "@/context/TransitionContext";
@@ -11,6 +12,7 @@ import { allProjects } from "@/constants/work";
 export default function WorkDetailPage() {
   const { slug } = useParams();
   const { navigate, isTransitioning } = useTransition();
+  const [loadedVideos, setLoadedVideos] = useState(new Set());
 
   const project = allProjects.find((item) => item.slug === slug);
   const currentIndex = allProjects.findIndex((item) => item.slug === slug);
@@ -23,6 +25,14 @@ export default function WorkDetailPage() {
   const handleAboutClick = () => navigate("/about", "about");
   const handleContactClick = () =>
     document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+
+  const handleVideoLoad = (index) => {
+    setLoadedVideos((prev) => {
+      const newSet = new Set(prev);
+      newSet.add(index);
+      return newSet;
+    });
+  };
 
   if (!project) {
     return (
@@ -54,7 +64,7 @@ export default function WorkDetailPage() {
           <div className="flex items-center justify-between mb-10">
             <button
               onClick={() => navigate("/work", "work")}
-              className="text-sm uppercase tracking-widest text-white/50 hover:text-white transition-colors"
+              className="text-sm uppercase tracking-widest text-white/50 hover:text-white transition-all duration-200 hover:scale-105 cursor-pointer"
             >
               ← Back to Work
             </button>
@@ -66,7 +76,7 @@ export default function WorkDetailPage() {
                   href={project.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hidden md:block text-xs uppercase tracking-widest text-white/50 hover:text-white transition-colors"
+                  className="hidden md:block text-xs uppercase tracking-widest text-white/50 hover:text-white transition-all duration-200 hover:scale-105 cursor-pointer"
                 >
                   GitHub ↗
                 </a>
@@ -76,7 +86,7 @@ export default function WorkDetailPage() {
                   href={project.live}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-xs uppercase tracking-widest text-white/50 hover:text-white transition-colors"
+                  className="text-xs uppercase tracking-widest text-white/50 hover:text-white transition-all duration-200 hover:scale-105 cursor-pointer"
                 >
                   {project.liveLabel ?? "Live"} ↗
                 </a>
@@ -84,7 +94,7 @@ export default function WorkDetailPage() {
               {project.blog && (
                 <button
                   onClick={() => navigate(project.blog, "blog")}
-                  className="text-xs uppercase tracking-widest text-orange-500 hover:text-orange-400 transition-colors"
+                  className="text-xs uppercase tracking-widest text-orange-500 hover:text-orange-400 transition-all duration-200 hover:scale-105 cursor-pointer"
                 >
                   Blog →
                 </button>
@@ -140,7 +150,7 @@ export default function WorkDetailPage() {
           {project.blog && (
             <button
               onClick={() => navigate(project.blog, "blog")}
-              className="hidden md:inline-flex mt-6 items-center gap-2 text-sm uppercase tracking-widest text-orange-500 hover:text-orange-400 transition-colors group"
+              className="hidden md:inline-flex mt-6 items-center gap-2 text-sm uppercase tracking-widest text-orange-500 hover:text-orange-400 transition-all duration-200 hover:scale-105 cursor-pointer group"
             >
               Read the full write-up
               <span className="transition-transform duration-200 group-hover:translate-x-1">
@@ -166,9 +176,20 @@ export default function WorkDetailPage() {
                     className="relative w-full"
                     style={{ paddingBottom: "56.25%" }}
                   >
+                    {/* Skeleton Loader - show until iframe loads */}
+                    {!loadedVideos.has(i) && (
+                      <div className="absolute inset-0 bg-white/5 overflow-hidden">
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-shimmer" />
+                      </div>
+                    )}
+
+                    {/* iframe - fade in when loaded */}
                     <iframe
                       src={item.src}
-                      className="absolute inset-0 w-full h-full"
+                      onLoad={() => handleVideoLoad(i)}
+                      className={`absolute inset-0 w-full h-full transition-opacity duration-500 ${
+                        loadedVideos.has(i) ? "opacity-100" : "opacity-0"
+                      }`}
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                       allowFullScreen
                       title={`${project.title} demo`}
@@ -206,7 +227,7 @@ export default function WorkDetailPage() {
                 onClick={() =>
                   navigate(prevProject.href, prevProject.title.toLowerCase())
                 }
-                className="group flex flex-col gap-1 text-left"
+                className="group flex flex-col gap-1 text-left transition-all duration-200 hover:scale-105 cursor-pointer"
               >
                 <span className="text-xs uppercase tracking-widest text-white/30 group-hover:text-white/50 transition-colors">
                   ← Previous
@@ -224,7 +245,7 @@ export default function WorkDetailPage() {
                 onClick={() =>
                   navigate(nextProject.href, nextProject.title.toLowerCase())
                 }
-                className="group flex flex-col gap-1 text-right"
+                className="group flex flex-col gap-1 text-right transition-all duration-200 hover:scale-105 cursor-pointer"
               >
                 <span className="text-xs uppercase tracking-widest text-white/30 group-hover:text-white/50 transition-colors">
                   Next →

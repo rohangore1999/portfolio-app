@@ -15,12 +15,18 @@ export default function BlogDetailClient({ post, content }) {
 
   return (
     <div className="min-h-screen bg-black flex flex-col">
-      <Navigation onAboutClick={handleAboutClick} onContactClick={handleContactClick} />
+      <Navigation
+        onAboutClick={handleAboutClick}
+        onContactClick={handleContactClick}
+      />
 
       <motion.div
         className="flex-1"
         initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: isTransitioning ? 0 : 1, y: isTransitioning ? 30 : 0 }}
+        animate={{
+          opacity: isTransitioning ? 0 : 1,
+          y: isTransitioning ? 30 : 0,
+        }}
         transition={{ duration: 0.4, delay: 0.1 }}
       >
         {/* Hero */}
@@ -40,19 +46,21 @@ export default function BlogDetailClient({ post, content }) {
         </div>
 
         {/* Cover image */}
-        <div className="relative w-full h-[50vh] md:h-[70vh] px-8 md:px-16 mb-16">
-          <div className="relative w-full h-full rounded-xl overflow-hidden">
+        <div className="relative w-full px-8 md:px-16 mb-16">
+          <div className="relative w-full rounded-xl overflow-hidden">
             <Image
               src={post.image}
               alt={post.title}
-              fill
-              className="object-cover"
+              width={1600}
+              height={900}
+              className="w-full h-auto"
             />
           </div>
         </div>
 
         {/* MDX content */}
-        <div className="px-8 md:px-16 pb-24 max-w-3xl md:max-w-none prose prose-invert prose-lg
+        <div
+          className="px-8 md:px-16 pb-24 max-w-3xl md:max-w-none prose prose-invert prose-lg
           prose-headings:font-light prose-headings:text-white
           prose-p:text-white/70 prose-p:leading-relaxed
           prose-a:text-orange-500 prose-a:no-underline hover:prose-a:text-orange-400
@@ -60,7 +68,8 @@ export default function BlogDetailClient({ post, content }) {
           prose-pre:bg-white/5 prose-pre:border prose-pre:border-white/10
           prose-blockquote:border-l-orange-500 prose-blockquote:text-white/50
           prose-strong:text-white prose-li:text-white/70
-          prose-img:rounded-xl prose-img:border prose-img:border-white/10 prose-img:w-full prose-img:my-10">
+          prose-img:rounded-xl prose-img:border prose-img:border-white/10 prose-img:w-full prose-img:my-10"
+        >
           {content}
         </div>
       </motion.div>

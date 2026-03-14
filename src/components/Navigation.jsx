@@ -28,6 +28,12 @@ export default function Navigation({ onAboutClick, onContactClick }) {
     navigate("/blog", "blog");
   };
 
+  const handleGalleryClick = (e) => {
+    e.preventDefault();
+    setIsMobileMenuOpen(false);
+    navigate("/gallery", "gallery");
+  };
+
   const handleContactClick = (e) => {
     e.preventDefault();
     setIsMobileMenuOpen(false);
@@ -72,6 +78,13 @@ export default function Navigation({ onAboutClick, onContactClick }) {
               className="text-base cursor-pointer font-medium text-black dark:text-white hover:opacity-70 transition-opacity"
             >
               Blog
+            </MagneticLink>
+
+            <MagneticLink
+              onClick={handleGalleryClick}
+              className="text-base cursor-pointer font-medium text-black dark:text-white hover:opacity-70 transition-opacity"
+            >
+              Gallery
             </MagneticLink>
 
             <MagneticLink
@@ -145,11 +158,21 @@ export default function Navigation({ onAboutClick, onContactClick }) {
               </motion.button>
 
               <motion.button
-                onClick={handleContactClick}
+                onClick={handleGalleryClick}
                 className="text-4xl font-semibold text-black hover:opacity-70 transition-opacity"
                 initial={{ opacity: 0, x: 50 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.3, delay: 0.4 }}
+              >
+                Gallery
+              </motion.button>
+
+              <motion.button
+                onClick={handleContactClick}
+                className="text-4xl font-semibold text-black hover:opacity-70 transition-opacity"
+                initial={{ opacity: 0, x: 50 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.3, delay: 0.5 }}
               >
                 Contact
               </motion.button>

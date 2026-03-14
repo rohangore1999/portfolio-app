@@ -1,5 +1,5 @@
 ---
-title: "Chat with any YouTube video using a Chrome extension and RAG"
+title: "YouTube AI Chat Extension"
 category: "Engineering"
 date: "2024-09-20"
 image: "/images/work/yt-chrome-extension/architecture.png"
@@ -13,8 +13,6 @@ I watch a lot of long-form YouTube content — conference talks, tutorials, inte
 What I wanted was simple: click a button on any YouTube video, ask a question, and jump straight to the timestamp where the answer lives.
 
 So I built it.
-
-![System architecture — Chrome extension talking to a Flask backend with Qdrant for vector search](/images/work/yt-chrome-extension/architecture.png)
 
 ## How it works
 
@@ -43,22 +41,6 @@ The Flask backend does the real work:
 **Qdrant** — each video gets its own collection, named after the video ID. This means there's no cross-video contamination, and if you've watched the video before, the extension skips re-ingestion entirely and goes straight to answering.
 
 **Gemini embeddings** — I used Google's `embedding-001` model for converting text to vectors. It's fast, cheap, and good enough for transcript-level semantic search.
-
-![System flow — from extension click to AI response with timestamps](/images/work/yt-chrome-extension/system-flow.png)
-
-![Extension initialisation flow — background, content script, and React app load order](/images/work/yt-chrome-extension/extension-init.png)
-
-![Content script flow — video ID extraction, overlay creation, and message handling](/images/work/yt-chrome-extension/extension-contentjs.png)
-
-![Background script flow — icon click handling and message routing](/images/work/yt-chrome-extension/extension-backgroundjs.png)
-
-![Frontend service layer — request cancellation with AbortController and API key management](/images/work/yt-chrome-extension/frontend-service-layer.png)
-
-![Backend transcript API — ingestion pipeline from extraction to vector storage](/images/work/yt-chrome-extension/backend-transcript.png)
-
-![Backend query API — semantic search and AI response generation](/images/work/yt-chrome-extension/backend-query.png)
-
-![Qdrant store flow — collection management, embedding generation, and similarity search](/images/work/yt-chrome-extension/qdrant-store-flow.png)
 
 ## The skip-ingest optimisation
 
