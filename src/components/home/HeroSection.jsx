@@ -104,7 +104,7 @@ export default function HeroSection() {
           alt="Rohan Gore"
           fill
           priority
-          className="object-cover object-[center_60%]"
+          className="object-cover object-[center_52%]"
         />
         <div className="absolute inset-0 bg-black/45 pointer-events-none" />
       </div>

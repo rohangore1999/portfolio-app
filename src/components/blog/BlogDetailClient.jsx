@@ -2,12 +2,14 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { useState } from "react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { useTransition } from "@/context/TransitionContext";
 
 export default function BlogDetailClient({ post, content }) {
   const { navigate, isTransitioning } = useTransition();
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   const handleAboutClick = () => navigate("/about", "about");
   const handleContactClick = () =>
@@ -47,13 +49,28 @@ export default function BlogDetailClient({ post, content }) {
 
         {/* Cover image */}
         <div className="relative w-full px-8 md:px-16 mb-16">
-          <div className="relative w-full rounded-xl overflow-hidden">
+          <div className="relative w-full rounded-xl overflow-hidden border border-white/10">
+            {/* Skeleton Loader - show until image loads */}
+            {!imageLoaded && (
+              <div 
+                className="absolute inset-0 bg-white/5 overflow-hidden"
+                style={{ paddingBottom: "56.25%" }}
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-shimmer" />
+              </div>
+            )}
+
+            {/* Image - fade in when loaded */}
             <Image
               src={post.image}
               alt={post.title}
               width={1600}
               height={900}
-              className="w-full h-auto"
+              onLoad={() => setImageLoaded(true)}
+              className={`w-full h-auto transition-opacity duration-500 ${
+                imageLoaded ? "opacity-100" : "opacity-0"
+              }`}
+              priority
             />
           </div>
         </div>

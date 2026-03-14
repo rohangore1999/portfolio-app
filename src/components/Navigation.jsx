@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import MagneticLink from "./MagneticLink";
 import LogoLink from "./LogoLink";
@@ -40,7 +41,8 @@ export default function Navigation({ onAboutClick, onContactClick }) {
     onContactClick?.();
   };
 
-  const handleAboutClickMobile = () => {
+  const handleAboutClickMobile = (e) => {
+    e.preventDefault();
     setIsMobileMenuOpen(false);
     onAboutClick();
   };
@@ -59,33 +61,29 @@ export default function Navigation({ onAboutClick, onContactClick }) {
 
           {/* Right: Navigation Links - Desktop */}
           <div className="hidden md:flex items-center gap-8">
-            <MagneticLink
-              onClick={onAboutClick}
-              className="text-base cursor-pointer font-medium text-black dark:text-white hover:opacity-70 transition-opacity"
-            >
-              About
-            </MagneticLink>
+            <Link href="/about" prefetch={true} onClick={(e) => { e.preventDefault(); onAboutClick(); }}>
+              <MagneticLink className="text-base cursor-pointer font-medium text-black dark:text-white hover:opacity-70 transition-opacity">
+                About
+              </MagneticLink>
+            </Link>
 
-            <MagneticLink
-              onClick={handleWorkClick}
-              className="text-base cursor-pointer font-medium text-black dark:text-white hover:opacity-70 transition-opacity"
-            >
-              Work
-            </MagneticLink>
+            <Link href="/work" prefetch={true} onClick={handleWorkClick}>
+              <MagneticLink className="text-base cursor-pointer font-medium text-black dark:text-white hover:opacity-70 transition-opacity">
+                Work
+              </MagneticLink>
+            </Link>
 
-            <MagneticLink
-              onClick={handleBlogClick}
-              className="text-base cursor-pointer font-medium text-black dark:text-white hover:opacity-70 transition-opacity"
-            >
-              Blog
-            </MagneticLink>
+            <Link href="/blog" prefetch={true} onClick={handleBlogClick}>
+              <MagneticLink className="text-base cursor-pointer font-medium text-black dark:text-white hover:opacity-70 transition-opacity">
+                Blog
+              </MagneticLink>
+            </Link>
 
-            <MagneticLink
-              onClick={handleGalleryClick}
-              className="text-base cursor-pointer font-medium text-black dark:text-white hover:opacity-70 transition-opacity"
-            >
-              Gallery
-            </MagneticLink>
+            <Link href="/gallery" prefetch={true} onClick={handleGalleryClick}>
+              <MagneticLink className="text-base cursor-pointer font-medium text-black dark:text-white hover:opacity-70 transition-opacity">
+                Gallery
+              </MagneticLink>
+            </Link>
 
             <MagneticLink
               onClick={handleContactClick}
@@ -127,45 +125,49 @@ export default function Navigation({ onAboutClick, onContactClick }) {
 
             {/* Navigation Links - Vertical */}
             <div className="flex-1 flex flex-col items-center justify-center gap-8">
-              <motion.button
-                onClick={handleAboutClickMobile}
-                className="text-4xl font-semibold text-black hover:opacity-70 transition-opacity"
-                initial={{ opacity: 0, x: 50 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.3, delay: 0.1 }}
-              >
-                About
-              </motion.button>
+              <Link href="/about" prefetch={true} onClick={handleAboutClickMobile}>
+                <motion.span
+                  className="text-4xl font-semibold text-black hover:opacity-70 transition-opacity cursor-pointer"
+                  initial={{ opacity: 0, x: 50 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.3, delay: 0.1 }}
+                >
+                  About
+                </motion.span>
+              </Link>
 
-              <motion.button
-                onClick={handleWorkClick}
-                className="text-4xl font-semibold text-black hover:opacity-70 transition-opacity"
-                initial={{ opacity: 0, x: 50 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.3, delay: 0.2 }}
-              >
-                Work
-              </motion.button>
+              <Link href="/work" prefetch={true} onClick={handleWorkClick}>
+                <motion.span
+                  className="text-4xl font-semibold text-black hover:opacity-70 transition-opacity cursor-pointer"
+                  initial={{ opacity: 0, x: 50 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.3, delay: 0.2 }}
+                >
+                  Work
+                </motion.span>
+              </Link>
 
-              <motion.button
-                onClick={handleBlogClick}
-                className="text-4xl font-semibold text-black hover:opacity-70 transition-opacity"
-                initial={{ opacity: 0, x: 50 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.3, delay: 0.3 }}
-              >
-                Blog
-              </motion.button>
+              <Link href="/blog" prefetch={true} onClick={handleBlogClick}>
+                <motion.span
+                  className="text-4xl font-semibold text-black hover:opacity-70 transition-opacity cursor-pointer"
+                  initial={{ opacity: 0, x: 50 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.3, delay: 0.3 }}
+                >
+                  Blog
+                </motion.span>
+              </Link>
 
-              <motion.button
-                onClick={handleGalleryClick}
-                className="text-4xl font-semibold text-black hover:opacity-70 transition-opacity"
-                initial={{ opacity: 0, x: 50 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.3, delay: 0.4 }}
-              >
-                Gallery
-              </motion.button>
+              <Link href="/gallery" prefetch={true} onClick={handleGalleryClick}>
+                <motion.span
+                  className="text-4xl font-semibold text-black hover:opacity-70 transition-opacity cursor-pointer"
+                  initial={{ opacity: 0, x: 50 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.3, delay: 0.4 }}
+                >
+                  Gallery
+                </motion.span>
+              </Link>
 
               <motion.button
                 onClick={handleContactClick}

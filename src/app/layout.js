@@ -1,6 +1,7 @@
 import { Manrope } from "next/font/google";
 import "./globals.css";
 import { TransitionProvider } from "@/context/TransitionContext";
+import Clarity from "@/components/Clarity";
 
 const manrope = Manrope({
   variable: "--font-manrope",
@@ -68,6 +69,7 @@ export default function RootLayout({ children }) {
         className={`${manrope.variable} antialiased font-sans`}
         style={{ fontFamily: "var(--font-manrope)" }}
       >
+        <Clarity />
         <TransitionProvider>{children}</TransitionProvider>
       </body>
     </html>
