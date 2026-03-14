@@ -8,6 +8,7 @@ import { useTransition } from "@/context/TransitionContext";
 import HorizontalScrollGallery from "./HorizontalScrollGallery";
 import { galleryItems } from "@/constants/galleryData";
 
+
 export default function GalleryClient() {
   const { navigate, isTransitioning } = useTransition();
   const scrollContainerRef = useRef(null);
