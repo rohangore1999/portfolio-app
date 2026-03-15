@@ -10,7 +10,21 @@ export default function AboutHeroSection() {
   useEffect(() => {
     const update = () => {
       if (imgRef.current) {
-        imgRef.current.style.objectPosition = window.innerWidth >= 768 ? "center center" : "center 85%";
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+        
+        // Desktop: center center
+        if (width >= 768) {
+          imgRef.current.style.objectPosition = "center center";
+        } 
+        // Mobile with small height: center 65%
+        else if (height < 800) {
+          imgRef.current.style.objectPosition = "center 65%";
+        }
+        // Mobile with normal height: center 85%
+        else {
+          imgRef.current.style.objectPosition = "center 85%";
+        }
       }
     };
     update();
@@ -18,7 +32,7 @@ export default function AboutHeroSection() {
     return () => window.removeEventListener("resize", update);
   }, []);
   return (
-    <section className="h-dvh flex flex-col px-6 pt-[calc(var(--nav-height)+0.5rem)] pb-4 snap-start overflow-hidden">
+    <section className="min-h-dvh md:h-dvh flex flex-col px-6 pt-[calc(var(--nav-height)+0.5rem)] pb-4 snap-start overflow-hidden">
       {/* Hero Text */}
       <motion.div
         initial={{ opacity: 0 }}
@@ -26,7 +40,7 @@ export default function AboutHeroSection() {
         transition={{ duration: 0.8 }}
         className="text-center shrink-0 mb-3 md:mb-2"
       >
-        <h1 className="text-2xl md:text-5xl lg:text-6xl font-bold w-[92vw] mb-8 md:mb-0">
+        <h1 className="text-2xl md:text-5xl lg:text-6xl font-bold w-[92vw] mb-4 [@media(min-height:700px)]:mb-8 md:mb-0">
           {["About", "me,", "a", "Software", "Engineer"].map((word, index) => (
             <motion.span
               key={`line1-${index}`}
@@ -71,12 +85,12 @@ export default function AboutHeroSection() {
       <div className="grid md:grid-cols-2 gap-3 md:gap-8 flex-1 min-h-0 md:h-full grid-rows-1">
         {/* Image */}
         <motion.div
-          className="relative rounded-lg overflow-hidden order-2 md:order-1 h-[500px] md:h-full"
+          className="relative rounded-lg overflow-hidden order-2 md:order-1 h-[clamp(300px,50vh,500px)] md:h-full"
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.5 }}
         >
-                    <Image
+          <Image
             ref={imgRef}
             src="/images/home/arnold-pose-2.jpg"
             alt="Rohan Gore - Software Engineer and Fitness Enthusiast"
@@ -108,7 +122,7 @@ export default function AboutHeroSection() {
           <h2 className="text-xl md:text-3xl lg:text-4xl font-bold text-white mb-1 md:mb-4 leading-tight">
             Hi, I'm <span className="text-orange-500">Rohan Gore</span>
           </h2>
-          <p className="text-sm md:text-lg text-white/70 leading-snug mb-1 md:mb-4">
+          <p className="text-sm md:text-lg text-white/70 leading-snug mb-1 [@media(min-height:700px)]:mb-2 md:mb-4">
             5+ years of turning coffee and code into products people actually
             use. Currently doing this at{" "}
             <span className="text-orange-500 font-semibold">Myntra</span>.

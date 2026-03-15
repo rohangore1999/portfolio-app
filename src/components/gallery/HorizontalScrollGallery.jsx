@@ -20,23 +20,28 @@ export default function HorizontalScrollGallery({ items, scrollContainerRef }) {
   });
 
   // Calculate total distance for horizontal movement
-  const totalDistance = (items.length - 1) * (ITEM_WIDTH + GAP);
-  const totalDistanceMobile = (items.length - 1) * (ITEM_WIDTH_MOBILE + GAP_MOBILE);
+  // Need to scroll enough to show the last card fully centered
+  const totalDistance = (items.length - 1) * (ITEM_WIDTH + GAP) + ITEM_WIDTH;
+  const totalDistanceMobile = (items.length - 1) * (ITEM_WIDTH_MOBILE + GAP_MOBILE) + ITEM_WIDTH_MOBILE;
   
   const x = useTransform(scrollYProgress, [0, 1], [0, -totalDistance]);
   const xMobile = useTransform(scrollYProgress, [0, 1], [0, -totalDistanceMobile]);
 
-  // Add smooth spring animation to the scroll
+  // Very fast spring animation - near instant response
   const smoothX = useSpring(x, {
-    stiffness: 100,   // Lower = slower, more elastic (default: 100)
-    damping: 30,      // Higher = less bouncy (default: 10)
-    mass: 0.5,        // Higher = more inertia (default: 1)
+    stiffness: 200,   // Very high = very fast
+    damping: 20,      // Low damping = minimal drag
+    mass: 0.1,        // Extremely light = instant
+    restDelta: 0.001,
+    restSpeed: 0.001,
   });
 
   const smoothXMobile = useSpring(xMobile, {
-    stiffness: 100,
-    damping: 30,
-    mass: 0.5,
+    stiffness: 200,   // Matched to desktop
+    damping: 20,      // Minimal resistance
+    mass: 0.1,        // Super light
+    restDelta: 0.001,
+    restSpeed: 0.001,
   });
 
   return (
@@ -61,16 +66,48 @@ export default function HorizontalScrollGallery({ items, scrollContainerRef }) {
         >
           Mobile Photography
         </motion.p>
+
+        {/* Scroll Indicator */}
+        <motion.div
+          className="mt-8 flex flex-col items-center gap-2"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.4 }}
+        >
+          <p className="text-white/40 text-xs md:text-sm uppercase tracking-widest">
+            Scroll to explore
+          </p>
+          <motion.svg
+            className="w-5 h-5 md:w-6 md:h-6 text-white/40"
+            fill="none"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            animate={{ y: [0, 8, 0] }}
+            transition={{
+              duration: 1.5,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          >
+            <path d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+          </motion.svg>
+        </motion.div>
       </section>
 
       {/* Scroll Container */}
-      <div ref={containerRef} className="h-[300vh] relative">
+      <div ref={containerRef} className="h-[5000vh] relative">
         <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-visible">
           <div className="w-[320px] md:w-[480px] flex items-center justify-start overflow-visible">
             {/* Desktop Gallery */}
             <motion.div
-              className="hidden md:flex gap-[30px] will-change-transform"
-              style={{ x: smoothX }}
+              className="hidden md:flex gap-[30px]"
+              style={{ 
+                x: smoothX,
+                willChange: "transform",
+              }}
             >
             {items.map((item) => (
               <div
@@ -94,8 +131,11 @@ export default function HorizontalScrollGallery({ items, scrollContainerRef }) {
 
           {/* Mobile Gallery */}
           <motion.div
-            className="flex md:hidden gap-[15px] will-change-transform"
-            style={{ x: smoothXMobile }}
+            className="flex md:hidden gap-[15px]"
+            style={{ 
+              x: smoothXMobile,
+              willChange: "transform",
+            }}
           >
             {items.map((item) => (
               <div
