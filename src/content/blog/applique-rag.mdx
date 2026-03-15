@@ -24,8 +24,6 @@ There are four moving pieces.
 
 ![System architecture — how scraping, chunking, vector search and MCP fit together](/images/work/applique/architecture.png)
 
-![Revamped architecture — updated flow showing the full ingestion and query pipeline](/images/work/applique/revamp-architecture.png)
-
 ### 1. Scraping the docs
 
 The Appliqué site is JavaScript-rendered, so a plain HTTP fetch won't cut it. I used **Selenium with headless Chrome** to fully load each page, then extracted the component descriptions, code examples, and API property tables.
@@ -87,8 +85,6 @@ MCP (Model Context Protocol) lets tools expose themselves as servers that IDEs l
 ```
 
 Once configured, you ask a question in Cursor and the answer comes back in-context, without leaving the editor. No tab-switching, no doc searching.
-
-![Chat example — asking about a component and getting a structured answer with code](/images/work/applique/chat-example.png)
 
 ## What I learned
 

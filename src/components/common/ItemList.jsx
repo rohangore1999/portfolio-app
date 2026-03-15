@@ -1,6 +1,7 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import { useTransition } from "@/context/TransitionContext";
@@ -10,6 +11,7 @@ export default function ItemList({
   label = "Items",
   badgeLabel = "View",
 }) {
+  const router = useRouter();
   const { navigate } = useTransition();
   const [isHovering, setIsHovering] = useState(false);
   const [hoveredImage, setHoveredImage] = useState(null);
@@ -35,6 +37,16 @@ export default function ItemList({
     cursorX.set(e.clientX - rect.left);
     cursorY.set(e.clientY - rect.top);
   };
+
+  // 🚀 PART 2: Preload all hover images on page load
+  useEffect(() => {
+    items.forEach((item) => {
+      if (item.image) {
+        const img = document.createElement('img');
+        img.src = item.image;
+      }
+    });
+  }, [items]);
 
   return (
     <div
@@ -91,10 +103,14 @@ export default function ItemList({
           className={`group flex items-center justify-between py-5 md:py-8 cursor-pointer ${i < items.length - 1 ? "border-b border-white/20" : ""}`}
           onClick={() => navigate(item.href, item.title.toLowerCase())}
           onMouseEnter={() => {
+            // Show hover preview
             if (item.image) {
               setIsHovering(true);
               setHoveredImage(item.image);
             }
+            
+            // 🚀 PART 1: Prefetch page on hover
+            router.prefetch(item.href);
           }}
           onMouseLeave={() => {
             setIsHovering(false);
