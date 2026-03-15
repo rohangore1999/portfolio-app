@@ -1,7 +1,7 @@
 "use client";
 
-import { motion, useScroll, useTransform, useSpring } from "framer-motion";
-import { useRef } from "react";
+import { motion, useScroll, useTransform, useSpring, useMotionValueEvent } from "framer-motion";
+import { useRef, useState } from "react";
 import Image from "next/image";
 
 const ITEM_WIDTH = 480;
@@ -19,6 +19,9 @@ export default function HorizontalScrollGallery({ items, scrollContainerRef }) {
     container: scrollContainerRef,
   });
 
+  // Virtualization: Track which images are currently visible
+  const [visibleRange, setVisibleRange] = useState({ start: 0, end: 7 });
+
   // Calculate total distance for horizontal movement
   // Need to scroll enough to show the last card fully centered
   const totalDistance = (items.length - 1) * (ITEM_WIDTH + GAP) + ITEM_WIDTH;
@@ -29,19 +32,42 @@ export default function HorizontalScrollGallery({ items, scrollContainerRef }) {
 
   // Very fast spring animation - near instant response
   const smoothX = useSpring(x, {
-    stiffness: 200,   // Very high = very fast
-    damping: 20,      // Low damping = minimal drag
-    mass: 0.1,        // Extremely light = instant
+    stiffness: 300,   // Extremely high = extremely fast
+    damping: 15,      // Very low damping = minimal drag
+    mass: 0.05,       // Ultra light = instant response
     restDelta: 0.001,
     restSpeed: 0.001,
   });
 
   const smoothXMobile = useSpring(xMobile, {
-    stiffness: 200,   // Matched to desktop
-    damping: 20,      // Minimal resistance
-    mass: 0.1,        // Super light
+    stiffness: 300,   // Matched to desktop
+    damping: 15,      // Minimal resistance
+    mass: 0.05,       // Ultra light and fast
     restDelta: 0.001,
     restSpeed: 0.001,
+  });
+
+  // Update visible range based on scroll progress
+  useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    // Calculate current position in pixels
+    const currentX = Math.abs(latest * totalDistance);
+    const currentXMobile = Math.abs(latest * totalDistanceMobile);
+    
+    // Determine center card index (use desktop calculation as reference)
+    const centerIndex = Math.floor(currentX / (ITEM_WIDTH + GAP));
+    
+    // Buffer: show 3 cards before and 3 cards after the center
+    const bufferSize = 3;
+    const startIndex = Math.max(0, centerIndex - bufferSize);
+    const endIndex = Math.min(items.length, centerIndex + bufferSize + 1);
+    
+    // Only update if range changed (avoid unnecessary re-renders)
+    setVisibleRange(prev => {
+      if (prev.start !== startIndex || prev.end !== endIndex) {
+        return { start: startIndex, end: endIndex };
+      }
+      return prev;
+    });
   });
 
   return (
@@ -100,63 +126,107 @@ export default function HorizontalScrollGallery({ items, scrollContainerRef }) {
       {/* Scroll Container */}
       <div ref={containerRef} className="h-[5000vh] relative">
         <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-visible">
-          <div className="w-[320px] md:w-[480px] flex items-center justify-start overflow-visible">
-            {/* Desktop Gallery */}
-            <motion.div
-              className="hidden md:flex gap-[30px]"
-              style={{ 
-                x: smoothX,
-                willChange: "transform",
-              }}
-            >
-            {items.map((item) => (
-              <div
-                key={item.id}
-                className="flex-shrink-0 w-[480px] h-[640px] rounded-xl relative overflow-hidden"
-              >
-                <Image
-                  src={item.image}
-                  alt={item.title}
-                  fill
-                  className="object-cover"
-                  sizes="480px"
-                  priority={item.id <= 5}
-                  quality={90}
-                  placeholder={item.blurDataURL ? "blur" : "empty"}
-                  blurDataURL={item.blurDataURL}
-                />
-              </div>
-            ))}
-          </motion.div>
-
-          {/* Mobile Gallery */}
+          {/* Desktop Gallery - Virtualized */}
           <motion.div
-            className="flex md:hidden gap-[15px]"
+            className="hidden md:block relative"
             style={{ 
-              x: smoothXMobile,
+              x: smoothX,
+              width: ITEM_WIDTH,
+              height: ITEM_HEIGHT,
               willChange: "transform",
             }}
           >
-            {items.map((item) => (
+          {items.map((item, index) => {
+            // Check if this image is in the visible range
+            const isVisible = index >= visibleRange.start && index < visibleRange.end;
+            
+            return (
               <div
                 key={item.id}
-                className="flex-shrink-0 w-[320px] h-[480px] rounded-xl relative overflow-hidden"
+                className="absolute w-[480px] h-[640px] rounded-xl overflow-hidden"
+                style={{
+                  left: index * (ITEM_WIDTH + GAP),
+                  top: 0,
+                }}
               >
-                <Image
-                  src={item.image}
-                  alt={item.title}
-                  fill
-                  className="object-cover"
-                  sizes="320px"
-                  priority={item.id <= 5}
-                  quality={90}
-                  placeholder={item.blurDataURL ? "blur" : "empty"}
-                  blurDataURL={item.blurDataURL}
-                />
+                {isVisible && (
+                  <Image
+                    src={item.image}
+                    alt={item.title}
+                    fill
+                    className="object-cover"
+                    sizes="480px"
+                    priority={index < 3}
+                    quality={90}
+                    placeholder={item.blurDataURL ? "blur" : "empty"}
+                    blurDataURL={item.blurDataURL}
+                  />
+                )}
+                {/* Show placeholder for non-visible images */}
+                {!isVisible && item.blurDataURL && (
+                  <div 
+                    className="absolute inset-0 bg-cover bg-center"
+                    style={{
+                      backgroundImage: `url(${item.blurDataURL})`,
+                      filter: 'blur(20px)',
+                    }}
+                  />
+                )}
               </div>
-            ))}
-          </motion.div>
-        </div>
+            );
+          })}
+        </motion.div>
+
+        {/* Mobile Gallery - Virtualized */}
+        <motion.div
+          className="block md:hidden relative"
+          style={{ 
+            x: smoothXMobile,
+            width: ITEM_WIDTH_MOBILE,
+            height: ITEM_HEIGHT_MOBILE,
+            willChange: "transform",
+          }}
+        >
+          {items.map((item, index) => {
+            // Check if this image is in the visible range
+            const isVisible = index >= visibleRange.start && index < visibleRange.end;
+            
+            return (
+              <div
+                key={item.id}
+                className="absolute w-[320px] h-[480px] rounded-xl overflow-hidden"
+                style={{
+                  left: index * (ITEM_WIDTH_MOBILE + GAP_MOBILE),
+                  top: 0,
+                }}
+              >
+                {isVisible && (
+                  <Image
+                    src={item.image}
+                    alt={item.title}
+                    fill
+                    className="object-cover"
+                    sizes="320px"
+                    priority={index < 3}
+                    quality={90}
+                    placeholder={item.blurDataURL ? "blur" : "empty"}
+                    blurDataURL={item.blurDataURL}
+                  />
+                )}
+                {/* Show placeholder for non-visible images */}
+                {!isVisible && item.blurDataURL && (
+                  <div 
+                    className="absolute inset-0 bg-cover bg-center"
+                    style={{
+                      backgroundImage: `url(${item.blurDataURL})`,
+                      filter: 'blur(20px)',
+                    }}
+                  />
+                )}
+              </div>
+            );
+          })}
+        </motion.div>
       </div>
     </div>
 
