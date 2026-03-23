@@ -1,0 +1,79 @@
+---
+title: "CodeJump: Navigate code instantly"
+category: "Engineering"
+date: "2026-03-22"
+image: "/images/work/code-jump/image.png"
+excerpt: "A VS Code extension that lets you copy code locations as references and jump to them instantly. Built with clipboard monitoring, smart context menus, and real-time status updates."
+---
+
+## Quick Start
+
+Two shortcuts are all you need:
+
+- **`Cmd+Shift+C`** (Mac) or **`Ctrl+Shift+C`** (Windows/Linux) — Copy code reference
+- **`Cmd+Shift+V`** (Mac) or **`Ctrl+Shift+V`** (Windows/Linux) — Navigate to reference
+
+Select any code, press the copy shortcut, and you get `@filename.js (10-20)` in your clipboard. Share it anywhere. When someone pastes it and presses the navigate shortcut, they jump directly to those lines with highlighting.
+
+Works in VS Code and Cursor. No setup required.
+
+---
+
+## The problem
+
+When reviewing code or discussing bugs with teammates, you constantly share code locations. You type "Check line 145 in api.js" in Slack, but your teammate has to:
+1. Find the file
+2. Remember the line number
+3. Scroll to find it
+
+It's slow and breaks flow.
+
+## The idea
+
+What if you could copy a code location as `@api.js (145)` and anyone could paste it to jump directly there?
+
+That's what **CodeJump** does. Copy code with a shortcut, share the reference anywhere, and navigate instantly.
+
+## How it works
+
+The extension has three main parts:
+
+### 1. Copy references
+
+Select code → Press `Cmd+Shift+C` → Get `@filename (lines)`
+
+The extension:
+- Gets the active file and selected lines
+- Creates a workspace-relative path (works across machines)
+- Formats it as `@src/utils/helper.js (10-20)`
+- Copies to clipboard
+
+### 2. Monitor clipboard
+
+Every 500ms, the extension checks if your clipboard has a valid reference like `@file.js (42)`.
+
+If yes:
+- Status bar shows: `🔗 @file.js (42)`
+- Right-click menu shows "Navigate to Reference"
+- Click either to jump
+
+If no:
+- Everything hides automatically
+
+This keeps the UI clean — features only appear when useful.
+
+### 3. Navigate to code
+
+Press `Cmd+Shift+V` or click the menu → Extension:
+1. Reads clipboard
+2. Parses the reference using regex: `/@([^\s(]+)\s*\((\d+)(?:-(\d+))?\)/`
+3. Finds the file in your workspace
+4. Opens it and scrolls to the lines
+5. Highlights them in yellow
+6. Auto-clears when you move the cursor
+
+---
+
+**Links:**
+- [GitHub](https://github.com/rohangore1999/code-jump)
+- [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=RohanGore1999.codejump-navigator)

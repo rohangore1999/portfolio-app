@@ -1,5 +1,28 @@
 export const allProjects = [
   {
+    title: "CodeJump",
+    slug: "code-jump",
+    category: "VS Code Extension",
+    year: "2026",
+    href: "/work/code-jump",
+    image: "/images/work/code-jump/image.png",
+    tagline:
+      "Copy code locations as references and jump to them instantly across your team.",
+    description:
+      "A VS Code extension that creates shareable code references like @file.js (42). Copy with Cmd+Shift+C, paste anywhere, and navigate instantly with Cmd+Shift+V. Features smart clipboard monitoring, context menus, and status bar integration.",
+    tags: ["VS Code Extension", "JavaScript", "Developer Tools", "Productivity"],
+    github: "https://github.com/rohangore1999/code-jump",
+    live: "https://marketplace.visualstudio.com/items?itemName=RohanGore1999.codejump-navigator",
+    liveLabel: "VS Code Marketplace",
+    blog: "/blog/code-jump",
+    media: [
+      {
+        type: "youtube",
+        src: "https://www.youtube.com/embed/4RKHO_xOqdo?autoplay=1&mute=1&loop=1&playlist=4RKHO_xOqdo",
+      },
+    ],
+  },
+  {
     title: "Applique",
     slug: "applique",
     category: "Design & Development",

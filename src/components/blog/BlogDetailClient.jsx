@@ -47,33 +47,35 @@ export default function BlogDetailClient({ post, content }) {
           </h1>
         </div>
 
-        {/* Cover image */}
-        <div className="relative w-full px-8 md:px-16 mb-16">
-          <div className="relative w-full rounded-xl overflow-hidden border border-white/10">
-            {/* Skeleton Loader - show until image loads */}
-            {!imageLoaded && (
-              <div 
-                className="absolute inset-0 bg-white/5 overflow-hidden"
-                style={{ paddingBottom: "56.25%" }}
-              >
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-shimmer" />
-              </div>
-            )}
+        {/* Cover image - only render if image exists */}
+        {post.image && (
+          <div className="relative w-full px-8 md:px-16 mb-16">
+            <div className="relative w-full rounded-xl overflow-hidden border border-white/10">
+              {/* Skeleton Loader - show until image loads */}
+              {!imageLoaded && (
+                <div 
+                  className="absolute inset-0 bg-white/5 overflow-hidden"
+                  style={{ paddingBottom: "56.25%" }}
+                >
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-shimmer" />
+                </div>
+              )}
 
-            {/* Image - fade in when loaded */}
-            <Image
-              src={post.image}
-              alt={post.title}
-              width={1600}
-              height={900}
-              onLoad={() => setImageLoaded(true)}
-              className={`w-full h-auto transition-opacity duration-500 ${
-                imageLoaded ? "opacity-100" : "opacity-0"
-              }`}
-              priority
-            />
+              {/* Image - fade in when loaded */}
+              <Image
+                src={post.image}
+                alt={post.title}
+                width={1600}
+                height={900}
+                onLoad={() => setImageLoaded(true)}
+                className={`w-full h-auto transition-opacity duration-500 ${
+                  imageLoaded ? "opacity-100" : "opacity-0"
+                }`}
+                priority
+              />
+            </div>
           </div>
-        </div>
+        )}
 
         {/* MDX content */}
         <div

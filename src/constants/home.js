@@ -17,6 +17,13 @@ export const greetings = [
 
 export const recentWork = [
   {
+    title: "CodeJump",
+    slug: "code-jump",
+    category: "VS Code Extension",
+    href: "/work/code-jump",
+    image: "/images/work/code-jump/image.png",
+  },
+  {
     title: "Applique",
     slug: "applique",
     category: "AI & Design System",
