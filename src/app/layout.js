@@ -2,6 +2,7 @@ import { Manrope } from "next/font/google";
 import "./globals.css";
 import { TransitionProvider } from "@/context/TransitionContext";
 import Clarity from "@/components/Clarity";
+import StructuredData from "@/components/StructuredData";
 
 const manrope = Manrope({
   variable: "--font-manrope",
@@ -21,6 +22,9 @@ export const metadata = {
   authors: [{ name: "Rohan Gore" }],
   creator: "Rohan Gore",
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://rohangore.com'),
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     type: "website",
     locale: "en_US",
@@ -65,6 +69,9 @@ export const viewport = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className="dark">
+      <head>
+        <StructuredData />
+      </head>
       <body
         className={`${manrope.variable} antialiased font-sans`}
         style={{ fontFamily: "var(--font-manrope)" }}
