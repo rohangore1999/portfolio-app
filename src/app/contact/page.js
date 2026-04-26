@@ -1,43 +1,34 @@
-"use client";
+import ContactPageClient from "@/components/contact/ContactPageClient";
 
-import { motion } from "framer-motion";
-import Link from "next/link";
-import Navigation from "@/components/Navigation";
-import Footer from "@/components/Footer";
-import { useTransition } from "@/context/TransitionContext";
+export const metadata = {
+  title: "Contact",
+  description:
+    "Get in touch with Rohan Gore — software engineer. Reach out for collaborations, consulting, or just to say hi.",
+  alternates: { canonical: "/contact" },
+  openGraph: {
+    type: "website",
+    url: "/contact",
+    title: "Contact | Rohan Gore",
+    description:
+      "Get in touch with Rohan Gore for collaborations, consulting, or to say hi.",
+    siteName: "Rohan Gore",
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Rohan Gore",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Contact | Rohan Gore",
+    description: "Get in touch with Rohan Gore.",
+    images: ["/og-image.jpg"],
+  },
+};
 
 export default function ContactPage() {
-  const { navigate, isTransitioning } = useTransition();
-
-  const handleAboutClick = () => {
-    navigate("/about", "about");
-  };
-
-  return (
-    <div className="min-h-screen bg-black flex flex-col">
-      <Navigation onAboutClick={handleAboutClick} />
-      <motion.div
-        className="flex-1 flex items-center justify-center px-8"
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: isTransitioning ? 0 : 1, y: isTransitioning ? 30 : 0 }}
-        transition={{ duration: 0.4, delay: 0.1 }}
-      >
-        <div className="max-w-4xl">
-          <h1 className="text-5xl md:text-7xl font-bold text-white mb-8">
-            Contact
-          </h1>
-          <p className="text-xl md:text-2xl text-white/80 mb-8">
-            Get in touch with me...
-          </p>
-          <Link
-            href="/"
-            className="text-lg text-orange-500 hover:text-orange-600 transition-colors"
-          >
-            ← Back to Home
-          </Link>
-        </div>
-      </motion.div>
-      <Footer />
-    </div>
-  );
+  return <ContactPageClient />;
 }
