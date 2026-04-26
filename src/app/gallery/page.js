@@ -1,4 +1,5 @@
-import GalleryClient from "@/components/gallery/GalleryClient";
+// import GalleryClient from "@/components/gallery/GalleryClient";
+import GalleryPolaroidClient from "@/components/gallery-polaroid/GalleryPolaroidClient";
 
 export const metadata = {
   title: "Gallery",
@@ -11,5 +12,6 @@ export const metadata = {
 };
 
 export default function GalleryPage() {
-  return <GalleryClient />;
+  // return <GalleryClient />;
+  return <GalleryPolaroidClient />;
 }
