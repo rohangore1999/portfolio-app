@@ -107,7 +107,7 @@ export default function Navigation({ onAboutClick, onContactClick }) {
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
-            className="fixed inset-0 z-50 bg-white dark:bg-white flex flex-col"
+            className="fixed inset-0 z-[150] bg-white dark:bg-white flex flex-col"
             initial={{ x: "100%" }}
             animate={{ x: 0 }}
             transition={{ duration: 0.5, ease: [0.43, 0.13, 0.23, 0.96] }}
