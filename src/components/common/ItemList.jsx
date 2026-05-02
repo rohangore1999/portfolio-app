@@ -15,6 +15,7 @@ export default function ItemList({
   const { navigate } = useTransition();
   const [isHovering, setIsHovering] = useState(false);
   const [hoveredImage, setHoveredImage] = useState(null);
+  const [hoveredImageFit, setHoveredImageFit] = useState("cover");
   const listRef = useRef(null);
 
   const cursorX = useMotionValue(-300);
@@ -66,7 +67,7 @@ export default function ItemList({
             src={hoveredImage}
             alt="preview"
             fill
-            className="object-cover"
+            className={hoveredImageFit === "contain" ? "object-contain p-2" : "object-cover"}
           />
         )}
         <div className="absolute inset-0 flex items-center justify-center">
@@ -107,6 +108,7 @@ export default function ItemList({
             if (item.image) {
               setIsHovering(true);
               setHoveredImage(item.image);
+              setHoveredImageFit(item.imagefit || "cover");
             }
             
             // 🚀 PART 1: Prefetch page on hover
@@ -115,6 +117,7 @@ export default function ItemList({
           onMouseLeave={() => {
             setIsHovering(false);
             setHoveredImage(null);
+            setHoveredImageFit("cover");
           }}
         >
           {/* Left: title + description + tags */}

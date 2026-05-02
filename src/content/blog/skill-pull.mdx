@@ -1,0 +1,148 @@
+---
+title: "skill-pull: Auto-load agent skills before you build"
+category: "Engineering"
+date: "2026-05-02"
+image: "/images/work/skill-pull/thumbnail.png"
+imagefit: "contain"
+excerpt: "An MCP server that automatically finds, installs, and loads relevant agent skills from skills.sh into your project before your AI writes a single line of code."
+---
+
+## The problem
+
+Every time I started a new project with Cursor or Claude Code, the agent would produce decent code — but miss the nuances.
+
+It didn't know Vercel's React rendering patterns. It didn't know my Supabase auth setup. It didn't know the Stripe checkout best practices that save you hours of debugging.
+
+I'd manually hunt for relevant Cursor rules or skill files, copy them into my project, and _then_ start building. Every time.
+
+There had to be a better way.
+
+---
+
+## What is skill-pull?
+
+**skill-pull** is an MCP (Model Context Protocol) server that runs alongside your AI agent. Before your agent writes any code, it:
+
+1. **Searches [skills.sh](https://skills.sh)** semantically for skills relevant to your task
+2. **Installs** matching skills into your project at `.cursor/skills/`
+3. **Loads** their content into the agent's context
+
+All automatically. You just describe what you want to build.
+
+```
+"Build a SaaS app with auth and Stripe"
+→ Finds: supabase-auth, stripe-payments, nextjs-best-practices
+→ Installs to my-project/.cursor/skills/
+→ Agent builds with expert knowledge loaded
+```
+
+---
+
+## How it works
+
+### The MCP tools
+
+skill-pull exposes four tools over the MCP stdio transport:
+
+| Tool | What it does |
+|------|-------------|
+| `recommend_skills` | Semantic search of skills.sh — returns top N skills for your task |
+| `install_skill` | Installs skill files into `<project>/.cursor/skills/` |
+| `get_skill_details` | Loads full SKILL.md content into agent context |
+| `list_installed_skills` | Shows what's installed in the current project |
+
+### The auto-trigger rule
+
+The magic is in an agent rule (`auto-skills.mdc` for Cursor, `CLAUDE.md` for Claude Code) that fires before every build task:
+
+```
+Before starting any build task:
+1. Call recommend_skills with the task description
+2. Call install_skill for each result — pass projectPath
+3. Call get_skill_details to load content into context
+4. Then build
+```
+
+The agent handles all of this transparently. You never have to think about it.
+
+### Project-level skills
+
+Skills install into `<your-project>/.cursor/skills/` — not globally. This means:
+
+- Skills travel with the repo
+- Teammates get the same context automatically
+- Different projects get different skills
+- Any MCP-compatible agent picks them up (Cursor, Claude Code, Windsurf, Copilot)
+
+---
+
+## Architecture
+
+```
+User prompt
+    │
+    ▼
+[auto-skills rule fires]
+    │
+    ▼
+recommend_skills(query)
+  └─► skills.sh/api/search
+  └─► Returns ranked skill list
+    │
+    ▼
+install_skill(id, projectPath)
+  └─► Try npx skills add
+  └─► Fallback: skills.sh/api/download → write files to disk
+    │
+    ▼
+get_skill_details(id)
+  └─► skills.sh/api/download
+  └─► Extract SKILL.md → return to agent context
+    │
+    ▼
+Agent builds with loaded knowledge
+```
+
+The fallback in `install_skill` is key — it works even if the `skills` CLI isn't installed, by hitting the `skills.sh` download API directly and writing files to disk.
+
+---
+
+## Why I built it
+
+[skills.sh](https://skills.sh) is a growing ecosystem of reusable agent skills. But discovery was manual — you had to know what to search for and run `npx skills add` yourself.
+
+I wanted the agent to handle skill management the same way a senior engineer handles onboarding: read the context, figure out what knowledge is needed, and load it before starting.
+
+skill-pull makes skills.sh feel like a background service rather than a directory you browse.
+
+---
+
+## Try it
+
+Add to your `~/.cursor/mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "skill-pull": {
+      "command": "npx",
+      "args": ["-y", "@rohangore1999/skill-pull"]
+    }
+  }
+}
+```
+
+Then run the setup to install the auto-trigger rule:
+
+```bash
+npx @rohangore1999/skill-pull setup
+```
+
+Restart Cursor, start a new build prompt, and watch it pull skills automatically.
+
+---
+
+**Links:**
+- [GitHub](https://github.com/rohangore1999/skill-pull)
+- [npm](https://www.npmjs.com/package/@rohangore1999/skill-pull)
+- [skills.sh](https://skills.sh)

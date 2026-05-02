@@ -19,6 +19,7 @@ export function getAllPosts() {
         category: data.category,
         date: data.date,
         image: data.hoverImage || data.image,
+        imagefit: data.imagefit,
         excerpt: data.excerpt,
         href: `/blog/${slug}`,
       };

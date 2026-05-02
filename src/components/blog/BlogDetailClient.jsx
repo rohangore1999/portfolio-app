@@ -51,17 +51,11 @@ export default function BlogDetailClient({ post, content }) {
         {post.image && (
           <div className="relative w-full px-8 md:px-16 mb-16">
             <div className="relative w-full rounded-xl overflow-hidden border border-white/10">
-              {/* Skeleton Loader - show until image loads */}
               {!imageLoaded && (
-                <div 
-                  className="absolute inset-0 bg-white/5 overflow-hidden"
-                  style={{ paddingBottom: "56.25%" }}
-                >
+                <div className="absolute inset-0 bg-white/5 overflow-hidden" style={{ paddingBottom: "56.25%" }}>
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-shimmer" />
                 </div>
               )}
-
-              {/* Image - fade in when loaded */}
               <Image
                 src={post.image}
                 alt={post.title}
@@ -87,7 +81,9 @@ export default function BlogDetailClient({ post, content }) {
           prose-pre:bg-white/5 prose-pre:border prose-pre:border-white/10
           prose-blockquote:border-l-orange-500 prose-blockquote:text-white/50
           prose-strong:text-white prose-li:text-white/70
-          prose-img:rounded-xl prose-img:border prose-img:border-white/10 prose-img:w-full prose-img:my-10"
+          prose-img:rounded-xl prose-img:border prose-img:border-white/10 prose-img:w-full prose-img:my-10
+          prose-table:w-full prose-th:text-white/70 prose-th:border prose-th:border-white/20 prose-th:px-4 prose-th:py-2
+          prose-td:text-white/50 prose-td:border prose-td:border-white/10 prose-td:px-4 prose-td:py-2"
         >
           {content}
         </div>

@@ -17,6 +17,14 @@ export const greetings = [
 
 export const recentWork = [
   {
+    title: "skill-pull",
+    slug: "skill-pull",
+    category: "MCP Server",
+    href: "/work/skill-pull",
+    image: "/images/work/skill-pull/thumbnail.png",
+    imagefit: "contain",
+  },
+  {
     title: "CodeJump",
     slug: "code-jump",
     category: "VS Code Extension",

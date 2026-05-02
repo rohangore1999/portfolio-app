@@ -1,5 +1,29 @@
 export const allProjects = [
   {
+    title: "skill-pull",
+    slug: "skill-pull",
+    category: "MCP Server",
+    year: "2026",
+    href: "/work/skill-pull",
+    image: "/images/work/skill-pull/thumbnail.png",
+    imagefit: "contain",
+    tagline:
+      "MCP server that auto-discovers and installs the right agent skills from skills.sh before your AI builds anything.",
+    description:
+      "Before your AI agent writes a single line of code, skill-pull searches skills.sh semantically, installs matching skills into your project's .cursor/skills/ directory, and loads their knowledge into context — automatically. Works with Cursor, Claude Code, Windsurf, and any MCP-compatible agent.",
+    tags: ["MCP", "AI Agent", "Node.js", "skills.sh", "Cursor", "Developer Tools"],
+    github: "https://github.com/rohangore1999/skill-pull",
+    live: "https://www.npmjs.com/package/@rohangore1999/skill-pull",
+    liveLabel: "npm",
+    blog: "/blog/skill-pull",
+    media: [
+      {
+        type: "image",
+        src: "/images/work/skill-pull/thumbnail.png",
+      },
+    ],
+  },
+  {
     title: "CodeJump",
     slug: "code-jump",
     category: "VS Code Extension",
