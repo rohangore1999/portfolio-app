@@ -44,12 +44,34 @@ All automatically. You just describe what you want to build.
 
 skill-pull exposes four tools over the MCP stdio transport:
 
-| Tool | What it does |
-|------|-------------|
-| `recommend_skills` | Semantic search of skills.sh — returns top N skills for your task |
-| `install_skill` | Installs skill files into `<project>/.cursor/skills/` |
-| `get_skill_details` | Loads full SKILL.md content into agent context |
-| `list_installed_skills` | Shows what's installed in the current project |
+<div className="overflow-x-auto w-full my-6">
+  <table className="min-w-full text-sm">
+    <thead>
+      <tr>
+        <th className="text-left text-white/70 border border-white/20 px-4 py-2 whitespace-nowrap">Tool</th>
+        <th className="text-left text-white/70 border border-white/20 px-4 py-2">What it does</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td className="border border-white/10 px-4 py-2 whitespace-nowrap"><code>recommend_skills</code></td>
+        <td className="border border-white/10 px-4 py-2 text-white/50">Semantic search of skills.sh — returns top N skills for your task</td>
+      </tr>
+      <tr>
+        <td className="border border-white/10 px-4 py-2 whitespace-nowrap"><code>install_skill</code></td>
+        <td className="border border-white/10 px-4 py-2 text-white/50">Installs skill files into <code>.cursor/skills/</code></td>
+      </tr>
+      <tr>
+        <td className="border border-white/10 px-4 py-2 whitespace-nowrap"><code>get_skill_details</code></td>
+        <td className="border border-white/10 px-4 py-2 text-white/50">Loads full SKILL.md content into agent context</td>
+      </tr>
+      <tr>
+        <td className="border border-white/10 px-4 py-2 whitespace-nowrap"><code>list_installed_skills</code></td>
+        <td className="border border-white/10 px-4 py-2 text-white/50">Shows what's installed in the current project</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
 ### The auto-trigger rule
 
