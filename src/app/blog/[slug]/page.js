@@ -4,6 +4,7 @@ import BlogDetailClient from "@/components/blog/BlogDetailClient";
 import JsonLd from "@/components/JsonLd";
 import { compileMDX } from "next-mdx-remote/rsc";
 import remarkGfm from "remark-gfm";
+import rehypeSlug from "rehype-slug";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://rohangore.com";
 
@@ -65,7 +66,7 @@ export default async function BlogDetailPage({ params }) {
 
   const { content } = await compileMDX({
     source: post.content,
-    options: { parseFrontmatter: false, mdxOptions: { remarkPlugins: [remarkGfm] } },
+    options: { parseFrontmatter: false, mdxOptions: { remarkPlugins: [remarkGfm], rehypePlugins: [rehypeSlug] } },
   });
 
   const url = `${SITE_URL}/blog/${post.slug}`;
