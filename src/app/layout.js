@@ -3,6 +3,7 @@ import "./globals.css";
 import { TransitionProvider } from "@/context/TransitionContext";
 import Clarity from "@/components/Clarity";
 import StructuredData from "@/components/StructuredData";
+import WebMCP from "@/components/WebMCP";
 
 const manrope = Manrope({
   variable: "--font-manrope",
@@ -82,6 +83,7 @@ export default function RootLayout({ children }) {
         style={{ fontFamily: "var(--font-manrope)" }}
       >
         <Clarity />
+        <WebMCP />
         <TransitionProvider>{children}</TransitionProvider>
       </body>
     </html>
