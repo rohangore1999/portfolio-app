@@ -17,6 +17,13 @@ export const greetings = [
 
 export const recentWork = [
   {
+    title: "NFSC Clinic",
+    slug: "nfsc-clinic",
+    category: "Web Design & Development",
+    href: "/work/nfsc-clinic",
+    image: "/images/work/nfsc-clinic/thumbnail.png",
+  },
+  {
     title: "skill-pull",
     slug: "skill-pull",
     category: "MCP Server",

@@ -1,5 +1,31 @@
 export const allProjects = [
   {
+    title: "NFSC Clinic",
+    slug: "nfsc-clinic",
+    type: "client",
+    category: "Web Design & Development",
+    year: "2026",
+    href: "/work/nfsc-clinic",
+    image: "/images/work/nfsc-clinic/thumbnail.png",
+    tagline:
+      "Full-stack marketing site for Dr. Nikhil Face Surgical & Aesthetic Centre — a facial surgery and aesthetic clinic in Kandivali West, Mumbai.",
+    description:
+      "Built with Next.js 16, Tailwind CSS v4, and Framer Motion. Features 55 SSG procedure pages, local SEO schema (MedicalClinic, LocalBusiness, AggregateRating), Google Analytics 4, Microsoft Clarity, sitemap, and a spam-protected booking form backed by Google Sheets.",
+    tags: [
+      "Next.js",
+      "Tailwind CSS",
+      "Framer Motion",
+      "SEO",
+      "Vercel",
+      "Google Analytics",
+    ],
+    live: "https://www.drnikhilangre.com/",
+    liveLabel: "Live Site",
+    media: [
+      { type: "image", src: "/images/work/nfsc-clinic/thumbnail.png" },
+    ],
+  },
+  {
     title: "skill-pull",
     slug: "skill-pull",
     category: "MCP Server",

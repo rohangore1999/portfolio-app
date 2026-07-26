@@ -83,7 +83,7 @@ export default function WorkDetailClient({ project, prevProject, nextProject }) 
             </div>
           </div>
 
-          {/* Meta row: category + year */}
+          {/* Meta row: category + year + client badge */}
           <div className="flex items-center gap-4 mb-4 md:mb-6">
             <p className="text-xs uppercase tracking-widest text-white/40">
               {project.category}
@@ -92,6 +92,11 @@ export default function WorkDetailClient({ project, prevProject, nextProject }) 
               <p className="text-xs uppercase tracking-widest text-white/25">
                 {project.year}
               </p>
+            )}
+            {project.type === "client" && (
+              <span className="text-xs uppercase tracking-widest text-orange-500 border border-orange-500/30 px-2 py-0.5 rounded-full">
+                Client
+              </span>
             )}
           </div>
 
