@@ -67,7 +67,7 @@ export default function WorkDetailClient({ project, prevProject, nextProject }) 
                   href={project.live}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-xs uppercase tracking-widest text-white/50 hover:text-white transition-all duration-200 hover:scale-105 cursor-pointer"
+                  className="text-xs uppercase tracking-widest text-orange-500 hover:text-orange-400 transition-all duration-200 hover:scale-105 cursor-pointer"
                 >
                   {project.liveLabel ?? "Live"} ↗
                 </a>
