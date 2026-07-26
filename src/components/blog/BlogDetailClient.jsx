@@ -66,6 +66,8 @@ export default function BlogDetailClient({ post, content }) {
                   imageLoaded ? "opacity-100" : "opacity-0"
                 }`}
                 priority
+                placeholder={post.blurDataURL ? "blur" : "empty"}
+                blurDataURL={post.blurDataURL}
               />
             </div>
           </div>

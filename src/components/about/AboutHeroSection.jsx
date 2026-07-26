@@ -3,6 +3,7 @@
 import { m } from "framer-motion";
 import Image from "next/image";
 import { useRef, useEffect } from "react";
+import aboutImage from "../../../public/images/home/arnold-pose-2.jpg";
 
 export default function AboutHeroSection() {
   const imgRef = useRef(null);
@@ -92,11 +93,12 @@ export default function AboutHeroSection() {
         >
           <Image
             ref={imgRef}
-            src="/images/home/arnold-pose-2.jpg"
+            src={aboutImage}
             alt="Rohan Gore - Software Engineer and Fitness Enthusiast"
             fill
             className="object-cover"
             priority
+            placeholder="blur"
             quality={90}
           />
           <div

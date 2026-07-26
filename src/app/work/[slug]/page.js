@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { allProjects } from "@/constants/work";
 import WorkDetailClient from "@/components/work/WorkDetailClient";
 import JsonLd from "@/components/JsonLd";
+import blurDataAll from "@/constants/blurDataAll.json";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://rohangore.com";
 
@@ -133,7 +134,13 @@ export default async function WorkDetailPage({ params }) {
       <JsonLd data={creativeWorkSchema} />
       <JsonLd data={breadcrumbSchema} />
       <WorkDetailClient
-        project={project}
+        project={{
+          ...project,
+          media: project.media?.map((item) => ({
+            ...item,
+            blurDataURL: item.type === "image" && item.src ? blurDataAll[item.src] || null : null,
+          })),
+        }}
         prevProject={prevProject}
         nextProject={nextProject}
       />

@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { m, useAnimationFrame, useMotionValue, wrap } from "framer-motion";
 import { useRef } from "react";
+import heroImage from "../../../public/images/home/hero-section-web.jpg";
 
 function MarqueeName() {
   const baseX = useMotionValue(0);
@@ -60,10 +61,11 @@ export default function HeroSection() {
       {/* Portrait image — mobile only */}
       <div className="md:hidden absolute inset-0 z-0">
         <Image
-          src="/images/home/hero-section-web.jpg"
+          src={heroImage}
           alt="Rohan Gore"
           fill
           priority
+          placeholder="blur"
           sizes="100vw"
           className="object-cover origin-center scale-105"
           style={{ objectPosition: "center 60%" }}
@@ -101,10 +103,11 @@ export default function HeroSection() {
       {/* Desktop — full background image with text overlay */}
       <div className="hidden md:block absolute inset-0 z-0">
         <Image
-          src="/images/home/hero-section-web.jpg"
+          src={heroImage}
           alt="Rohan Gore"
           fill
           priority
+          placeholder="blur"
           sizes="100vw"
           className="object-cover object-[center_52%]"
         />

@@ -195,6 +195,8 @@ export default function WorkDetailClient({ project, prevProject, nextProject }) 
                     height={900}
                     className="w-full h-auto transition-transform duration-700 hover:scale-[1.01]"
                     priority={i === 0}
+                    placeholder={item.blurDataURL ? "blur" : "empty"}
+                    blurDataURL={item.blurDataURL}
                   />
                 )}
               </m.div>
