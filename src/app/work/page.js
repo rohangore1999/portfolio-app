@@ -1,5 +1,8 @@
 import WorkPageClient from "@/components/work/WorkPageClient";
 import { allProjects } from "@/constants/work";
+import JsonLd from "@/components/JsonLd";
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://rohangore.com";
 
 export const metadata = {
   title: "Work",
@@ -38,5 +41,24 @@ export const metadata = {
 };
 
 export default function WorkPage() {
-  return <WorkPageClient />;
+  const itemListSchema = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Projects by Rohan Gore",
+    itemListOrder: "https://schema.org/ItemListUnordered",
+    numberOfItems: allProjects.length,
+    itemListElement: allProjects.map((project, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      url: `${SITE_URL}/work/${project.slug}`,
+      name: project.title,
+    })),
+  };
+
+  return (
+    <>
+      <JsonLd data={itemListSchema} />
+      <WorkPageClient />
+    </>
+  );
 }

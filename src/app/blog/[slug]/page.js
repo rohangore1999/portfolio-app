@@ -39,6 +39,7 @@ export async function generateMetadata({ params }) {
       description: post.excerpt,
       siteName: "Rohan Gore",
       publishedTime: post.date,
+      modifiedTime: post.modifiedDate || post.date,
       authors: ["Rohan Gore"],
       images: [
         {
@@ -79,7 +80,7 @@ export default async function BlogDetailPage({ params }) {
     description: post.excerpt,
     image: imageUrl,
     datePublished: post.date,
-    dateModified: post.date,
+    dateModified: post.modifiedDate || post.date,
     author: {
       "@type": "Person",
       name: "Rohan Gore",

@@ -24,7 +24,9 @@ export const metadata = {
   creator: "Rohan Gore",
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://rohangore.com'),
   alternates: {
-    canonical: "/",
+    types: {
+      "application/rss+xml": "/feed.xml",
+    },
   },
   openGraph: {
     type: "website",

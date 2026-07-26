@@ -3,11 +3,31 @@ import GalleryPolaroidClient from "@/components/gallery-polaroid/GalleryPolaroid
 
 export const metadata = {
   title: "Gallery",
-  description: "Mobile photography collection showcasing urban landscapes, street scenes, and moments captured through my lens.",
+  description:
+    "Mobile photography collection showcasing urban landscapes, street scenes, and moments captured through my lens.",
+  alternates: { canonical: "/gallery" },
   openGraph: {
-    title: "Gallery - Rohan Gore",
-    description: "Mobile photography collection showcasing urban landscapes and street scenes.",
     type: "website",
+    url: "/gallery",
+    title: "Gallery | Rohan Gore",
+    description:
+      "Mobile photography collection showcasing urban landscapes and street scenes.",
+    siteName: "Rohan Gore",
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Rohan Gore Photography Gallery",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Gallery | Rohan Gore",
+    description:
+      "Mobile photography collection showcasing urban landscapes and street scenes.",
+    images: ["/og-image.jpg"],
   },
 };
 
