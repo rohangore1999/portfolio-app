@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useCallback, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { Caveat } from "next/font/google";
 import PolaroidCard from "./PolaroidCard";
 
@@ -32,22 +32,22 @@ export default function PolaroidDeck({ items }) {
   return (
     <section className="relative w-full bg-black overflow-hidden">
       <div className="px-6 pt-32 md:pt-40 pb-8 max-w-3xl mx-auto text-center">
-        <motion.h1
+        <m.h1
           className="font-sans text-white font-light text-5xl md:text-7xl uppercase tracking-tight"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
           Memories
-        </motion.h1>
-        <motion.p
+        </m.h1>
+        <m.p
           className={`text-white/50 text-lg md:text-xl mt-2 ${caveat.className}`}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.25 }}
         >
           {String(Math.min(activeIndex + 1, total)).padStart(2, "0")} of {String(total).padStart(2, "0")}
-        </motion.p>
+        </m.p>
       </div>
 
       <div className="relative mx-auto w-[85vw] max-w-[340px] md:w-[480px] md:max-w-[480px] aspect-[2/3]">
@@ -67,7 +67,7 @@ export default function PolaroidDeck({ items }) {
         </AnimatePresence>
 
         {isFinished && (
-          <motion.div
+          <m.div
             className="absolute inset-0 flex flex-col items-center justify-center text-center px-6"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -82,7 +82,7 @@ export default function PolaroidDeck({ items }) {
             >
               Reshuffle
             </button>
-          </motion.div>
+          </m.div>
         )}
       </div>
 

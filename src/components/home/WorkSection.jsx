@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react";
 import Image from "next/image";
-import { motion, useMotionValue, useSpring } from "framer-motion";
+import { m, useMotionValue, useSpring } from "framer-motion";
 import { useTransition } from "@/context/TransitionContext";
 import { recentWork } from "@/constants/home";
 
@@ -42,7 +42,7 @@ export default function WorkSection() {
     >
       {/* Floating cursor image
           left/top = cursor position, -translate-x/y-1/2 shifts it so center = cursor */}
-      <motion.div
+      <m.div
         className="absolute pointer-events-none z-50 w-48 h-60 rounded-lg overflow-hidden -translate-x-1/2 -translate-y-1/2"
         style={{ left: springX, top: springY }}
         animate={{ opacity: isHovering ? 1 : 0, scale: isHovering ? 1 : 0.6 }}
@@ -58,7 +58,7 @@ export default function WorkSection() {
         )}
         {/* Orange "View" badge */}
         <div className="absolute inset-0 flex items-center justify-center">
-          <motion.div
+          <m.div
             className="w-16 h-16 rounded-full bg-orange-500 flex items-center justify-center"
             animate={isHovering ? {
               scale: [null, 1.15, 1.05],
@@ -71,9 +71,9 @@ export default function WorkSection() {
             }}
           >
             <span className="text-white text-sm font-semibold">View</span>
-          </motion.div>
+          </m.div>
         </div>
-      </motion.div>
+      </m.div>
 
       {/* Label */}
       <p className="text-xs uppercase tracking-widest text-white/40 mb-4">

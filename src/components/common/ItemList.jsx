@@ -1,9 +1,9 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { motion, useMotionValue, useSpring } from "framer-motion";
+import { m, useMotionValue, useSpring } from "framer-motion";
 import { useTransition } from "@/context/TransitionContext";
 
 export default function ItemList({
@@ -39,16 +39,6 @@ export default function ItemList({
     cursorY.set(e.clientY - rect.top);
   };
 
-  // 🚀 PART 2: Preload all hover images on page load
-  useEffect(() => {
-    items.forEach((item) => {
-      if (item.image) {
-        const img = document.createElement('img');
-        img.src = item.image;
-      }
-    });
-  }, [items]);
-
   return (
     <div
       ref={listRef}
@@ -56,7 +46,7 @@ export default function ItemList({
       className="relative px-8 md:px-16 pb-16"
     >
       {/* Floating cursor image */}
-      <motion.div
+      <m.div
         className="absolute pointer-events-none z-50 w-48 h-60 rounded-lg overflow-hidden -translate-x-1/2 -translate-y-1/2"
         style={{ left: springX, top: springY }}
         animate={{ opacity: isHovering ? 1 : 0, scale: isHovering ? 1 : 0.6 }}
@@ -71,7 +61,7 @@ export default function ItemList({
           />
         )}
         <div className="absolute inset-0 flex items-center justify-center">
-          <motion.div
+          <m.div
             className="w-16 h-16 rounded-full bg-orange-500 flex items-center justify-center"
             animate={
               isHovering
@@ -87,9 +77,9 @@ export default function ItemList({
             <span className="text-white text-sm font-semibold">
               {badgeLabel}
             </span>
-          </motion.div>
+          </m.div>
         </div>
-      </motion.div>
+      </m.div>
 
       {/* Column header */}
       <p className="text-xs uppercase tracking-widest text-white/40 mb-4">

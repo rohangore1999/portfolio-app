@@ -1,10 +1,10 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 export default function TimelineItem({ title, company, period, index }) {
   return (
-    <motion.div
+    <m.div
       className="relative pl-8 md:pl-12"
       initial={{ opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -23,6 +23,6 @@ export default function TimelineItem({ title, company, period, index }) {
       <p className="text-orange-500 font-semibold">
         {company} • {period}
       </p>
-    </motion.div>
+    </m.div>
   );
 }

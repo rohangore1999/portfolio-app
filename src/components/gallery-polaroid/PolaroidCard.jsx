@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { motion, useAnimationControls, useMotionValue, useTransform } from "framer-motion";
+import { m, useAnimationControls, useMotionValue, useTransform } from "framer-motion";
 import { useEffect, useRef } from "react";
 import { captionFor, rotationFor, offsetFor } from "@/utils/polaroidStack";
 
@@ -65,7 +65,7 @@ export default function PolaroidCard({
   };
 
   return (
-    <motion.div
+    <m.div
       className="absolute inset-0 flex items-center justify-center"
       style={{ zIndex: 100 - stackPos, x: isTop ? x : baseOffset.x }}
       initial={
@@ -85,7 +85,7 @@ export default function PolaroidCard({
       onDragEnd={isTop ? handleDragEnd : undefined}
       whileTap={isTop ? { cursor: "grabbing" } : undefined}
     >
-      <motion.div style={{ rotate: isTop ? dragRotate : 0 }}>
+      <m.div style={{ rotate: isTop ? dragRotate : 0 }}>
         <div
           className="bg-white p-3 pb-14 md:p-4 md:pb-20 shadow-[0_20px_50px_-10px_rgba(0,0,0,0.8),0_8px_20px_-4px_rgba(0,0,0,0.5)] w-[85vw] max-w-[340px] md:w-[480px] md:max-w-[480px]"
           style={{ cursor: isTop ? "grab" : "default" }}
@@ -111,7 +111,7 @@ export default function PolaroidCard({
             {caption}
           </div>
         </div>
-      </motion.div>
-    </motion.div>
+      </m.div>
+    </m.div>
   );
 }

@@ -7,7 +7,7 @@ import HeroSection from "@/components/home/HeroSection";
 import AboutSection from "@/components/home/AboutSection";
 import WorkSection from "@/components/home/WorkSection";
 import Footer from "@/components/Footer";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useTransition } from "@/context/TransitionContext";
 
 export default function Home() {
@@ -44,7 +44,7 @@ export default function Home() {
       {/* Navigation */}
       {!showLoading && <Navigation onAboutClick={handleAboutClick} onContactClick={handleContactClick} />}
 
-      <motion.div
+      <m.div
         ref={scrollContainerRef}
         className="h-screen h-dvh overflow-y-scroll snap-y snap-mandatory dark:bg-black"
         initial={{ opacity: 0 }}
@@ -61,7 +61,7 @@ export default function Home() {
         <section className="snap-start">
           <Footer />
         </section>
-      </motion.div>
+      </m.div>
     </>
   );
 }

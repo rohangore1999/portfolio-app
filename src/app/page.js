@@ -31,15 +31,5 @@ export const metadata = {
 };
 
 export default function HomePage() {
-  return (
-    <>
-      <link
-        rel="preload"
-        href="/images/home/hero-section-web.jpg"
-        as="image"
-        fetchPriority="high"
-      />
-      <HomeClient />
-    </>
-  );
+  return <HomeClient />;
 }

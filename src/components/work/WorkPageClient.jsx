@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import WorkList from "@/components/work/WorkList";
@@ -20,7 +20,7 @@ export default function WorkPageClient() {
         onContactClick={handleContactClick}
       />
 
-      <motion.div
+      <m.div
         className="flex-1"
         initial={{ opacity: 0, y: 30 }}
         animate={{
@@ -38,7 +38,7 @@ export default function WorkPageClient() {
 
         {/* Work list */}
         <WorkList />
-      </motion.div>
+      </m.div>
 
       <Footer />
     </div>

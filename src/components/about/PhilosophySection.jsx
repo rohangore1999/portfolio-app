@@ -1,12 +1,12 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 export default function PhilosophySection() {
   return (
     <section className="min-h-screen flex items-center py-16 md:py-24 px-6 border-t border-white/10 snap-start">
       <div className="max-w-4xl mx-auto text-center w-full">
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -24,7 +24,7 @@ export default function PhilosophySection() {
               <span className="text-orange-500">progressive overload</span>.
             </p>
           </div>
-        </motion.div>
+        </m.div>
       </div>
     </section>
   );

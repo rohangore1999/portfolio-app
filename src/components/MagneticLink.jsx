@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import Link from "next/link";
 import { useMagnetic } from "@/hooks/useMagnetic";
 
@@ -10,7 +10,7 @@ export default function MagneticLink({ href, onClick, children, className = "", 
   // If it's a button (no href)
   if (!href) {
     return (
-      <motion.button
+      <m.button
         onClick={onClick}
         className={className}
         onMouseMove={handleMouseMove}
@@ -24,13 +24,13 @@ export default function MagneticLink({ href, onClick, children, className = "", 
         }}
       >
         {children}
-      </motion.button>
+      </m.button>
     );
   }
 
   // If it's a link
   return (
-    <motion.div
+    <m.div
       className="inline-block"
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
@@ -45,6 +45,6 @@ export default function MagneticLink({ href, onClick, children, className = "", 
       <Link href={href} onClick={onClick} className={className} target={target} rel={target === "_blank" ? "noopener noreferrer" : undefined}>
         {children}
       </Link>
-    </motion.div>
+    </m.div>
   );
 }

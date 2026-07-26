@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { useTransition } from "@/context/TransitionContext";
@@ -25,7 +25,7 @@ export default function GalleryPolaroidClient() {
         onAboutClick={handleAboutClick}
         onContactClick={handleContactClick}
       />
-      <motion.div
+      <m.div
         ref={scrollRef}
         initial={{ opacity: 0 }}
         animate={{ opacity: isTransitioning ? 0 : 1 }}
@@ -33,7 +33,7 @@ export default function GalleryPolaroidClient() {
       >
         <PolaroidDeck items={galleryItems} />
         <Footer />
-      </motion.div>
+      </m.div>
     </div>
   );
 }

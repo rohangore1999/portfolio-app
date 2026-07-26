@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { motion, useAnimationFrame, useMotionValue, wrap } from "framer-motion";
+import { m, useAnimationFrame, useMotionValue, wrap } from "framer-motion";
 import { useRef } from "react";
 
 function MarqueeName() {
@@ -29,7 +29,7 @@ function MarqueeName() {
   });
 
   return (
-    <motion.div
+    <m.div
       ref={trackRef}
       className="flex whitespace-nowrap"
       style={{ x: baseX }}
@@ -43,7 +43,7 @@ function MarqueeName() {
           Rohan Gore —
         </h1>
       ))}
-    </motion.div>
+    </m.div>
   );
 }
 
@@ -64,6 +64,7 @@ export default function HeroSection() {
           alt="Rohan Gore"
           fill
           priority
+          sizes="100vw"
           className="object-cover origin-center scale-105"
           style={{ objectPosition: "center 60%" }}
         />
@@ -81,7 +82,7 @@ export default function HeroSection() {
       </div>
 
       {/* Designation — mobile only, pinned to bottom */}
-      <motion.div
+      <m.div
         className="md:hidden absolute left-6 z-10"
         style={{ bottom: "calc(2rem + env(safe-area-inset-bottom))" }}
         initial={{ opacity: 0, y: 20 }}
@@ -95,7 +96,7 @@ export default function HeroSection() {
         >
           Software Engineer
         </p>
-      </motion.div>
+      </m.div>
 
       {/* Desktop — full background image with text overlay */}
       <div className="hidden md:block absolute inset-0 z-0">
@@ -104,6 +105,7 @@ export default function HeroSection() {
           alt="Rohan Gore"
           fill
           priority
+          sizes="100vw"
           className="object-cover object-[center_52%]"
         />
         <div className="absolute inset-0 bg-black/45 pointer-events-none" />
@@ -111,7 +113,7 @@ export default function HeroSection() {
 
       {/* Desktop — text only, centered at bottom */}
       <div className="hidden md:flex flex-col items-center gap-4 z-10 absolute bottom-12 left-0 right-0">
-        <motion.h1
+        <m.h1
           className="font-sans text-white font-light text-center whitespace-nowrap leading-none tracking-tight"
           style={{ fontSize: "clamp(5rem, 10vw, 12rem)" }}
           initial={{ opacity: 0, y: 40 }}
@@ -120,9 +122,9 @@ export default function HeroSection() {
           transition={{ duration: 1, ease: "easeOut" }}
         >
           Rohan Gore
-        </motion.h1>
+        </m.h1>
 
-        <motion.p
+        <m.p
           className="font-sans text-white/50 font-light tracking-widest uppercase"
           style={{ fontSize: "clamp(0.75rem, 1vw, 1rem)" }}
           initial={{ opacity: 0, y: 20 }}
@@ -131,7 +133,7 @@ export default function HeroSection() {
           transition={{ duration: 1, delay: 0.3, ease: "easeOut" }}
         >
           Software Engineer
-        </motion.p>
+        </m.p>
       </div>
     </section>
   );

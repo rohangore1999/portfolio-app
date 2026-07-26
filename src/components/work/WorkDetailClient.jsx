@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import Image from "next/image";
 import { useState } from "react";
 import Navigation from "@/components/Navigation";
@@ -30,7 +30,7 @@ export default function WorkDetailClient({ project, prevProject, nextProject }) 
         onContactClick={handleContactClick}
       />
 
-      <motion.div
+      <m.div
         className="flex-1"
         initial={{ opacity: 0, y: 30 }}
         animate={{
@@ -145,7 +145,7 @@ export default function WorkDetailClient({ project, prevProject, nextProject }) 
         {project.media?.length > 0 && (
           <div className="px-8 md:px-16 mb-16 flex flex-col gap-6">
             {project.media.map((item, i) => (
-              <motion.div
+              <m.div
                 key={i}
                 className="w-full rounded-xl overflow-hidden border border-white/10"
                 initial={{ opacity: 0, y: 24 }}
@@ -168,6 +168,7 @@ export default function WorkDetailClient({ project, prevProject, nextProject }) 
                     <iframe
                       src={item.src}
                       onLoad={() => handleVideoLoad(i)}
+                      loading="lazy"
                       className={`absolute inset-0 w-full h-full transition-opacity duration-500 ${
                         loadedVideos.has(i) ? "opacity-100" : "opacity-0"
                       }`}
@@ -183,6 +184,7 @@ export default function WorkDetailClient({ project, prevProject, nextProject }) 
                     loop
                     muted
                     playsInline
+                    preload="none"
                     className="w-full h-auto"
                   />
                 ) : (
@@ -195,7 +197,7 @@ export default function WorkDetailClient({ project, prevProject, nextProject }) 
                     priority={i === 0}
                   />
                 )}
-              </motion.div>
+              </m.div>
             ))}
           </div>
         )}
@@ -240,7 +242,7 @@ export default function WorkDetailClient({ project, prevProject, nextProject }) 
             )}
           </div>
         </div>
-      </motion.div>
+      </m.div>
 
       <Footer />
     </div>

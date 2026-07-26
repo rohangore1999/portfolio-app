@@ -1,14 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 export default function AboutMeButton({ onClick }) {
   const [cursorTrails, setCursorTrails] = useState([]);
   const [buttonPosition, setButtonPosition] = useState({ x: 0, y: 0 });
 
   return (
-    <motion.div
+    <m.div
       className="relative"
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -41,7 +41,7 @@ export default function AboutMeButton({ onClick }) {
     >
       {/* Cursor trail particles */}
       {cursorTrails.map((trail) => (
-        <motion.div
+        <m.div
           key={trail.id}
           className="absolute w-3 h-3 rounded-full bg-orange-500 pointer-events-none"
           style={{
@@ -60,7 +60,7 @@ export default function AboutMeButton({ onClick }) {
         />
       ))}
 
-      <motion.button
+      <m.button
         className="relative w-48 h-48 rounded-full text-lg font-medium flex items-center justify-center overflow-hidden cursor-pointer"
         style={{
           x: buttonPosition.x,
@@ -94,7 +94,7 @@ export default function AboutMeButton({ onClick }) {
         }}
       >
         {/* Animated background that changes to orange on hover */}
-        <motion.div
+        <m.div
           className="absolute inset-0 bg-white pointer-events-none"
           variants={{
             hover: { opacity: 0 },
@@ -102,7 +102,7 @@ export default function AboutMeButton({ onClick }) {
           initial={{ opacity: 1 }}
           transition={{ duration: 0.3 }}
         />
-        <motion.div
+        <m.div
           className="absolute inset-0 bg-orange-500 pointer-events-none"
           variants={{
             hover: { opacity: 1 },
@@ -111,7 +111,7 @@ export default function AboutMeButton({ onClick }) {
           transition={{ duration: 0.3 }}
         />
 
-        <motion.span
+        <m.span
           className="relative z-10 pointer-events-none"
           variants={{
             hover: { color: "#ffffff" },
@@ -120,8 +120,8 @@ export default function AboutMeButton({ onClick }) {
           transition={{ duration: 0.3 }}
         >
           About me
-        </motion.span>
-      </motion.button>
-    </motion.div>
+        </m.span>
+      </m.button>
+    </m.div>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import TimelineItem from "./TimelineItem";
 import { experiences } from "@/constants/experience";
 
@@ -8,7 +8,7 @@ export default function ExperienceSection() {
   return (
     <section className="min-h-screen flex items-center py-24 px-6 snap-start">
       <div className="max-w-4xl mx-auto w-full">
-        <motion.h2
+        <m.h2
           className="text-4xl md:text-5xl font-bold text-white mb-16"
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -16,7 +16,7 @@ export default function ExperienceSection() {
           transition={{ duration: 0.6 }}
         >
           Experience
-        </motion.h2>
+        </m.h2>
 
         <div className="space-y-16 relative pb-2">
           {/* Timeline Line - Positioned to pass through all dot centers */}

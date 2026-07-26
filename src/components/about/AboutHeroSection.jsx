@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import Image from "next/image";
 import { useRef, useEffect } from "react";
 
@@ -34,7 +34,7 @@ export default function AboutHeroSection() {
   return (
     <section className="min-h-dvh md:h-dvh flex flex-col px-6 pt-[calc(var(--nav-height)+0.5rem)] pb-4 snap-start overflow-hidden">
       {/* Hero Text */}
-      <motion.div
+      <m.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
@@ -42,7 +42,7 @@ export default function AboutHeroSection() {
       >
         <h1 className="text-2xl md:text-5xl lg:text-6xl font-bold w-[92vw] mb-4 [@media(min-height:700px)]:mb-8 md:mb-0">
           {["About", "me,", "a", "Software", "Engineer"].map((word, index) => (
-            <motion.span
+            <m.span
               key={`line1-${index}`}
               className={`inline-block mr-2 ${
                 word === "About" || word === "me,"
@@ -58,11 +58,11 @@ export default function AboutHeroSection() {
               }}
             >
               {word}
-            </motion.span>
+            </m.span>
           ))}
           <br />
           {["living", "in", "Bangalore"].map((word, index) => (
-            <motion.span
+            <m.span
               key={`line2-${index}`}
               className={`inline-block mr-2 ${
                 word === "Bangalore" ? "text-orange-500" : "text-white"
@@ -76,15 +76,15 @@ export default function AboutHeroSection() {
               }}
             >
               {word}
-            </motion.span>
+            </m.span>
           ))}
         </h1>
-      </motion.div>
+      </m.div>
 
       {/* Image + Bio Grid — fills remaining height */}
       <div className="grid md:grid-cols-2 gap-3 md:gap-8 flex-1 min-h-0 md:h-full grid-rows-1">
         {/* Image */}
-        <motion.div
+        <m.div
           className="relative rounded-lg overflow-hidden order-2 md:order-1 h-[clamp(300px,50vh,500px)] md:h-full"
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
@@ -110,10 +110,10 @@ export default function AboutHeroSection() {
               `,
             }}
           />
-        </motion.div>
+        </m.div>
 
         {/* Bio Text */}
-        <motion.div
+        <m.div
           className="flex flex-col justify-center order-1 md:order-2 shrink-0"
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
@@ -131,7 +131,7 @@ export default function AboutHeroSection() {
             I'm a fitness freak, because iron taught me what 5 years of
             engineering couldn't.
           </p>
-        </motion.div>
+        </m.div>
       </div>
     </section>
   );

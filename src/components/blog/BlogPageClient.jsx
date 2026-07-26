@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import ItemList from "@/components/common/ItemList";
@@ -17,7 +17,7 @@ export default function BlogPageClient({ posts }) {
     <div className="min-h-screen bg-black flex flex-col">
       <Navigation onAboutClick={handleAboutClick} onContactClick={handleContactClick} />
 
-      <motion.div
+      <m.div
         className="flex-1"
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: isTransitioning ? 0 : 1, y: isTransitioning ? 30 : 0 }}
@@ -32,7 +32,7 @@ export default function BlogPageClient({ posts }) {
         </div>
 
         <ItemList items={posts} label="Articles" badgeLabel="Read" />
-      </motion.div>
+      </m.div>
 
       <Footer />
     </div>

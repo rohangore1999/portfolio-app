@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import Link from "next/link";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
@@ -16,7 +16,7 @@ export default function ContactPageClient() {
   return (
     <div className="min-h-screen bg-black flex flex-col">
       <Navigation onAboutClick={handleAboutClick} />
-      <motion.div
+      <m.div
         className="flex-1 flex items-center justify-center px-8"
         initial={{ opacity: 0, y: 30 }}
         animate={{
@@ -39,7 +39,7 @@ export default function ContactPageClient() {
             ← Back to Home
           </Link>
         </div>
-      </motion.div>
+      </m.div>
       <Footer />
     </div>
   );

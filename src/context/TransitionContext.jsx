@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useState, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 
 const TransitionContext = createContext();
 
@@ -68,7 +68,7 @@ export function TransitionProvider({ children }) {
       {/* Global transition screen that appears before navigation */}
       <AnimatePresence mode="wait">
         {isTransitioning && (
-          <motion.div
+          <m.div
             className="fixed inset-0 z-[100] flex items-center justify-center bg-white"
             initial={{ y: "100%" }}
             animate={{ y: 0 }}
@@ -78,7 +78,7 @@ export function TransitionProvider({ children }) {
               ease: [0.76, 0, 0.24, 1],
             }}
           >
-            <motion.span
+            <m.span
               className="text-black text-5xl md:text-7xl font-bold px-[10px] md:px-0 text-center block max-w-[90vw]"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -86,8 +86,8 @@ export function TransitionProvider({ children }) {
               transition={{ duration: 0.2, delay: 0.2 }}
             >
               {transitionLabel}
-            </motion.span>
-          </motion.div>
+            </m.span>
+          </m.div>
         )}
       </AnimatePresence>
 

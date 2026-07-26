@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { useTransition } from "@/context/TransitionContext";
@@ -28,7 +28,7 @@ export default function AboutPageClient() {
       />
 
       {/* Snap Scroll Container */}
-      <motion.div
+      <m.div
         ref={scrollContainerRef}
         className="h-screen h-dvh overflow-y-scroll snap-y snap-mandatory"
         initial={{ opacity: 0 }}
@@ -48,7 +48,7 @@ export default function AboutPageClient() {
         <section className="snap-start">
           <Footer />
         </section>
-      </motion.div>
+      </m.div>
     </div>
   );
 }

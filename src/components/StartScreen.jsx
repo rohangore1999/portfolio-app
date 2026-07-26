@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { greetings } from "@/constants/home";
 
 export default function StartScreen({ showLoading, onComplete }) {
@@ -32,7 +32,7 @@ export default function StartScreen({ showLoading, onComplete }) {
   return (
     <AnimatePresence mode="wait">
       {showLoading && (
-        <motion.div
+        <m.div
           key="loading"
           className="fixed inset-0 z-50 flex items-center justify-center bg-white overflow-hidden"
           initial={{ opacity: 1 }}
@@ -43,7 +43,7 @@ export default function StartScreen({ showLoading, onComplete }) {
         >
           <div className="relative h-24 flex items-center justify-center">
             <AnimatePresence mode="wait">
-              <motion.span
+              <m.span
                 key={currentGreetingIndex}
                 className="text-black text-5xl md:text-7xl font-bold absolute"
                 initial={
@@ -59,10 +59,10 @@ export default function StartScreen({ showLoading, onComplete }) {
                 }}
               >
                 {greetings[currentGreetingIndex]}
-              </motion.span>
+              </m.span>
             </AnimatePresence>
           </div>
-        </motion.div>
+        </m.div>
       )}
     </AnimatePresence>
   );

@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import MagneticLink from "./MagneticLink";
 
 export default function Footer() {
@@ -10,7 +10,7 @@ export default function Footer() {
     <footer id="contact" className="bg-black border-t border-white/10 py-16 px-6">
       <div className="max-w-7xl mx-auto">
         {/* Large Email with Arrow */}
-        <motion.div
+        <m.div
           className="mb-16"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -23,7 +23,7 @@ export default function Footer() {
           >
             <span className="break-all">
               GOREROHAN15@GMAIL.COM{" "}
-              <motion.span
+              <m.span
                 className="text-2xl sm:text-3xl md:text-5xl inline-block align-middle"
                 animate={{ 
                   x: [0, 6, 0],
@@ -36,13 +36,13 @@ export default function Footer() {
                 }}
               >
                 ↗
-              </motion.span>
+              </m.span>
             </span>
           </a>
-        </motion.div>
+        </m.div>
 
         {/* Bottom Info - Two Columns */}
-        <motion.div
+        <m.div
           className="flex flex-col md:flex-row justify-between gap-8 text-sm"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -76,7 +76,7 @@ export default function Footer() {
               </MagneticLink>
             </div>
           </div>
-        </motion.div>
+        </m.div>
       </div>
     </footer>
   );

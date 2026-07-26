@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useMagnetic } from "@/hooks/useMagnetic";
 
 export default function LogoLink({ onClick }) {
@@ -18,7 +18,7 @@ export default function LogoLink({ onClick }) {
   };
 
   return (
-    <motion.a
+    <m.a
       href="/"
       onClick={(e) => {
         e.preventDefault();
@@ -37,7 +37,7 @@ export default function LogoLink({ onClick }) {
       }}
     >
       {/* Default text - slides up on hover */}
-      <motion.span
+      <m.span
         className="inline-block"
         animate={{
           y: isHovered ? -30 : 0,
@@ -49,10 +49,10 @@ export default function LogoLink({ onClick }) {
         }}
       >
         {"</>"} by Rohan.
-      </motion.span>
+      </m.span>
 
       {/* Revealed text on hover - slides up from below */}
-      <motion.span
+      <m.span
         className="absolute inset-0 inline-block"
         animate={{
           y: isHovered ? 0 : 30,
@@ -64,7 +64,7 @@ export default function LogoLink({ onClick }) {
         }}
       >
         Rohan Gore.
-      </motion.span>
-    </motion.a>
+      </m.span>
+    </m.a>
   );
 }
