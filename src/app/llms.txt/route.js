@@ -25,7 +25,7 @@ export async function GET() {
 ## Connect
 
 - [GitHub](https://github.com/rohangore1999)
-- [LinkedIn](https://www.linkedin.com/in/rohan-gore-038766187/)
+- [LinkedIn](https://www.linkedin.com/in/rohan-gore-355178179/)
 - [Website](${BASE_URL})
 
 ## Machine-Readable Resources

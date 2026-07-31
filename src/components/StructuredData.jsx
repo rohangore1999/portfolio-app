@@ -14,7 +14,7 @@ export default function StructuredData() {
     image: `${baseUrl}/og-image.jpg`,
     sameAs: [
       "https://github.com/rohangore1999",
-      "https://www.linkedin.com/in/rohan-gore-038766187/",
+      "https://www.linkedin.com/in/rohan-gore-355178179/",
     ],
     knowsAbout: [
       "Software Engineering",

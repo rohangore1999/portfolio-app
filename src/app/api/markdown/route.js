@@ -21,7 +21,7 @@ I'm Rohan Gore, a Software Engineer focused on full-stack development with exper
 ## Links
 
 - [GitHub](https://github.com/rohangore1999)
-- [LinkedIn](https://www.linkedin.com/in/rohan-gore-038766187/)
+- [LinkedIn](https://www.linkedin.com/in/rohan-gore-355178179/)
 `,
   "/about": `# About Rohan Gore
 
@@ -38,7 +38,7 @@ I'm Rohan Gore, a Software Engineer focused on full-stack development with exper
 ## Connect
 
 - [GitHub](https://github.com/rohangore1999)
-- [LinkedIn](https://www.linkedin.com/in/rohan-gore-038766187/)
+- [LinkedIn](https://www.linkedin.com/in/rohan-gore-355178179/)
 - [Website](${BASE_URL})
 `,
   "/blog": `# Blog - Rohan Gore
@@ -58,7 +58,7 @@ Projects and professional work by Rohan Gore.
 Get in touch via the contact form at [${BASE_URL}/contact](${BASE_URL}/contact) or reach out on:
 
 - [GitHub](https://github.com/rohangore1999)
-- [LinkedIn](https://www.linkedin.com/in/rohan-gore-038766187/)
+- [LinkedIn](https://www.linkedin.com/in/rohan-gore-355178179/)
 `,
 };
 

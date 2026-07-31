@@ -65,7 +65,7 @@ export default function WebMCP() {
           url: BASE_URL,
           github: "https://github.com/rohangore1999",
           linkedin:
-            "https://www.linkedin.com/in/rohan-gore-038766187/",
+            "https://www.linkedin.com/in/rohan-gore-355178179/",
           pages: Object.entries(PAGES).map(([name, path]) => ({
             name,
             url: `${BASE_URL}${path}`,

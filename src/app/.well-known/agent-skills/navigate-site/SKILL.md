@@ -21,4 +21,4 @@ Direct users or fetch content from the page URLs listed above. All pages are pub
 - Role: Software Engineer
 - URL: https://rohangore.com
 - GitHub: https://github.com/rohangore1999
-- LinkedIn: https://www.linkedin.com/in/rohan-gore-038766187/
+- LinkedIn: https://www.linkedin.com/in/rohan-gore-355178179/

@@ -48,7 +48,7 @@ export default function ContactPage() {
       email: "mailto:gorerohan15@gmail.com",
       sameAs: [
         "https://github.com/rohangore1999",
-        "https://www.linkedin.com/in/rohan-gore-038766187/",
+        "https://www.linkedin.com/in/rohan-gore-355178179/",
       ],
     },
   };
