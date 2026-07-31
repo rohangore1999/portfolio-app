@@ -61,7 +61,7 @@ export default function Footer() {
             </p>
             <div className="flex gap-6">
               <MagneticLink
-                href="https://www.linkedin.com/in/rohan-gore-355178179/"
+                href="https://www.linkedin.com/in/rohan-gore-038766187/"
                 target="_blank"
                 className="text-white/70 hover:text-orange-500 transition-colors uppercase"
               >

@@ -1,4 +1,6 @@
 import ContactPageClient from "@/components/contact/ContactPageClient";
+import JsonLd from "@/components/JsonLd";
+import { SITE_URL } from "@/lib/site";
 
 export const metadata = {
   title: "Contact",
@@ -30,5 +32,51 @@ export const metadata = {
 };
 
 export default function ContactPage() {
-  return <ContactPageClient />;
+  const contactUrl = `${SITE_URL}/contact`;
+
+  const contactPageSchema = {
+    "@context": "https://schema.org",
+    "@type": "ContactPage",
+    name: "Contact Rohan Gore",
+    description:
+      "Get in touch with Rohan Gore — software engineer. Reach out for collaborations, consulting, or just to say hi.",
+    url: contactUrl,
+    mainEntity: {
+      "@type": "Person",
+      name: "Rohan Gore",
+      url: SITE_URL,
+      email: "mailto:gorerohan15@gmail.com",
+      sameAs: [
+        "https://github.com/rohangore1999",
+        "https://www.linkedin.com/in/rohan-gore-038766187/",
+      ],
+    },
+  };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: SITE_URL,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Contact",
+        item: contactUrl,
+      },
+    ],
+  };
+
+  return (
+    <>
+      <JsonLd data={contactPageSchema} />
+      <JsonLd data={breadcrumbSchema} />
+      <ContactPageClient />
+    </>
+  );
 }

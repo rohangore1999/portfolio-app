@@ -93,7 +93,7 @@ export default function PolaroidCard({
           <div className="relative aspect-3/4 w-full bg-neutral-200 overflow-hidden">
             <Image
               src={item.image}
-              alt={item.title}
+              alt={`${caption} — mobile photograph by Rohan Gore`}
               fill
               className="object-cover"
               sizes="(max-width: 768px) 85vw, 480px"

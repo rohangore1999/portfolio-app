@@ -85,12 +85,11 @@ export default function Navigation({ onAboutClick, onContactClick }) {
               </MagneticLink>
             </Link>
 
-            <MagneticLink
-              onClick={handleContactClick}
-              className="text-base cursor-pointer font-medium text-black dark:text-white hover:opacity-70 transition-opacity"
-            >
-              Contact
-            </MagneticLink>
+            <Link href="/contact" prefetch={true} onClick={handleContactClick}>
+              <MagneticLink className="text-base cursor-pointer font-medium text-black dark:text-white hover:opacity-70 transition-opacity">
+                Contact
+              </MagneticLink>
+            </Link>
           </div>
 
           {/* Right: Menu Button - Mobile */}
@@ -169,15 +168,16 @@ export default function Navigation({ onAboutClick, onContactClick }) {
                 </m.span>
               </Link>
 
-              <m.button
-                onClick={handleContactClick}
-                className="text-4xl font-semibold text-black hover:opacity-70 transition-opacity"
-                initial={{ opacity: 0, x: 50 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.3, delay: 0.5 }}
-              >
-                Contact
-              </m.button>
+              <Link href="/contact" prefetch={true} onClick={handleContactClick}>
+                <m.span
+                  className="text-4xl font-semibold text-black hover:opacity-70 transition-opacity cursor-pointer"
+                  initial={{ opacity: 0, x: 50 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.3, delay: 0.5 }}
+                >
+                  Contact
+                </m.span>
+              </Link>
             </div>
           </m.div>
         )}

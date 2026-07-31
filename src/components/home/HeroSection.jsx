@@ -36,13 +36,14 @@ function MarqueeName() {
       style={{ x: baseX }}
     >
       {[...Array(4)].map((_, i) => (
-        <h1
+        <span
           key={i}
+          aria-hidden="true"
           className="font-sans text-white font-light whitespace-nowrap leading-none tracking-tight pr-16"
           style={{ fontSize: "max(9rem, 15vw)" }}
         >
           Rohan Gore —
-        </h1>
+        </span>
       ))}
     </m.div>
   );
@@ -58,6 +59,10 @@ export default function HeroSection() {
         marginTop: "var(--nav-height)",
       }}
     >
+      {/* Single semantic page heading (visually hidden; the marquee/desktop
+          name below are decorative duplicates). Keeps exactly one H1. */}
+      <h1 className="sr-only">Rohan Gore — Software Engineer</h1>
+
       {/* Portrait image — mobile only */}
       <div className="md:hidden absolute inset-0 z-0">
         <Image
@@ -116,7 +121,8 @@ export default function HeroSection() {
 
       {/* Desktop — text only, centered at bottom */}
       <div className="hidden md:flex flex-col items-center gap-4 z-10 absolute bottom-12 left-0 right-0">
-        <m.h1
+        <m.p
+          aria-hidden="true"
           className="font-sans text-white font-light text-center whitespace-nowrap leading-none tracking-tight"
           style={{ fontSize: "clamp(5rem, 10vw, 12rem)" }}
           initial={{ opacity: 0, y: 40 }}
@@ -125,7 +131,7 @@ export default function HeroSection() {
           transition={{ duration: 1, ease: "easeOut" }}
         >
           Rohan Gore
-        </m.h1>
+        </m.p>
 
         <m.p
           className="font-sans text-white/50 font-light tracking-widest uppercase"
