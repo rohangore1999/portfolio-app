@@ -1,5 +1,7 @@
+import { SITE_URL } from "@/lib/site";
+
 export default function StructuredData() {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://rohangore.com";
+  const baseUrl = SITE_URL;
 
   const personSchema = {
     "@context": "https://schema.org",

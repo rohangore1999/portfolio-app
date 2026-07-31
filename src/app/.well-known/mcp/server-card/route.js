@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
-
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://rohangore.com";
+import { SITE_URL as BASE_URL } from "@/lib/site";
 
 /**
  * MCP Server Card (SEP-1649)

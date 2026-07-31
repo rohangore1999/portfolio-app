@@ -3,8 +3,7 @@ import { allProjects } from "@/constants/work";
 import WorkDetailClient from "@/components/work/WorkDetailClient";
 import JsonLd from "@/components/JsonLd";
 import blurDataAll from "@/constants/blurDataAll.json";
-
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://rohangore.com";
+import { SITE_URL } from "@/lib/site";
 
 export async function generateStaticParams() {
   return allProjects.map((project) => ({ slug: project.slug }));

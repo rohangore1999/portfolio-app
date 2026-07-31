@@ -1,8 +1,9 @@
 import { getAllPosts } from "@/lib/mdx";
 import { allProjects } from "@/constants/work";
+import { SITE_URL } from "@/lib/site";
 
 export default function sitemap() {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://rohangore.com";
+  const baseUrl = SITE_URL;
 
   // Get all blog posts
   const posts = getAllPosts();

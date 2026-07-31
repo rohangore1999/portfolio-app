@@ -5,8 +5,7 @@ import JsonLd from "@/components/JsonLd";
 import { compileMDX } from "next-mdx-remote/rsc";
 import remarkGfm from "remark-gfm";
 import rehypeSlug from "rehype-slug";
-
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://rohangore.com";
+import { SITE_URL } from "@/lib/site";
 
 export async function generateStaticParams() {
   const slugs = getAllSlugs();

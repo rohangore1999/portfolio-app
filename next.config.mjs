@@ -11,6 +11,17 @@ const nextConfig = {
     formats: ["image/avif", "image/webp"],
     minimumCacheTTL: 2678400, // 31 days
   },
+  async redirects() {
+    return [
+      // Next.js serves /index as a 200 duplicate of / (x-matched-path: /),
+      // which Google reports as a Soft 404 / duplicate. Redirect it to the root.
+      {
+        source: "/index",
+        destination: "/",
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [
       {

@@ -4,6 +4,7 @@ import { TransitionProvider } from "@/context/TransitionContext";
 import StructuredData from "@/components/StructuredData";
 import MotionProvider from "@/components/MotionProvider";
 import DeferredTools from "@/components/DeferredTools";
+import { SITE_URL } from "@/lib/site";
 
 const manrope = Manrope({
   variable: "--font-manrope",
@@ -22,7 +23,7 @@ export const metadata = {
   keywords: ["Software Engineer", "Full Stack Developer", "Web Development", "React", "Next.js", "Photography", "Bodybuilding"],
   authors: [{ name: "Rohan Gore" }],
   creator: "Rohan Gore",
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://rohangore.com'),
+  metadataBase: new URL(SITE_URL),
   alternates: {
     types: {
       "application/rss+xml": "/feed.xml",

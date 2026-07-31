@@ -1,8 +1,7 @@
 import WorkPageClient from "@/components/work/WorkPageClient";
 import { allProjects } from "@/constants/work";
 import JsonLd from "@/components/JsonLd";
-
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://rohangore.com";
+import { SITE_URL } from "@/lib/site";
 
 export const metadata = {
   title: "Work",
