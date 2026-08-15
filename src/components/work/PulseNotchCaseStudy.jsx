@@ -52,6 +52,29 @@ const DETAILS = [
   },
 ];
 
+const LIVE_BPM_BENEFITS = [
+  {
+    title: "Notice sustained change",
+    detail:
+      "Separate a brief spike from a pattern that continues through a demanding task or call.",
+  },
+  {
+    title: "Pause when it is useful",
+    detail:
+      "Let your sustained threshold suggest a short breathing reset or walk instead of relying only on a timer.",
+  },
+  {
+    title: "See the response",
+    detail:
+      "Watch the next few minutes to see whether the live reading settles after a reset.",
+  },
+  {
+    title: "Add breathing room",
+    detail:
+      "Use the patterns you notice to avoid stacking demanding work and add a buffer when you need one.",
+  },
+];
+
 const REQUIREMENTS = [
   "Apple Silicon Mac — M1 or newer",
   "macOS 13 Ventura or newer",
@@ -132,6 +155,50 @@ export default function PulseNotchCaseStudy() {
               </div>
             </div>
           </div>
+        </Reveal>
+      </section>
+
+      <section aria-labelledby="live-context-title" className="border-t border-white/20 py-16 md:py-28">
+        <Reveal>
+          <div className="grid gap-8 md:grid-cols-12 md:items-end">
+            <div className="md:col-span-8">
+              <p className="mb-5 text-xs uppercase tracking-[0.22em] text-orange-500">
+                Live context while you work
+              </p>
+              <h2
+                id="live-context-title"
+                className="text-3xl font-light leading-tight text-white sm:text-4xl md:text-6xl"
+              >
+                A small signal for better-timed pauses.
+              </h2>
+            </div>
+            <p className="text-sm leading-relaxed text-white/60 md:col-span-4">
+              Pulse Notch does not decide what a heart-rate change means. It keeps live BPM and the recent pattern nearby, so you can connect the signal with your own context.
+            </p>
+          </div>
+
+          <ol className="mt-12 grid border-y border-white/20 sm:grid-cols-2 lg:grid-cols-4">
+            {LIVE_BPM_BENEFITS.map((benefit, index) => (
+              <li
+                key={benefit.title}
+                className={`min-h-48 py-7 sm:px-6 ${
+                  index > 0 ? "border-t border-white/15 sm:border-t-0" : ""
+                } ${
+                  index > 1
+                    ? "sm:border-t sm:border-white/15 lg:border-t-0"
+                    : ""
+                } ${index % 2 === 1 ? "sm:border-l sm:border-white/15" : ""} ${
+                  index > 1 ? "lg:border-l lg:border-white/15" : ""
+                }`}
+              >
+                <p className="font-mono text-xs text-orange-500">
+                  {String(index + 1).padStart(2, "0")}
+                </p>
+                <h3 className="mt-10 text-xl font-light text-white">{benefit.title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-white/60">{benefit.detail}</p>
+              </li>
+            ))}
+          </ol>
         </Reveal>
       </section>
 
