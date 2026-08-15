@@ -1,5 +1,55 @@
 export const allProjects = [
   {
+    title: "Pulse Notch",
+    slug: "pulse-notch",
+    category: "Native macOS App",
+    year: "2026",
+    href: "/work/pulse-notch",
+    image: "/images/work/pulse-notch/notch-live-elevated-437.png",
+    ogImage: "/images/work/pulse-notch/notch-live-elevated-437.png",
+    ogImageWidth: 3600,
+    ogImageHeight: 2338,
+    imagefit: "contain",
+    previewAspect: "landscape",
+    tagline:
+      "Live WHOOP heart rate, designed around the MacBook camera cutout.",
+    description:
+      "A local macOS companion that reads WHOOP 5.0 Heart Rate Broadcast directly over Bluetooth Low Energy, then turns live BPM into a cutout-aware display, a rolling one-hour trend, and user-set threshold cues.",
+    tags: ["SwiftUI", "CoreBluetooth", "Bluetooth LE", "macOS", "Product Design"],
+    github: "https://github.com/rohangore1999/pulse-notch",
+    download: {
+      href: "https://github.com/rohangore1999/pulse-notch/releases/latest/download/PulseNotch.dmg",
+      label: "Download for Apple silicon",
+      detail: "macOS 13+ · M1 or newer · v0.1.0",
+    },
+    requirements: [
+      "Apple silicon Mac (M1 or newer)",
+      "macOS 13 Ventura or newer",
+      "WHOOP 5.0 with Heart Rate Broadcast enabled",
+    ],
+    softwareApplication: {
+      applicationCategory: "HealthApplication",
+      operatingSystem: "macOS 13 Ventura or newer on Apple silicon",
+      softwareVersion: "0.1.0",
+      isAccessibleForFree: true,
+      featureList: [
+        "Live BPM from WHOOP Heart Rate Broadcast over Bluetooth Low Energy",
+        "Cutout-aware compact and expanded views",
+        "Rolling one-hour heart-rate trend",
+        "Local sustained-threshold cues and macOS notifications",
+        "Guided 60-second breathing reset",
+      ],
+    },
+    media: [
+      {
+        type: "macbook",
+        src: "/images/work/pulse-notch/notch-live-elevated-437.png",
+        frame: "/images/work/pulse-notch/macbook-pro.svg",
+        alt: "Pulse Notch showing live WHOOP heart rate around the MacBook camera cutout",
+      },
+    ],
+  },
+  {
     title: "NFSC Clinic",
     slug: "nfsc-clinic",
     type: "client",

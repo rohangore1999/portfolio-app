@@ -5,6 +5,8 @@ import Image from "next/image";
 import { useState } from "react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import MacBookShowcase from "@/components/work/MacBookShowcase";
+import PulseNotchCaseStudy from "@/components/work/PulseNotchCaseStudy";
 import { useTransition } from "@/context/TransitionContext";
 
 export default function WorkDetailClient({ project, prevProject, nextProject }) {
@@ -30,7 +32,7 @@ export default function WorkDetailClient({ project, prevProject, nextProject }) 
         onContactClick={handleContactClick}
       />
 
-      <m.div
+      <m.main
         className="flex-1"
         initial={{ opacity: 0, y: 30 }}
         animate={{
@@ -85,11 +87,11 @@ export default function WorkDetailClient({ project, prevProject, nextProject }) 
 
           {/* Meta row: category + year + client badge */}
           <div className="flex items-center gap-4 mb-4 md:mb-6">
-            <p className="text-xs uppercase tracking-widest text-white/40">
+            <p className="text-xs uppercase tracking-widest text-white/60">
               {project.category}
             </p>
             {project.year && (
-              <p className="text-xs uppercase tracking-widest text-white/25">
+              <p className="text-xs uppercase tracking-widest text-white/60">
                 {project.year}
               </p>
             )}
@@ -129,9 +131,26 @@ export default function WorkDetailClient({ project, prevProject, nextProject }) 
             </p>
           )}
           {project.description && (
-            <p className="hidden md:block mt-4 text-sm md:text-base font-normal text-white/50 leading-relaxed">
+            <p
+              className={`${project.download ? "block" : "hidden md:block"} mt-4 text-sm md:text-base font-normal text-white/50 leading-relaxed max-w-5xl`}
+            >
               {project.description}
             </p>
+          )}
+          {project.download && (
+            <div className="mt-8 flex flex-col gap-3 lg:flex-row lg:items-center">
+              <a
+                href={project.download.href}
+                className="group inline-flex min-h-14 w-full items-center justify-center rounded-full bg-orange-500 px-6 py-3 text-center text-black transition-all duration-200 hover:bg-orange-400 hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-300 focus-visible:ring-offset-4 focus-visible:ring-offset-black lg:w-auto"
+              >
+                <span className="text-sm font-semibold">
+                  {project.download.label}
+                </span>
+              </a>
+              <p className="text-xs uppercase tracking-widest text-white/60 lg:ml-2">
+                {project.download.detail}
+              </p>
+            </div>
           )}
           {project.blog && (
             <button
@@ -149,15 +168,24 @@ export default function WorkDetailClient({ project, prevProject, nextProject }) 
         {/* Gallery — each image at its natural aspect ratio */}
         {project.media?.length > 0 && (
           <div className="px-8 md:px-16 mb-16 flex flex-col gap-6">
-            {project.media.map((item, i) => (
-              <m.div
-                key={i}
-                className="w-full rounded-xl overflow-hidden border border-white/10"
-                initial={{ opacity: 0, y: 24 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.55, delay: 0.1 * i }}
-              >
-                {item.type === "youtube" ? (
+            {project.media.map((item, i) =>
+              item.type === "macbook" ? (
+                <MacBookShowcase
+                  key={`${item.type}-${item.src}`}
+                  screenshotSrc={item.src}
+                  frameSrc={item.frame}
+                  alt={item.alt}
+                  priority={i === 0}
+                />
+              ) : (
+                <m.div
+                  key={`${item.type}-${item.src}`}
+                  className="w-full rounded-xl overflow-hidden border border-white/10"
+                  initial={{ opacity: 0, y: 24 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.55, delay: 0.1 * i }}
+                >
+                  {item.type === "youtube" ? (
                   <div
                     className="relative w-full"
                     style={{ paddingBottom: "56.25%" }}
@@ -182,31 +210,36 @@ export default function WorkDetailClient({ project, prevProject, nextProject }) 
                       title={`${project.title} demo`}
                     />
                   </div>
-                ) : item.type === "video" ? (
-                  <video
-                    src={item.src}
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    preload="none"
-                    className="w-full h-auto"
-                  />
-                ) : (
-                  <Image
-                    src={item.src}
-                    alt={`${project.title} — image ${i + 1}`}
-                    width={1600}
-                    height={900}
-                    className="w-full h-auto transition-transform duration-700 hover:scale-[1.01]"
-                    priority={i === 0}
-                    placeholder={item.blurDataURL ? "blur" : "empty"}
-                    blurDataURL={item.blurDataURL}
-                  />
-                )}
-              </m.div>
-            ))}
+                  ) : item.type === "video" ? (
+                    <video
+                      src={item.src}
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      preload="none"
+                      className="w-full h-auto"
+                    />
+                  ) : (
+                    <Image
+                      src={item.src}
+                      alt={`${project.title} — image ${i + 1}`}
+                      width={1600}
+                      height={900}
+                      className="w-full h-auto transition-transform duration-700 hover:scale-[1.01]"
+                      priority={i === 0}
+                      placeholder={item.blurDataURL ? "blur" : "empty"}
+                      blurDataURL={item.blurDataURL}
+                    />
+                  )}
+                </m.div>
+              ),
+            )}
           </div>
+        )}
+
+        {project.slug === "pulse-notch" && (
+          <PulseNotchCaseStudy project={project} />
         )}
 
         {/* Prev / Next navigation */}
@@ -219,7 +252,7 @@ export default function WorkDetailClient({ project, prevProject, nextProject }) 
                 }
                 className="group flex flex-col gap-1 text-left transition-all duration-200 hover:scale-105 cursor-pointer"
               >
-                <span className="text-xs uppercase tracking-widest text-white/30 group-hover:text-white/50 transition-colors">
+                <span className="text-xs uppercase tracking-widest text-white/50 group-hover:text-white/70 transition-colors">
                   ← Previous
                 </span>
                 <span className="text-xl md:text-3xl font-light text-white/60 group-hover:text-white transition-colors">
@@ -237,7 +270,7 @@ export default function WorkDetailClient({ project, prevProject, nextProject }) 
                 }
                 className="group flex flex-col gap-1 text-right transition-all duration-200 hover:scale-105 cursor-pointer"
               >
-                <span className="text-xs uppercase tracking-widest text-white/30 group-hover:text-white/50 transition-colors">
+                <span className="text-xs uppercase tracking-widest text-white/50 group-hover:text-white/70 transition-colors">
                   Next →
                 </span>
                 <span className="text-xl md:text-3xl font-light text-white/60 group-hover:text-white transition-colors">
@@ -249,7 +282,7 @@ export default function WorkDetailClient({ project, prevProject, nextProject }) 
             )}
           </div>
         </div>
-      </m.div>
+      </m.main>
 
       <Footer />
     </div>

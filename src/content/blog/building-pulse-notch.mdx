@@ -1,0 +1,86 @@
+---
+title: "Building Pulse Notch: live WHOOP heart rate on macOS"
+category: "Engineering"
+date: "2026-08-15"
+modifiedDate: "2026-08-15"
+image: "/images/work/pulse-notch/notch-live-elevated-437.png"
+imagefit: "contain"
+excerpt: "How I turned WHOOP's Bluetooth heart-rate broadcast into a local, cutout-aware macOS app with live BPM, threshold cues, and a rolling one-hour timeline."
+---
+
+## Why I built it
+
+WHOOP captures heart rate continuously, but I wanted a calmer way to see it while working: no dashboard, no phone, just a small live signal around the MacBook camera cutout.
+
+That became **Pulse Notch** — a native macOS app that shows live BPM, a heart-rate zone, and a user-set attention threshold.
+
+---
+
+## Getting live heart rate
+
+The WHOOP cloud API is useful for processed data such as workouts, recovery, and sleep. It does not provide a continuous live heart-rate stream. Live BPM instead comes directly from WHOOP's **Bluetooth Heart Rate Broadcast**.
+
+Pulse Notch uses Apple's CoreBluetooth framework to:
+
+1. Scan for devices offering the standard Heart Rate Service (`0x180D`)
+2. Show the compatible devices and let the user choose one
+3. Subscribe to the Heart Rate Measurement characteristic (`0x2A37`)
+4. Decode each measurement into BPM
+5. Mark the reading stale and reconnect when the signal disappears
+
+The app never silently selects the first nearby monitor. A device is remembered only after it produces a valid heart-rate reading.
+
+```text
+WHOOP 5.0
+   ↓ Bluetooth LE
+CoreBluetooth
+   ↓
+Heart-rate parser
+   ↓
+Live state + threshold engine
+   ↓
+Notch UI, timeline, and notification
+```
+
+---
+
+## Designing around the cutout
+
+The black camera area has no drawable pixels, so the UI cannot literally appear inside it. The compact view uses the display space on both sides of the cutout: BPM on the left, and the current zone with a live sparkline on the right.
+
+Clicking it expands a single panel downward for the one-hour timeline, threshold state, snooze, reset, and settings. Keeping one anchored shell also made the open and close animations feel more natural.
+
+---
+
+## Useful without becoming noisy
+
+A single high reading should not immediately interrupt the user. Pulse Notch waits until BPM remains above the chosen threshold for a sustained duration. The notch then turns amber and offers a 60-second breathing reset or a snooze action.
+
+For history, the app keeps the latest hour locally and groups readings into minute averages. Gaps remain visible when the sensor disconnects, and hovering the chart shows the time and average BPM without stopping the live stream.
+
+These are personal attention cues — not stress detection, diagnosis, or medical monitoring.
+
+---
+
+## Local by default
+
+Pulse Notch has no login, analytics, application server, or cloud heart-rate storage. BLE readings are processed on the Mac and used only for the live interface, local history, and notifications.
+
+This kept the architecture small and made privacy a product feature rather than another settings screen.
+
+---
+
+## What I learned
+
+- Live data may come from a completely different channel than a product's cloud API.
+- Reliable Bluetooth is mostly careful state management: selection, freshness, retries, sleep, and reconnects.
+- Showing an honest gap is better than drawing a smooth but invented line.
+- Hardware constraints can become the strongest part of a product's identity.
+
+Pulse Notch currently supports Apple silicon Macs running macOS 13 or newer.
+
+**Links:**
+
+- [Download Pulse Notch](https://github.com/rohangore1999/pulse-notch/releases/latest/download/PulseNotch.dmg)
+- [View the project on GitHub](https://github.com/rohangore1999/pulse-notch)
+- [WHOOP developer support](https://developer.whoop.com/docs/developing/support/)

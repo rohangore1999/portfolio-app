@@ -21,6 +21,7 @@ export async function generateMetadata({ params }) {
   }
 
   const url = `/work/${project.slug}`;
+  const socialImage = project.ogImage || project.image;
   const description =
     project.tagline ||
     project.description ||
@@ -37,12 +38,12 @@ export async function generateMetadata({ params }) {
       title: `${project.title} | Rohan Gore`,
       description,
       siteName: "Rohan Gore",
-      images: project.image
+      images: socialImage
         ? [
             {
-              url: project.image,
-              width: 1600,
-              height: 900,
+              url: socialImage,
+              width: project.ogImageWidth || 1600,
+              height: project.ogImageHeight || 900,
               alt: project.title,
             },
           ]
@@ -52,7 +53,7 @@ export async function generateMetadata({ params }) {
       card: "summary_large_image",
       title: `${project.title} | Rohan Gore`,
       description,
-      images: project.image ? [project.image] : undefined,
+      images: socialImage ? [socialImage] : undefined,
     },
   };
 }
@@ -71,15 +72,47 @@ export default async function WorkDetailPage({ params }) {
       : null;
 
   const url = `${SITE_URL}/work/${project.slug}`;
-  const imageUrl = project.image
-    ? `${SITE_URL}${project.image}`
+  const imageUrl = (project.ogImage || project.image)
+    ? `${SITE_URL}${project.ogImage || project.image}`
     : `${SITE_URL}/og-image.jpg`;
   const description =
     project.tagline ||
     project.description ||
     `${project.title} — a ${project.category} project by Rohan Gore.`;
 
-  const creativeWorkSchema = {
+  const baseAuthor = {
+    "@type": "Person",
+    name: "Rohan Gore",
+    url: SITE_URL,
+  };
+
+  const creativeWorkSchema = project.softwareApplication
+    ? {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        name: project.title,
+        description,
+        image: imageUrl,
+        screenshot: `${SITE_URL}/images/work/pulse-notch/notch-live-elevated-437.png`,
+        url,
+        applicationCategory:
+          project.softwareApplication.applicationCategory,
+        operatingSystem: project.softwareApplication.operatingSystem,
+        softwareVersion: project.softwareApplication.softwareVersion,
+        isAccessibleForFree:
+          project.softwareApplication.isAccessibleForFree,
+        downloadUrl: project.download?.href,
+        featureList: project.softwareApplication.featureList,
+        author: baseAuthor,
+        creator: baseAuthor,
+        offers: {
+          "@type": "Offer",
+          price: "0",
+          priceCurrency: "USD",
+        },
+        sameAs: [project.github].filter(Boolean),
+      }
+    : {
     "@context": "https://schema.org",
     "@type": "CreativeWork",
     name: project.title,
@@ -90,16 +123,8 @@ export default async function WorkDetailPage({ params }) {
     keywords: project.tags?.join(", "),
     genre: project.category,
     dateCreated: project.year,
-    author: {
-      "@type": "Person",
-      name: "Rohan Gore",
-      url: SITE_URL,
-    },
-    creator: {
-      "@type": "Person",
-      name: "Rohan Gore",
-      url: SITE_URL,
-    },
+    author: baseAuthor,
+    creator: baseAuthor,
     ...(project.live && { sameAs: [project.live, project.github].filter(Boolean) }),
   };
 

@@ -6,7 +6,7 @@ import { SITE_URL } from "@/lib/site";
 export const metadata = {
   title: "Work",
   description:
-    "Selected projects by Rohan Gore — a VS Code extension, a RAG-powered design-system assistant for Myntra, an AI Chrome extension for YouTube, and a voice-enabled e-commerce agent.",
+    "Selected projects by Rohan Gore — including Pulse Notch, a native macOS WHOOP heart-rate companion, alongside AI, developer-tool, and full-stack products.",
   keywords: [
     "Rohan Gore Projects",
     "Software Engineering Portfolio",
@@ -19,7 +19,7 @@ export const metadata = {
     url: "/work",
     title: "Work | Rohan Gore",
     description:
-      "Selected projects by Rohan Gore — engineering ideas into products across AI, developer tools, and full-stack web.",
+      "Selected projects by Rohan Gore — engineering ideas into native macOS apps, AI products, developer tools, and full-stack web.",
     siteName: "Rohan Gore",
     images: [
       {
@@ -34,7 +34,7 @@ export const metadata = {
     card: "summary_large_image",
     title: "Work | Rohan Gore",
     description:
-      "Selected projects by Rohan Gore — engineering ideas into products.",
+      "Selected projects by Rohan Gore — native macOS apps, AI products, developer tools, and full-stack web.",
     images: ["/og-image.jpg"],
   },
 };
