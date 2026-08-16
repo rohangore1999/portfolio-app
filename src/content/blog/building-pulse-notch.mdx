@@ -2,7 +2,7 @@
 title: "Building Pulse Notch: live WHOOP heart rate on macOS"
 category: "Engineering"
 date: "2026-08-15"
-modifiedDate: "2026-08-15"
+modifiedDate: "2026-08-16"
 image: "/images/work/pulse-notch/notch-live-elevated-437.png"
 imagefit: "contain"
 excerpt: "How I turned WHOOP's Bluetooth heart-rate broadcast into a local, cutout-aware macOS app with live BPM, threshold cues, and a rolling one-hour timeline."
@@ -29,6 +29,37 @@ Pulse Notch uses Apple's CoreBluetooth framework to:
 5. Mark the reading stale and reconnect when the signal disappears
 
 The app never silently selects the first nearby monitor. A device is remembered only after it produces a valid heart-rate reading.
+
+### From Bluetooth bytes to 79 BPM
+
+After subscribing, CoreBluetooth delivers each update from `0x2A37` as bytes rather than a ready-made BPM number. The format comes from the standard Bluetooth Heart Rate Service, so Pulse Notch does not need to reverse engineer a private WHOOP protocol.
+
+Consider this example notification:
+
+```text
+06 4F
+│  └─ 0x4F = 79 in decimal
+└──── 0x06 = 8-bit BPM, with sensor contact supported and detected
+```
+
+The first byte is a set of flags. Bit `0` tells the parser how many bytes store the heart rate. When that bit is clear, as it is in `0x06`, the next byte is an unsigned 8-bit number. `0x4F` in hexadecimal is `79` in decimal, so the reading is **79 BPM**. If bit `0` were set, the parser would combine the next two bytes in little-endian order instead.
+
+The core decoding logic is intentionally small:
+
+```swift
+let flags = bytes[0]
+let bpm: Int
+
+if flags & 0x01 == 0 {
+    bpm = Int(bytes[1])
+} else {
+    bpm = Int(UInt16(bytes[1]) | (UInt16(bytes[2]) << 8))
+}
+```
+
+The other flags make the packet variable in length. Bits `1` and `2` describe sensor contact, bit `3` indicates an optional energy field, and bit `4` indicates one or more RR intervals. The production parser checks the available length before reading every field and drops a truncated packet instead of crashing or inventing a value.
+
+Decoding is only one layer. Once `79 BPM` is valid, the app timestamps the sample, updates the notch, adds it to local history, and passes it to the sustained-threshold engine. If notifications stop, a freshness watchdog marks the value stale and the connection state machine attempts to reconnect. The timeline preserves that interruption as a gap rather than drawing data that never arrived.
 
 ```text
 WHOOP 5.0
@@ -78,15 +109,6 @@ Pulse Notch has no login, analytics, application server, or cloud heart-rate sto
 This kept the architecture small and made privacy a product feature rather than another settings screen.
 
 ---
-
-## What I learned
-
-- Live data may come from a completely different channel than a product's cloud API.
-- Reliable Bluetooth is mostly careful state management: selection, freshness, retries, sleep, and reconnects.
-- Showing an honest gap is better than drawing a smooth but invented line.
-- Hardware constraints can become the strongest part of a product's identity.
-
-Pulse Notch currently supports Apple silicon Macs running macOS 13 or newer.
 
 **Links:**
 

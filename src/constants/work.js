@@ -17,6 +17,7 @@ export const allProjects = [
       "A local macOS companion that reads WHOOP 5.0 Heart Rate Broadcast directly over Bluetooth Low Energy, then turns live BPM into a cutout-aware display, a rolling one-hour trend, and user-set threshold cues.",
     tags: ["SwiftUI", "CoreBluetooth", "Bluetooth LE", "macOS", "Product Design"],
     github: "https://github.com/rohangore1999/pulse-notch",
+    blog: "/blog/building-pulse-notch",
     download: {
       href: "https://github.com/rohangore1999/pulse-notch/releases/latest/download/PulseNotch.dmg",
       label: "Download for Apple silicon",
