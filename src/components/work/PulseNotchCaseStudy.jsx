@@ -2,8 +2,6 @@
 
 import { m, useReducedMotion } from "framer-motion";
 
-const DOWNLOAD_URL =
-  "https://github.com/rohangore1999/pulse-notch/releases/latest/download/PulseNotch.dmg";
 const GITHUB_URL = "https://github.com/rohangore1999/pulse-notch";
 
 const FLOW = [
@@ -117,9 +115,102 @@ function TextLink({ href, children, tone = "quiet", newTab = true }) {
   );
 }
 
+function InstallationSection() {
+  return (
+    <section aria-labelledby="install-title" className="border-t border-white/20 py-16 md:py-28">
+      <Reveal className="grid gap-12 md:grid-cols-12">
+        <div className="md:col-span-5">
+          <p className="mb-5 text-xs uppercase tracking-[0.22em] text-orange-500">
+            Requirements and installation
+          </p>
+          <h2
+            id="install-title"
+            className="text-3xl font-light leading-tight text-white sm:text-4xl md:text-5xl"
+          >
+            A focused build for Apple silicon.
+          </h2>
+          <ul className="mt-9 border-t border-white/15">
+            {REQUIREMENTS.map((requirement) => (
+              <li
+                key={requirement}
+                className="border-b border-white/15 py-4 text-sm text-white/55"
+              >
+                {requirement}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="md:col-span-6 md:col-start-7">
+          <p className="text-sm leading-relaxed text-white/70">
+            Once downloaded, open <span className="font-mono text-white">PulseNotch.dmg</span>{" "}
+            and drag <strong className="font-medium text-white">Pulse Notch</strong> into the{" "}
+            <strong className="font-medium text-white">Applications</strong> shortcut in the installer window.
+          </p>
+
+          <aside
+            aria-labelledby="gatekeeper-title"
+            className="mt-8 border-l-2 border-orange-500 bg-orange-500/[0.06] px-5 py-5"
+          >
+            <h3
+              id="gatekeeper-title"
+              className="text-xs font-semibold uppercase tracking-[0.2em] text-orange-500"
+            >
+              Important
+            </h3>
+            <p className="mt-4 text-sm leading-relaxed text-white/70">
+              Pulse Notch is currently ad-hoc signed for packaging. It is not signed with an Apple Developer ID and is not notarized by Apple, so macOS will block its first launch and warn that Apple could not verify the app. This is expected for the current release.
+            </p>
+            <p className="mt-4 text-sm leading-relaxed text-white/70">
+              You need to approve the app manually before it will open. You normally need to do this only once for each downloaded release.
+            </p>
+          </aside>
+
+          <h3 className="mt-10 text-xl font-light text-white">Allow the first launch</h3>
+          <ol className="mt-7 space-y-7">
+            <li className="grid grid-cols-[2.5rem_1fr] gap-3">
+              <span className="font-mono text-xs text-white/50">01</span>
+              <p className="text-sm leading-relaxed text-white/55">
+                Eject the disk image, then try to open Pulse Notch from Applications once.
+              </p>
+            </li>
+            <li className="grid grid-cols-[2.5rem_1fr] gap-3">
+              <span className="font-mono text-xs text-white/50">02</span>
+              <p className="text-sm leading-relaxed text-white/55">
+                After macOS blocks it, open System Settings, then Privacy &amp; Security.
+              </p>
+            </li>
+            <li className="grid grid-cols-[2.5rem_1fr] gap-3">
+              <span className="font-mono text-xs text-white/50">03</span>
+              <p className="text-sm leading-relaxed text-white/55">
+                Scroll to Security, click Open Anyway for Pulse Notch and authenticate if asked.
+              </p>
+            </li>
+            <li className="grid grid-cols-[2.5rem_1fr] gap-3">
+              <span className="font-mono text-xs text-white/50">04</span>
+              <p className="text-sm leading-relaxed text-white/55">
+                Confirm Open, then allow Bluetooth access and follow setup to select your WHOOP explicitly.
+              </p>
+            </li>
+          </ol>
+          <p className="mt-8 text-xs leading-relaxed text-white/50">
+            Open Anyway appears only after the blocked launch attempt and may be available for a limited time. A work- or school-managed Mac can hide or disable it; contact your administrator rather than bypassing that policy.
+          </p>
+          <p className="mt-10 border-l border-orange-500/60 pl-5 text-xs leading-relaxed text-white/55">
+            Pulse Notch is an independent wellness project, not a medical device, and is not affiliated with, endorsed by or sponsored by WHOOP.
+            Its zones, colors and coaching cues are calculated by Pulse Notch, not official WHOOP classifications.
+          </p>
+        </div>
+      </Reveal>
+    </section>
+  );
+}
+
 export default function PulseNotchCaseStudy() {
   return (
     <div className="overflow-hidden px-8 md:px-16">
+      <InstallationSection />
+
       <section aria-labelledby="cutout-title" className="border-t border-white/20 py-16 md:py-28">
         <Reveal className="grid gap-10 md:grid-cols-12">
           <div className="md:col-span-4">
@@ -277,59 +368,6 @@ export default function PulseNotchCaseStudy() {
         </Reveal>
       </section>
 
-      <section aria-labelledby="install-title" className="border-t border-white/20 py-16 md:py-28">
-        <Reveal className="grid gap-12 md:grid-cols-12">
-          <div className="md:col-span-5">
-            <p className="mb-5 text-xs uppercase tracking-[0.22em] text-orange-500">
-              Requirements and installation
-            </p>
-            <h2
-              id="install-title"
-              className="text-3xl font-light leading-tight text-white sm:text-4xl md:text-5xl"
-            >
-              A focused build for Apple silicon.
-            </h2>
-            <ul className="mt-9 border-t border-white/15">
-              {REQUIREMENTS.map((requirement) => (
-                <li
-                  key={requirement}
-                  className="border-b border-white/15 py-4 text-sm text-white/55"
-                >
-                  {requirement}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="md:col-span-6 md:col-start-7">
-            <ol className="space-y-7">
-              <li className="grid grid-cols-[2.5rem_1fr] gap-3">
-                <span className="font-mono text-xs text-white/50">01</span>
-                <p className="text-sm leading-relaxed text-white/55">
-                  Download the latest DMG, open it and drag Pulse Notch into Applications.
-                </p>
-              </li>
-              <li className="grid grid-cols-[2.5rem_1fr] gap-3">
-                <span className="font-mono text-xs text-white/50">02</span>
-                <p className="text-sm leading-relaxed text-white/55">
-                  On first launch, macOS may block the ad-hoc signed app. Use System Settings, Privacy &amp; Security, then Open Anyway.
-                </p>
-              </li>
-              <li className="grid grid-cols-[2.5rem_1fr] gap-3">
-                <span className="font-mono text-xs text-white/50">03</span>
-                <p className="text-sm leading-relaxed text-white/55">
-                  Allow Bluetooth access, enable Heart Rate Broadcast in WHOOP and explicitly select your device.
-                </p>
-              </li>
-            </ol>
-            <p className="mt-10 border-l border-orange-500/60 pl-5 text-xs leading-relaxed text-white/55">
-              Pulse Notch is an independent wellness project, not a medical device, and is not affiliated with, endorsed by or sponsored by WHOOP.
-              Its zones, colors and coaching cues are calculated by Pulse Notch, not official WHOOP classifications.
-            </p>
-          </div>
-        </Reveal>
-      </section>
-
       <Reveal className="border-t border-white/20 py-14 text-center md:py-24">
         <p className="text-xs uppercase tracking-[0.22em] text-orange-500">
           Pulse Notch for macOS
@@ -341,9 +379,6 @@ export default function PulseNotchCaseStudy() {
           Built for Apple Silicon Macs and WHOOP 5.0 Heart Rate Broadcast.
         </p>
         <div className="mt-9 flex flex-col justify-center gap-3 sm:flex-row">
-          <TextLink href={DOWNLOAD_URL} tone="primary" newTab={false}>
-            Download for Apple silicon
-          </TextLink>
           <TextLink href={GITHUB_URL}>Explore on GitHub</TextLink>
         </div>
       </Reveal>

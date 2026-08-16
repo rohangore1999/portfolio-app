@@ -137,7 +137,7 @@ export default function WorkDetailClient({ project, prevProject, nextProject }) 
               {project.description}
             </p>
           )}
-          {project.download && (
+          {project.download && project.slug !== "pulse-notch" && (
             <div className="mt-8 flex flex-col gap-3 lg:flex-row lg:items-center">
               <a
                 href={project.download.href}
@@ -234,6 +234,21 @@ export default function WorkDetailClient({ project, prevProject, nextProject }) 
                   )}
                 </m.div>
               ),
+            )}
+            {project.slug === "pulse-notch" && project.download && (
+              <div className="mt-2 flex flex-col gap-3 lg:flex-row lg:items-center">
+                <a
+                  href={project.download.href}
+                  className="group inline-flex min-h-14 w-full items-center justify-center rounded-full bg-orange-500 px-6 py-3 text-center text-black transition-all duration-200 hover:scale-[1.02] hover:bg-orange-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-300 focus-visible:ring-offset-4 focus-visible:ring-offset-black lg:w-auto"
+                >
+                  <span className="text-sm font-semibold">
+                    {project.download.label}
+                  </span>
+                </a>
+                <p className="text-xs uppercase tracking-widest text-white/60 lg:ml-2">
+                  {project.download.detail}
+                </p>
+              </div>
             )}
           </div>
         )}
