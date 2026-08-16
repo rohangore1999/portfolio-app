@@ -17,6 +17,13 @@ export const greetings = [
 
 export const recentWork = [
   {
+    title: "Pulse Notch",
+    slug: "pulse-notch",
+    category: "Native macOS App",
+    href: "/work/pulse-notch",
+    image: "/images/work/pulse-notch/thumbnail.png",
+  },
+  {
     title: "NFSC Clinic",
     slug: "nfsc-clinic",
     category: "Web Design & Development",
@@ -51,12 +58,5 @@ export const recentWork = [
     category: "AI & Browser Extension",
     href: "/work/yt-chrome-extension",
     image: "/images/work/yt-chrome-extension/yt-video-chat.png",
-  },
-  {
-    title: "Ecommerce Agent",
-    slug: "ecommerce-agent",
-    category: "AI & Voice",
-    href: "/work/ecommerce-agent",
-    image: "/images/work/ecommerce-agent/thumbnail.png",
   },
 ];

@@ -43,7 +43,7 @@ export default function MacBookShowcase({
 
   return (
     <m.figure
-      className="w-full"
+      className="mx-auto w-full max-w-7xl"
       initial={reduceMotion ? false : { opacity: 0, y: 28 }}
       whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.18 }}

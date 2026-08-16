@@ -54,24 +54,24 @@ const DETAILS = [
 
 const LIVE_BPM_BENEFITS = [
   {
-    title: "Notice sustained change",
+    title: "Notice what lasts",
     detail:
-      "Separate a brief spike from a pattern that continues through a demanding task or call.",
+      "Separate one brief spike from a heart-rate change that continues through a demanding task, call or otherwise quiet desk day.",
   },
   {
-    title: "Pause when it is useful",
+    title: "Reset at a useful moment",
     detail:
-      "Let your sustained threshold suggest a short breathing reset or walk instead of relying only on a timer.",
+      "Use your personal sustained threshold to consider a short breathing pause or walk instead of relying only on a fixed timer.",
   },
   {
-    title: "See the response",
+    title: "See what follows",
     detail:
-      "Watch the next few minutes to see whether the live reading settles after a reset.",
+      "Watch the next few minutes to see whether breathing or a short walk is followed by a calmer live reading.",
   },
   {
-    title: "Add breathing room",
+    title: "Make room for demanding work",
     detail:
-      "Use the patterns you notice to avoid stacking demanding work and add a buffer when you need one.",
+      "Notice which tasks or calls often coincide with higher BPM, then leave a short buffer around them when possible.",
   },
 ];
 
@@ -119,7 +119,7 @@ function TextLink({ href, children, tone = "quiet", newTab = true }) {
 
 export default function PulseNotchCaseStudy() {
   return (
-    <div className="overflow-hidden px-8 pb-20 md:px-16 md:pb-28">
+    <div className="overflow-hidden px-8 md:px-16">
       <section aria-labelledby="cutout-title" className="border-t border-white/20 py-16 md:py-28">
         <Reveal className="grid gap-10 md:grid-cols-12">
           <div className="md:col-span-4">
@@ -169,27 +169,19 @@ export default function PulseNotchCaseStudy() {
                 id="live-context-title"
                 className="text-3xl font-light leading-tight text-white sm:text-4xl md:text-6xl"
               >
-                A small signal for better-timed pauses.
+                A hidden signal becomes useful context.
               </h2>
             </div>
             <p className="text-sm leading-relaxed text-white/60 md:col-span-4">
-              Pulse Notch does not decide what a heart-rate change means. It keeps live BPM and the recent pattern nearby, so you can connect the signal with your own context.
+              Pulse Notch keeps live BPM and its recent pattern nearby. It cannot explain why heart rate changed, but it can help you connect the signal with your own work and how you feel.
             </p>
           </div>
 
-          <ol className="mt-12 grid border-y border-white/20 sm:grid-cols-2 lg:grid-cols-4">
+          <ol className="mt-12 grid gap-px border-y border-white/20 bg-white/15 sm:grid-cols-2 lg:grid-cols-4">
             {LIVE_BPM_BENEFITS.map((benefit, index) => (
               <li
                 key={benefit.title}
-                className={`min-h-48 py-7 sm:px-6 ${
-                  index > 0 ? "border-t border-white/15 sm:border-t-0" : ""
-                } ${
-                  index > 1
-                    ? "sm:border-t sm:border-white/15 lg:border-t-0"
-                    : ""
-                } ${index % 2 === 1 ? "sm:border-l sm:border-white/15" : ""} ${
-                  index > 1 ? "lg:border-l lg:border-white/15" : ""
-                }`}
+                className="min-h-48 bg-black py-7 sm:px-6"
               >
                 <p className="font-mono text-xs text-orange-500">
                   {String(index + 1).padStart(2, "0")}
@@ -338,7 +330,7 @@ export default function PulseNotchCaseStudy() {
         </Reveal>
       </section>
 
-      <Reveal className="border-y border-white/20 py-14 text-center md:py-24">
+      <Reveal className="border-t border-white/20 py-14 text-center md:py-24">
         <p className="text-xs uppercase tracking-[0.22em] text-orange-500">
           Pulse Notch for macOS
         </p>

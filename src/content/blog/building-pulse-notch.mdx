@@ -75,36 +75,33 @@ Notch UI, timeline, and notification
 
 ---
 
-## Designing around the cutout
-
-The black camera area has no drawable pixels, so the UI cannot literally appear inside it. The compact view uses the display space on both sides of the cutout: BPM on the left, and the current zone with a live sparkline on the right.
-
-Clicking it expands a single panel downward for the one-hour timeline, threshold state, snooze, reset, and settings. Keeping one anchored shell also made the open and close animations feel more natural.
-
----
-
 ## Useful without becoming noisy
 
 A single high reading should not immediately interrupt the user. Pulse Notch waits until BPM remains above the chosen threshold for a sustained duration. The notch then turns amber and offers a 60-second breathing reset or a snooze action.
 
-For history, the app keeps the latest hour locally and groups readings into minute averages. Gaps remain visible when the sensor disconnects, and hovering the chart shows the time and average BPM without stopping the live stream.
+The rolling chart groups readings into minute averages. Gaps remain visible when the sensor disconnects, and hovering the chart shows the time and average BPM without stopping the live stream.
 
-### What the signal can help you notice
+### What live BPM can make easier to notice
 
-Pulse Notch cannot explain why BPM changes. It simply keeps the signal visible, so you can relate it to your own context:
+Pulse Notch cannot explain why BPM changes. It keeps the signal visible so you can relate it to your own context:
 
-- Notice when a change stays elevated through a demanding task or call instead of appearing as one brief spike
-- Take a short breathing or walking reset when the sustained signal suggests it may be useful, rather than relying only on a timer
-- Watch the next few minutes to see whether the reading settles after that reset
-- Recognize patterns that may justify more breathing room between demanding blocks of work
+- **Sustained activation:** distinguish one brief spike from a heart-rate change that continues through a demanding task or call
+- **Body-timed pauses:** consider a short breathing or walking reset after your personal threshold remains elevated, rather than relying only on a clock
+- **Work-pattern awareness:** notice which tasks or calls often coincide with higher BPM, then leave breathing room around them when possible
+- **Reset feedback:** observe whether breathing or a short walk is followed by a calmer reading over the next few minutes
+- **Quiet desk-day load:** notice when apparently sedentary work still coincides with a sustained heart-rate change
+- **Personal focus patterns:** notice which live range tends to accompany calm, engaged work for you, without treating it as a focus score
+- **An unusual desk day:** if seated BPM looks higher than you expect, use it as a prompt to reflect on sleep, hydration, caffeine, workload and how you feel
 
-Heart rate also changes with movement, temperature, caffeine, hydration, and many other ordinary factors. These are personal attention cues — not conclusions about stress, burnout, recovery, diagnosis, or health.
+Heart rate also changes with movement, temperature, caffeine, hydration, illness, medication, fitness, emotion, and many other factors. These patterns are personal attention cues, not conclusions about stress, burnout, recovery, diagnosis, or health.
 
 ---
 
 ## Local by default
 
-Pulse Notch has no login, analytics, application server, or cloud heart-rate storage. BLE readings are processed on the Mac and used only for the live interface, local history, and notifications.
+Pulse Notch has no login, analytics, application server, or cloud heart-rate storage. BLE readings are processed on the Mac and used only for the live interface, rolling chart, and notifications.
+
+The latest hour stays only in the app's running memory (RAM). Nothing is written to a file or database, nothing is uploaded to the cloud, and the history resets when Pulse Notch quits.
 
 This kept the architecture small and made privacy a product feature rather than another settings screen.
 
@@ -112,6 +109,6 @@ This kept the architecture small and made privacy a product feature rather than 
 
 **Links:**
 
-- [Download Pulse Notch](https://github.com/rohangore1999/pulse-notch/releases/latest/download/PulseNotch.dmg)
-- [View the project on GitHub](https://github.com/rohangore1999/pulse-notch)
-- [WHOOP developer support](https://developer.whoop.com/docs/developing/support/)
+- <a href="https://github.com/rohangore1999/pulse-notch/releases/latest/download/PulseNotch.dmg" target="_blank" rel="noopener noreferrer">Download Pulse Notch</a>
+- <a href="https://github.com/rohangore1999/pulse-notch" target="_blank" rel="noopener noreferrer">View the project on GitHub</a>
+- <a href="https://developer.whoop.com/docs/developing/support/" target="_blank" rel="noopener noreferrer">WHOOP developer support</a>
