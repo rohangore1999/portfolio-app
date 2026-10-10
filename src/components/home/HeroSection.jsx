@@ -92,7 +92,7 @@ export default function HeroSection() {
       <m.div
         className="md:hidden absolute left-6 z-10"
         style={{ bottom: "calc(2rem + env(safe-area-inset-bottom))" }}
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
@@ -125,7 +125,7 @@ export default function HeroSection() {
           aria-hidden="true"
           className="font-sans text-white font-light text-center whitespace-nowrap leading-none tracking-tight"
           style={{ fontSize: "clamp(5rem, 10vw, 12rem)" }}
-          initial={{ opacity: 0, y: 40 }}
+          initial={{ y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 1, ease: "easeOut" }}
@@ -136,7 +136,7 @@ export default function HeroSection() {
         <m.p
           className="font-sans text-white/50 font-light tracking-widest uppercase"
           style={{ fontSize: "clamp(0.75rem, 1vw, 1rem)" }}
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 1, delay: 0.3, ease: "easeOut" }}

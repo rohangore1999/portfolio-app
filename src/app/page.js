@@ -3,14 +3,14 @@ import HomeClient from "./HomeClient";
 export const metadata = {
   title: "Rohan Gore - Software Engineer",
   description:
-    "Personal website of Rohan Gore — software engineer specializing in full-stack development, building scalable web applications with modern technologies.",
+    "Rohan Gore is a Senior Software Engineer at Myntra in Bangalore, building full-stack applications, AI tools, and developer experiences.",
   alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     url: "/",
     title: "Rohan Gore - Software Engineer",
     description:
-      "Software engineer specializing in full-stack development, building scalable web applications with modern technologies.",
+      "Senior Software Engineer at Myntra in Bangalore, building full-stack applications, AI tools, and developer experiences.",
     siteName: "Rohan Gore",
     images: [
       {
@@ -25,7 +25,7 @@ export const metadata = {
     card: "summary_large_image",
     title: "Rohan Gore - Software Engineer",
     description:
-      "Software engineer specializing in full-stack development, building scalable web applications with modern technologies.",
+      "Senior Software Engineer at Myntra in Bangalore, building full-stack applications, AI tools, and developer experiences.",
     images: ["/og-image.jpg"],
   },
 };

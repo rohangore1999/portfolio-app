@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { m, useMotionValue, useSpring } from "framer-motion";
 import { useTransition } from "@/context/TransitionContext";
 import { recentWork } from "@/constants/home";
@@ -26,6 +27,12 @@ export default function WorkSection() {
     damping: 20,
     mass: 0.5,
   });
+
+  const handleNavigation = (event, href, label) => {
+    if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    event.preventDefault();
+    navigate(href, label);
+  };
 
   const handleMouseMove = (e) => {
     const rect = sectionRef.current?.getBoundingClientRect();
@@ -86,10 +93,11 @@ export default function WorkSection() {
       {/* Work items */}
       <div className="flex-1">
         {recentWork.map((item) => (
-          <div
+          <Link
+            href={item.href}
             key={item.title}
             className="group flex items-center justify-between py-4 md:py-6 border-b border-white/20 cursor-pointer"
-            onClick={() => navigate(item.href, item.title.toLowerCase())}
+            onClick={(event) => handleNavigation(event, item.href, item.title.toLowerCase())}
             onMouseEnter={() => {
               if (item.image) {
                 setIsHovering(true);
@@ -107,18 +115,19 @@ export default function WorkSection() {
             <span className="text-xs md:text-sm text-white/40 transition-all duration-300 group-hover:opacity-60 group-hover:scale-105 group-hover:-translate-x-2 hidden md:block">
               {item.category}
             </span>
-          </div>
+          </Link>
         ))}
       </div>
 
       {/* View All */}
       <div className="flex justify-end">
-        <button
-          onClick={() => navigate("/work", "work")}
+        <Link
+          href="/work"
+          onClick={(event) => handleNavigation(event, "/work", "work")}
           className="text-sm uppercase tracking-widest text-white/50 hover:text-white transition-colors"
         >
           View All Work →
-        </button>
+        </Link>
       </div>
     </section>
   );

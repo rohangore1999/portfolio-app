@@ -47,8 +47,8 @@ export default function Home() {
       <m.div
         ref={scrollContainerRef}
         className="h-screen h-dvh overflow-y-scroll snap-y snap-mandatory dark:bg-black"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: showLoading ? 0 : 1 }}
+        initial={false}
+        animate={{ opacity: 1 }}
         transition={{ duration: 0.5, delay: 0.3 }}
       >
         <HeroSection />

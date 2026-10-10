@@ -11,17 +11,21 @@ export default function AboutSection({ onAboutClick }) {
         {/* Animated text */}
         <m.div
           className="text-3xl md:text-6xl max-w-2xl text-black dark:text-white/80 overflow-hidden md:space-y-4"
-          initial={{ opacity: 0 }}
+          initial={false}
           whileInView={{ opacity: 1 }}
           viewport={{ once: false, amount: 0.3 }}
           transition={{ duration: 0.5 }}
         >
+          <p className="text-sm md:text-base leading-relaxed text-white/60 mb-6">
+            I’m Rohan Gore, a Senior Software Engineer at Myntra in Bangalore.
+            I build full-stack applications, AI tools, and developer experiences.
+          </p>
           {/* Animate each word from bottom to top */}
           {aboutWords.map((word, index) => (
             <m.span
               key={index}
               className="inline-block mr-2"
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: false, amount: 0.3 }}
               transition={{
