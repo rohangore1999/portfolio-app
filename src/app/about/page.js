@@ -1,13 +1,17 @@
 import AboutPageClient from "@/components/about/AboutPageClient";
+import { getYearsOfExperience } from "@/lib/experience";
+
+// Refresh the server-rendered year count without requiring a new deployment.
+export const revalidate = 86400;
 
 export const metadata = {
   title: "About",
   description:
-    "About Rohan Gore — software engineer at Myntra building full-stack web applications, AI tools, and developer experiences. Also into bodybuilding and mobile photography.",
+    "About Rohan Gore — Technical Lead at Myntra building full-stack web applications, AI tools, and developer experiences. Also into bodybuilding and mobile photography.",
   keywords: [
     "Rohan Gore",
     "About Rohan Gore",
-    "Software Engineer Myntra",
+    "Technical Lead Myntra",
     "Full Stack Developer",
     "React Engineer",
     "Next.js Developer",
@@ -39,5 +43,5 @@ export const metadata = {
 };
 
 export default function AboutPage() {
-  return <AboutPageClient />;
+  return <AboutPageClient yearsOfExperience={getYearsOfExperience()} />;
 }

@@ -9,7 +9,7 @@ import AboutHeroSection from "@/components/about/AboutHeroSection";
 import ExperienceSection from "@/components/about/ExperienceSection";
 import PhilosophySection from "@/components/about/PhilosophySection";
 
-export default function AboutPageClient() {
+export default function AboutPageClient({ yearsOfExperience }) {
   const { navigate, isTransitioning } = useTransition();
   const scrollContainerRef = useRef(null);
 
@@ -36,7 +36,7 @@ export default function AboutPageClient() {
         transition={{ duration: 0.4, delay: 0.1 }}
       >
         {/* Hero + Image + Bio Section */}
-        <AboutHeroSection />
+        <AboutHeroSection yearsOfExperience={yearsOfExperience} />
 
         {/* Work Experience Timeline */}
         <ExperienceSection />

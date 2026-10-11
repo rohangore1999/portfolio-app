@@ -56,7 +56,6 @@ export default function HeroSection() {
       style={{
         backgroundColor: "#000",
         height: "100dvh",
-        marginTop: "var(--nav-height)",
       }}
     >
       {/* Single semantic page heading (visually hidden; the marquee/desktop

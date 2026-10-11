@@ -18,19 +18,22 @@ export default function ExperienceSection() {
           Experience
         </m.h2>
 
-        <div className="space-y-16 relative pb-2">
-          {/* Timeline Line - Positioned to pass through all dot centers */}
-          <div className="absolute left-[0.5rem] md:left-0 top-2 bottom-0 w-0.5 bg-orange-500" />
-
-          {/* Render Timeline Items */}
+        <div>
           {experiences.map((experience, index) => (
-            <TimelineItem
-              key={experience.id}
-              title={experience.title}
-              company={experience.company}
-              period={experience.period}
-              index={index}
-            />
+            <div key={experience.id} className="relative pb-16 last:pb-0">
+              {index < experiences.length - 1 && (
+                <span
+                  aria-hidden="true"
+                  className="absolute left-2 md:left-0 top-[1.125rem] bottom-[-1.125rem] w-0.5 -translate-x-1/2 bg-orange-500"
+                />
+              )}
+              <TimelineItem
+                roles={experience.roles}
+                current={experience.current}
+                company={experience.company}
+                period={experience.period}
+              />
+            </div>
           ))}
         </div>
       </div>

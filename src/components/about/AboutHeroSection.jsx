@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useRef, useEffect } from "react";
 import aboutImage from "../../../public/images/home/arnold-pose-2.jpg";
 
-export default function AboutHeroSection() {
+export default function AboutHeroSection({ yearsOfExperience }) {
   const imgRef = useRef(null);
 
   useEffect(() => {
@@ -122,16 +122,18 @@ export default function AboutHeroSection() {
           transition={{ duration: 0.8, delay: 0.7 }}
         >
           <h2 className="text-xl md:text-3xl lg:text-4xl font-bold text-white mb-1 md:mb-4 leading-tight">
-            Hi, I'm <span className="text-orange-500">Rohan Gore</span>
+            Hi, I&apos;m <span className="text-orange-500">Rohan Gore</span>
           </h2>
           <p className="text-sm md:text-lg text-white/70 leading-snug mb-1 [@media(min-height:700px)]:mb-2 md:mb-4">
-            5+ years of turning coffee and code into products people actually
-            use. Currently doing this at{" "}
-            <span className="text-orange-500 font-semibold">Myntra</span>.
+            Technical Lead at{" "}
+            <span className="text-orange-500 font-semibold">Myntra</span>, with{" "}
+            <strong className="font-semibold text-white">{yearsOfExperience}+ years</strong>{" "}
+            of building software and still getting suspicious when something works
+            on the first try.
           </p>
           <p className="text-sm md:text-lg text-white/70 leading-snug">
-            I'm a fitness freak, because iron taught me what 5 years of
-            engineering couldn't.
+            Outside work, I lift, take photos, and eat roughly the same meals every
+            day. Keeping the days boring to see what the years can do.
           </p>
         </m.div>
       </div>

@@ -1,21 +1,22 @@
-// Work experience data
+// Company tenure and role progression, most recent role first.
 export const experiences = [
   {
     id: 1,
-    title: "Senior Software Engineer",
     company: "Myntra",
-    period: "2024 - Present",
+    period: "2024 – Present",
+    current: true,
+    roles: ["Technical Lead", "Senior Software Engineer"],
   },
   {
     id: 2,
-    title: "Software Engineer",
     company: "Cashfree Payments",
-    period: "2022 - 2024",
+    period: "2022 – 2024",
+    roles: ["Senior Software Engineer", "Software Engineer"],
   },
   {
     id: 3,
-    title: "Software Engineer",
     company: "HCL Technologies",
-    period: "2021 - 2022",
+    period: "2021 – 2022",
+    roles: ["Software Engineer"],
   },
 ];

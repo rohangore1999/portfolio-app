@@ -3,14 +3,14 @@ import HomeClient from "./HomeClient";
 export const metadata = {
   title: "Rohan Gore - Software Engineer",
   description:
-    "Rohan Gore is a Senior Software Engineer at Myntra in Bangalore, building full-stack applications, AI tools, and developer experiences.",
+    "Rohan Gore is a Technical Lead at Myntra in Bangalore, building full-stack applications, AI tools, and developer experiences.",
   alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     url: "/",
     title: "Rohan Gore - Software Engineer",
     description:
-      "Senior Software Engineer at Myntra in Bangalore, building full-stack applications, AI tools, and developer experiences.",
+      "Technical Lead at Myntra in Bangalore, building full-stack applications, AI tools, and developer experiences.",
     siteName: "Rohan Gore",
     images: [
       {
@@ -25,11 +25,11 @@ export const metadata = {
     card: "summary_large_image",
     title: "Rohan Gore - Software Engineer",
     description:
-      "Senior Software Engineer at Myntra in Bangalore, building full-stack applications, AI tools, and developer experiences.",
+      "Technical Lead at Myntra in Bangalore, building full-stack applications, AI tools, and developer experiences.",
     images: ["/og-image.jpg"],
   },
 };
 
 export default function HomePage() {
-  return <HomeClient />;
+  return <HomeClient whoopPreviewEnabled={process.env.NODE_ENV === "development"} />;
 }

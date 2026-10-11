@@ -5,12 +5,13 @@ import Navigation from "@/components/Navigation";
 import StartScreen from "@/components/StartScreen";
 import HeroSection from "@/components/home/HeroSection";
 import AboutSection from "@/components/home/AboutSection";
+import WhoopPreview from "@/components/home/WhoopPreview";
 import WorkSection from "@/components/home/WorkSection";
 import Footer from "@/components/Footer";
 import { m } from "framer-motion";
 import { useTransition } from "@/context/TransitionContext";
 
-export default function Home() {
+export default function Home({ whoopPreviewEnabled = false }) {
   const [showLoading, setShowLoading] = useState(false);
   const { navigate } = useTransition();
   const scrollContainerRef = useRef(null);
@@ -46,7 +47,7 @@ export default function Home() {
 
       <m.div
         ref={scrollContainerRef}
-        className="h-screen h-dvh overflow-y-scroll snap-y snap-mandatory dark:bg-black"
+        className="h-screen h-dvh overflow-y-scroll bg-black snap-y snap-proximity"
         initial={false}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5, delay: 0.3 }}
@@ -55,9 +56,11 @@ export default function Home() {
 
         <AboutSection onAboutClick={handleAboutClick} />
 
+        {whoopPreviewEnabled && <WhoopPreview scrollContainerRef={scrollContainerRef} />}
+
         <WorkSection />
 
-        {/* Footer as snap section */}
+        {/* Contact scrolls into view as the final section. */}
         <section className="snap-start">
           <Footer />
         </section>

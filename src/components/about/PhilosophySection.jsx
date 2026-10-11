@@ -5,27 +5,23 @@ import { m } from "framer-motion";
 export default function PhilosophySection() {
   return (
     <section className="min-h-screen flex items-center py-16 md:py-24 px-6 border-t border-white/10 snap-start">
-      <div className="max-w-4xl mx-auto text-center w-full">
-        <m.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-        >
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-orange-500 mb-8 md:mb-12 whitespace-nowrap">
-            "Always a student"
-          </h2>
-          <div className="space-y-4 md:space-y-6 text-base sm:text-lg md:text-xl lg:text-2xl text-white/70 leading-relaxed">
-            <p>Every rep teaches discipline.</p>
-            <p>Every bug teaches patience.</p>
-            <p>Every day is a chance to improve.</p>
-            <p className="pt-4 md:pt-6 text-white font-semibold">
-              I don't believe in perfection—I believe in{" "}
-              <span className="text-orange-500">progressive overload</span>.
-            </p>
-          </div>
-        </m.div>
-      </div>
+      <m.figure
+        className="max-w-5xl mx-auto text-center w-full"
+        initial={{ y: 24 }}
+        whileInView={{ y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+      >
+        <blockquote className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.15] text-white text-balance">
+          <span className="block">&quot;Becoming Uncommon</span>
+          <span className="block mt-2 md:mt-3">
+            Amongst The <span className="text-orange-500">Uncommon.</span>&quot;
+          </span>
+        </blockquote>
+        <figcaption className="mt-8 md:mt-10 text-sm md:text-base text-white/50">
+          Inspired by <cite className="not-italic">David Goggins</cite>
+        </figcaption>
+      </m.figure>
     </section>
   );
 }

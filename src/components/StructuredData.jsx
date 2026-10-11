@@ -8,11 +8,11 @@ export default function StructuredData() {
     "@type": "Person",
     name: "Rohan Gore",
     url: baseUrl,
-    jobTitle: "Senior Software Engineer",
+    jobTitle: "Technical Lead",
     worksFor: { "@type": "Organization", name: "Myntra" },
     homeLocation: { "@type": "Place", name: "Bangalore, India" },
     description:
-      "Senior Software Engineer at Myntra in Bangalore, building full-stack applications, AI tools, and developer experiences.",
+      "Technical Lead at Myntra in Bangalore, building full-stack applications, AI tools, and developer experiences.",
     image: `${baseUrl}/og-image.jpg`,
     sameAs: [
       "https://github.com/rohangore1999",
