@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "Rohan Gore - Software Engineer";
+export const alt = "Rohan Gore - Technical Lead & Software Engineer";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -53,7 +53,7 @@ export default function OgImage() {
             fontWeight: 400,
           }}
         >
-          Software Engineer
+          Technical Lead at Myntra
         </div>
         <div
           style={{

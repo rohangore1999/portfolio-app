@@ -22,7 +22,7 @@ export const metadata = {
     url: "/about",
     title: "About | Rohan Gore",
     description:
-      "Software engineer building full-stack web apps, AI tools, and developer experiences. Bodybuilding and photography on the side.",
+      "Technical Lead at Myntra building full-stack applications, AI tools, and developer experiences. Fitness and photography outside work.",
     siteName: "Rohan Gore",
     images: [
       {
@@ -37,7 +37,7 @@ export const metadata = {
     card: "summary_large_image",
     title: "About | Rohan Gore",
     description:
-      "Software engineer building full-stack web apps, AI tools, and developer experiences.",
+      "Technical Lead at Myntra building full-stack applications, AI tools, and developer experiences.",
     images: ["/og-image.jpg"],
   },
 };

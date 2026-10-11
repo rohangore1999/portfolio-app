@@ -2,13 +2,13 @@ import { NextResponse } from "next/server";
 import { SITE_URL as BASE_URL } from "@/lib/site";
 
 const PAGE_MARKDOWN = {
-  "/": `# Rohan Gore - Software Engineer
+  "/": `# Rohan Gore - Technical Lead & Software Engineer
 
-> Software Engineer specializing in full-stack development, building scalable web applications with modern technologies. Passionate about bodybuilding and photography.
+> Rohan Gore is a Technical Lead at Myntra in Bangalore, building full-stack applications, AI tools, and developer experiences.
 
 ## About
 
-I'm Rohan Gore, a Software Engineer focused on full-stack development with expertise in React, Next.js, Node.js, Python, and AI/ML systems including RAG architectures.
+I'm Rohan Gore, a Technical Lead at Myntra focused on full-stack development with expertise in React, Next.js, Node.js, Python, and AI/ML systems including RAG architectures.
 
 ## Pages
 
@@ -25,7 +25,7 @@ I'm Rohan Gore, a Software Engineer focused on full-stack development with exper
 `,
   "/about": `# About Rohan Gore
 
-> Software Engineer with expertise in full-stack development and AI/ML systems.
+> Technical Lead at Myntra with expertise in full-stack development and AI/ML systems.
 
 ## Skills
 

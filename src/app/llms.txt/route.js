@@ -4,7 +4,7 @@ import { SITE_URL as BASE_URL } from "@/lib/site";
 export async function GET() {
   const body = `# Rohan Gore
 
-> Software Engineer specializing in full-stack development, building scalable web applications with modern technologies. Passionate about bodybuilding and photography.
+> Rohan Gore is a Technical Lead at Myntra in Bangalore, building full-stack applications, AI tools, and developer experiences.
 
 ## Pages
 

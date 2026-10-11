@@ -7,6 +7,8 @@ import { SITE_URL } from "@/lib/site";
 // changes. Using a fixed date avoids telling Google every page changed "today"
 // on every crawl, which is an inaccurate freshness signal.
 const STATIC_LAST_MODIFIED = new Date("2026-07-31");
+// Home and About received new copy and role information in this update.
+const PROFILE_LAST_MODIFIED = new Date("2026-10-11");
 
 // Derive a stable date for a work project. Projects only carry a `year`, so
 // fall back to Jan 1 of that year (or an explicit `updatedAt`/`date` if added).
@@ -46,7 +48,7 @@ export default function sitemap() {
   const homeLastModified = maxDate([
     latestPostDate,
     latestProjectDate,
-    STATIC_LAST_MODIFIED,
+    PROFILE_LAST_MODIFIED,
   ]);
 
   // Static routes
@@ -59,7 +61,7 @@ export default function sitemap() {
     },
     {
       url: `${baseUrl}/about`,
-      lastModified: STATIC_LAST_MODIFIED,
+      lastModified: PROFILE_LAST_MODIFIED,
       changeFrequency: "monthly",
       priority: 0.8,
     },

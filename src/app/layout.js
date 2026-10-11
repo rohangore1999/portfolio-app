@@ -16,10 +16,10 @@ const manrope = Manrope({
 
 export const metadata = {
   title: {
-    default: "Rohan Gore - Software Engineer",
+    default: "Rohan Gore - Technical Lead & Software Engineer",
     template: "%s | Rohan Gore",
   },
-  description: "Software Engineer specializing in full-stack development, building scalable web applications with modern technologies. Passionate about bodybuilding and photography.",
+  description: "Rohan Gore is a Technical Lead at Myntra in Bangalore, building full-stack applications, AI tools, and developer experiences.",
   keywords: ["Software Engineer", "Full Stack Developer", "Web Development", "React", "Next.js", "Photography", "Bodybuilding"],
   authors: [{ name: "Rohan Gore" }],
   creator: "Rohan Gore",
@@ -33,8 +33,8 @@ export const metadata = {
     type: "website",
     locale: "en_US",
     url: "/",
-    title: "Rohan Gore - Software Engineer",
-    description: "Software Engineer specializing in full-stack development, building scalable web applications with modern technologies.",
+    title: "Rohan Gore - Technical Lead & Software Engineer",
+    description: "Rohan Gore is a Technical Lead at Myntra in Bangalore, building full-stack applications, AI tools, and developer experiences.",
     siteName: "Rohan Gore",
     images: [
       {
@@ -47,8 +47,8 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Rohan Gore - Software Engineer",
-    description: "Software Engineer specializing in full-stack development, building scalable web applications with modern technologies.",
+    title: "Rohan Gore - Technical Lead & Software Engineer",
+    description: "Rohan Gore is a Technical Lead at Myntra in Bangalore, building full-stack applications, AI tools, and developer experiences.",
     images: ["/og-image.jpg"],
   },
   robots: {

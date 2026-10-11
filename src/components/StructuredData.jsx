@@ -37,19 +37,12 @@ export default function StructuredData() {
     name: "Rohan Gore",
     url: baseUrl,
     description:
-      "Personal website and portfolio of Rohan Gore, Software Engineer.",
+      "Personal website and portfolio of Rohan Gore, Technical Lead at Myntra and software engineer.",
     author: {
       "@type": "Person",
       name: "Rohan Gore",
     },
-    potentialAction: {
-      "@type": "SearchAction",
-      target: {
-        "@type": "EntryPoint",
-        urlTemplate: `${baseUrl}/blog?q={search_term_string}`,
-      },
-      "query-input": "required name=search_term_string",
-    },
+
   };
 
   return (
