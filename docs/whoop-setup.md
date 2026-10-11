@@ -1,5 +1,7 @@
 # WHOOP connection test
 
+See [WHOOP architecture and Redis flow](./whoop-architecture.md) for storage decisions, diagrams, cache behavior, and the production access boundaries.
+
 This first step connects the owner's account locally. It does not publish health data or modify the homepage. All setup routes return 404 in production.
 
 1. Sign in to https://developer-dashboard.whoop.com using your WHOOP account.
