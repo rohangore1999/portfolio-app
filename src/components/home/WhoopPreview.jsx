@@ -121,7 +121,7 @@ export default function WhoopPreview({ scrollContainerRef }) {
         <div>
           <p className="text-[10px] tracking-[0.22em] text-orange-400">SAME HUMAN. LAST 30 DAYS.</p>
           <h2 className="mt-2 md:mt-4 max-w-xl text-xl font-light leading-snug tracking-tight text-white/90 md:text-3xl">“If you can’t measure it, you can’t fix it.”</h2>
-          <p className="mt-2 md:mt-4 text-[10px] md:text-xs text-white/45">{data ? `${dateLabel(data.periodStart)} – ${dateLabel(data.periodEnd)}` : "Gathering the receipts…"} · WHOOP <span className="ml-2 hidden md:inline text-white/25">LOCAL PREVIEW</span></p>
+          <p className="mt-2 md:mt-4 text-[10px] md:text-xs text-white/45">{data ? `${dateLabel(data.periodStart)} – ${dateLabel(data.periodEnd)}` : "Gathering the receipts…"} · WHOOP {process.env.NODE_ENV === "development" && <span className="ml-2 hidden md:inline text-white/25">LOCAL PREVIEW</span>}</p>
         </div>
         <nav aria-label="Metric chapters" className="flex w-full justify-between gap-3 md:w-auto md:justify-start md:gap-5">
           {metrics.map((item, index) => <button key={item.key} type="button" onClick={() => jump(index)} className="py-2 text-xs text-white/50 transition-colors hover:text-orange-300 focus-visible:outline-orange-400"><span className="hidden md:inline">0{index + 1} </span>{item.label}</button>)}

@@ -31,5 +31,5 @@ export const metadata = {
 };
 
 export default function HomePage() {
-  return <HomeClient whoopPreviewEnabled={process.env.NODE_ENV === "development"} />;
+  return <HomeClient whoopPreviewEnabled />;
 }
