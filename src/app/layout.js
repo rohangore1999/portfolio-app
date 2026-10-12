@@ -16,7 +16,7 @@ const manrope = Manrope({
 
 export const metadata = {
   title: {
-    default: "Rohan Gore - Technical Lead & Software Engineer",
+    default: "Rohan Gore - Software Engineer",
     template: "%s | Rohan Gore",
   },
   description: "Rohan Gore is a Technical Lead at Myntra in Bangalore, building full-stack applications, AI tools, and developer experiences.",

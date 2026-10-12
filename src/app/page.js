@@ -1,7 +1,7 @@
 import HomeClient from "./HomeClient";
 
 export const metadata = {
-  title: { absolute: "Rohan Gore - Technical Lead & Software Engineer" },
+  title: { absolute: "Rohan Gore - Software Engineer" },
   description:
     "Rohan Gore is a Technical Lead at Myntra in Bangalore, building full-stack applications, AI tools, and developer experiences.",
   alternates: { canonical: "/" },
