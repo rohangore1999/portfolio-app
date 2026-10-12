@@ -56,13 +56,13 @@ function MetricScene({ item, index, reduceMotion, data, scrollContainerRef, head
     <m.div style={reduceMotion ? {} : { opacity }} className="relative grid w-full items-center gap-4 md:gap-6 md:grid-cols-2 md:gap-20">
 
       <div className={index === 1 ? "min-w-0 md:order-2" : "min-w-0"}>
-        <m.div style={pinned ? { y: numberY, scale: numberScale } : {}}><p className="text-[10px] tracking-[0.22em] text-orange-400"><span className="hidden md:inline">0{index + 1} / </span>{item.label.toUpperCase()}<span className="hidden md:inline"> · 30-DAY AVERAGE</span></p>
+        <m.div style={pinned ? { y: numberY, scale: numberScale } : {}}><p className="flex flex-wrap items-baseline gap-x-1.5 text-[10px] leading-relaxed tracking-[0.16em] text-orange-400 md:tracking-[0.22em]"><span className="hidden md:inline">0{index + 1} /</span><span>{item.label.toUpperCase()}</span><span className="whitespace-nowrap">· MONTHLY AVERAGE</span></p>
         <div className="mt-3 md:mt-5 whitespace-nowrap text-[clamp(3.5rem,10vw,8rem)] font-light leading-none tracking-[-0.06em] tabular-nums">
           {data ? item.key === "sleep" ? minutes == null ? "—" : <><Counter progress={scrollYProgress} value={Math.floor(minutes / 60)} /><span className="mx-1 text-[0.3em] tracking-normal text-white/35">h</span><Counter progress={scrollYProgress} value={minutes % 60} /><span className="ml-1 text-[0.3em] tracking-normal text-white/35">m</span></> : <><Counter progress={scrollYProgress} value={data[item.key] == null ? null : item.key === "recovery" ? Math.round(data[item.key]) : data[item.key]} decimals={item.key === "strain" ? 1 : 0} /><span className="ml-2 text-[0.3em] tracking-normal text-white/35">{item.key === "recovery" ? "%" : "/21"}</span></> : "—"}
         </div>
         </m.div>
         <m.div style={pinned ? { y: graphY, scale: graphScale } : {}} className="mt-3 md:mt-6 origin-left"><WhoopConstellation data={data} progress={scrollYProgress} active={index} /></m.div>
-        <p className="mt-2 md:mt-4 text-[10px] text-white/40">{data ? <><span className="md:hidden">{data.samples[item.key]} {index === 0 ? "nights recorded" : index === 2 ? "completed days" : "days recorded"}</span><span className="hidden md:inline">{`${data.samples[item.key]} ${index === 0 ? "recorded nights" : index === 2 ? "completed days · current strain is ‘so far’" : "recovery readings"}`}</span></> : "Syncing your days…"}</p>
+        <p className="mt-2 md:mt-4 text-[10px] text-white/40">{data ? <>Last 30 days · <span className="md:hidden">{data.samples[item.key]} {index === 0 ? "nights recorded" : index === 2 ? "completed days" : "recovery readings"}</span><span className="hidden md:inline">{`${data.samples[item.key]} ${index === 0 ? "recorded nights" : index === 2 ? "completed days · current strain is ‘so far’" : "recovery readings"}`}</span></> : "Syncing your days…"}</p>
       </div>
       <m.div style={pinned ? { y: copyY } : {}} className={index === 1 ? "md:order-1" : ""}>
         <h3 className="max-w-md text-2xl md:text-4xl font-light leading-[1.08] tracking-tight md:text-5xl lg:text-6xl">{item.caption}</h3>
