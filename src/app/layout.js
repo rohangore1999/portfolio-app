@@ -33,7 +33,7 @@ export const metadata = {
     type: "website",
     locale: "en_US",
     url: "/",
-    title: "Rohan Gore - Technical Lead & Software Engineer",
+    title: "Rohan Gore - Software Engineer",
     description: "Rohan Gore is a Technical Lead at Myntra in Bangalore, building full-stack applications, AI tools, and developer experiences.",
     siteName: "Rohan Gore",
     images: [
@@ -47,7 +47,7 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Rohan Gore - Technical Lead & Software Engineer",
+    title: "Rohan Gore - Software Engineer",
     description: "Rohan Gore is a Technical Lead at Myntra in Bangalore, building full-stack applications, AI tools, and developer experiences.",
     images: ["/og-image.jpg"],
   },
