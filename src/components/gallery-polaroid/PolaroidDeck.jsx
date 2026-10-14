@@ -2,10 +2,14 @@
 
 import { useState, useCallback, useEffect } from "react";
 import { m, AnimatePresence } from "framer-motion";
-import { Caveat } from "next/font/google";
+import localFont from "next/font/local";
 import PolaroidCard from "./PolaroidCard";
 
-const caveat = Caveat({ subsets: ["latin"], weight: ["500", "700"] });
+const caveat = localFont({
+  src: "../../assets/fonts/caveat-latin.woff2",
+  weight: "400 700",
+  display: "swap",
+});
 const VISIBLE = 4;
 
 export default function PolaroidDeck({ items }) {
@@ -74,7 +78,7 @@ export default function PolaroidDeck({ items }) {
             transition={{ duration: 0.6, ease: "easeOut" }}
           >
             <p className={`text-white/80 text-3xl md:text-4xl ${caveat.className}`}>
-              That's the whole roll.
+              That&apos;s the whole roll.
             </p>
             <button
               onClick={handleReset}

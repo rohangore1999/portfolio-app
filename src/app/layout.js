@@ -1,4 +1,4 @@
-import { Manrope } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import { TransitionProvider } from "@/context/TransitionContext";
 import StructuredData from "@/components/StructuredData";
@@ -6,10 +6,10 @@ import MotionProvider from "@/components/MotionProvider";
 import DeferredTools from "@/components/DeferredTools";
 import { SITE_URL } from "@/lib/site";
 
-const manrope = Manrope({
+const manrope = localFont({
+  src: "../assets/fonts/manrope-latin.woff2",
   variable: "--font-manrope",
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: "200 800",
   display: "swap",
   preload: true,
 });
