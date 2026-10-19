@@ -61,31 +61,31 @@ export default function Navigation({ onAboutClick, onContactClick }) {
 
           {/* Right: Navigation Links - Desktop */}
           <div className="hidden md:flex items-center gap-8">
-            <Link href="/about" prefetch={true} onClick={(e) => { e.preventDefault(); onAboutClick(); }}>
+            <Link href="/about" prefetch={true} onNavigate={(e) => { e.preventDefault(); onAboutClick(); }}>
               <MagneticLink className="text-base cursor-pointer font-medium text-black dark:text-white hover:opacity-70 transition-opacity">
                 About
               </MagneticLink>
             </Link>
 
-            <Link href="/work" prefetch={true} onClick={handleWorkClick}>
+            <Link href="/work" prefetch={true} onNavigate={handleWorkClick}>
               <MagneticLink className="text-base cursor-pointer font-medium text-black dark:text-white hover:opacity-70 transition-opacity">
                 Work
               </MagneticLink>
             </Link>
 
-            <Link href="/blog" prefetch={true} onClick={handleBlogClick}>
+            <Link href="/blog" prefetch={true} onNavigate={handleBlogClick}>
               <MagneticLink className="text-base cursor-pointer font-medium text-black dark:text-white hover:opacity-70 transition-opacity">
                 Blog
               </MagneticLink>
             </Link>
 
-            <Link href="/gallery" prefetch={true} onClick={handleGalleryClick}>
+            <Link href="/gallery" prefetch={true} onNavigate={handleGalleryClick}>
               <MagneticLink className="text-base cursor-pointer font-medium text-black dark:text-white hover:opacity-70 transition-opacity">
                 Gallery
               </MagneticLink>
             </Link>
 
-            <Link href="/contact" prefetch={true} onClick={handleContactClick}>
+            <Link href="/contact" prefetch={true} onNavigate={handleContactClick}>
               <MagneticLink className="text-base cursor-pointer font-medium text-black dark:text-white hover:opacity-70 transition-opacity">
                 Contact
               </MagneticLink>
@@ -124,7 +124,7 @@ export default function Navigation({ onAboutClick, onContactClick }) {
 
             {/* Navigation Links - Vertical */}
             <div className="flex-1 flex flex-col items-center justify-center gap-8">
-              <Link href="/about" prefetch={true} onClick={handleAboutClickMobile}>
+              <Link href="/about" prefetch={true} onNavigate={handleAboutClickMobile}>
                 <m.span
                   className="text-4xl font-semibold text-black hover:opacity-70 transition-opacity cursor-pointer"
                   initial={{ opacity: 0, x: 50 }}
@@ -135,7 +135,7 @@ export default function Navigation({ onAboutClick, onContactClick }) {
                 </m.span>
               </Link>
 
-              <Link href="/work" prefetch={true} onClick={handleWorkClick}>
+              <Link href="/work" prefetch={true} onNavigate={handleWorkClick}>
                 <m.span
                   className="text-4xl font-semibold text-black hover:opacity-70 transition-opacity cursor-pointer"
                   initial={{ opacity: 0, x: 50 }}
@@ -146,7 +146,7 @@ export default function Navigation({ onAboutClick, onContactClick }) {
                 </m.span>
               </Link>
 
-              <Link href="/blog" prefetch={true} onClick={handleBlogClick}>
+              <Link href="/blog" prefetch={true} onNavigate={handleBlogClick}>
                 <m.span
                   className="text-4xl font-semibold text-black hover:opacity-70 transition-opacity cursor-pointer"
                   initial={{ opacity: 0, x: 50 }}
@@ -157,7 +157,7 @@ export default function Navigation({ onAboutClick, onContactClick }) {
                 </m.span>
               </Link>
 
-              <Link href="/gallery" prefetch={true} onClick={handleGalleryClick}>
+              <Link href="/gallery" prefetch={true} onNavigate={handleGalleryClick}>
                 <m.span
                   className="text-4xl font-semibold text-black hover:opacity-70 transition-opacity cursor-pointer"
                   initial={{ opacity: 0, x: 50 }}
@@ -168,7 +168,7 @@ export default function Navigation({ onAboutClick, onContactClick }) {
                 </m.span>
               </Link>
 
-              <Link href="/contact" prefetch={true} onClick={handleContactClick}>
+              <Link href="/contact" prefetch={true} onNavigate={handleContactClick}>
                 <m.span
                   className="text-4xl font-semibold text-black hover:opacity-70 transition-opacity cursor-pointer"
                   initial={{ opacity: 0, x: 50 }}

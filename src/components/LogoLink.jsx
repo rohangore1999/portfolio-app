@@ -1,8 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { m } from "framer-motion";
 import { useMagnetic } from "@/hooks/useMagnetic";
+
+const MotionLink = m.create(Link);
 
 export default function LogoLink({ onClick }) {
   const { position, handleMouseMove, handleMouseLeave: magneticMouseLeave } = useMagnetic(0.3);
@@ -18,12 +21,10 @@ export default function LogoLink({ onClick }) {
   };
 
   return (
-    <m.a
+    <MotionLink
       href="/"
-      onClick={(e) => {
-        e.preventDefault();
-        onClick(e);
-      }}
+      prefetch={true}
+      onNavigate={onClick}
       className="relative text-xl font-semibold text-black dark:text-white hover:opacity-70 transition-opacity overflow-hidden inline-block cursor-pointer"
       onMouseMove={handleMouseMove}
       onMouseEnter={handleMouseEnter}
@@ -65,6 +66,6 @@ export default function LogoLink({ onClick }) {
       >
         Rohan Gore.
       </m.span>
-    </m.a>
+    </MotionLink>
   );
 }

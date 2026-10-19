@@ -1,105 +1,122 @@
 "use client";
 
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useCallback, useContext, useState, useEffect, useLayoutEffect, useRef, useTransition as useRouteTransition } from "react";
 import { useRouter, usePathname } from "next/navigation";
-import { m, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence, useReducedMotion } from "framer-motion";
 
 const TransitionContext = createContext();
-
-const PATH_LABELS = {
-  "/about": "about",
-  "/work": "work",
-  "/blog": "blog",
-};
+const PATH_LABELS = { "/about": "about", "/work": "work", "/blog": "blog", "/gallery": "gallery", "/contact": "contact" };
+const labelFor = pathname => PATH_LABELS[pathname] ??
+  (/^\/(work|blog)\//.test(pathname) ? pathname.split("/").pop() : null);
 
 export function TransitionProvider({ children }) {
-  const [isTransitioning, setIsTransitioning] = useState(false);
-  const [transitionLabel, setTransitionLabel] = useState("");
   const router = useRouter();
   const pathname = usePathname();
+  const reduceMotion = useReducedMotion();
+  const [routePending, startRouteTransition] = useRouteTransition();
+  const [navigation, setNavigation] = useState(() => {
+    const label = labelFor(pathname);
+    return label ? { id: 0, from: pathname, href: pathname, label, phase: "covering", intro: true } : null;
+  });
+  const active = useRef(navigation);
+  const sequence = useRef(0);
+  const timeout = useRef(null);
+  const [error, setError] = useState("");
 
-  // Show entrance transition on initial page load / refresh
-  useEffect(() => {
-    // For dynamic routes like /work/applique, derive label from the last segment
-    const label = PATH_LABELS[pathname] ?? 
-      (pathname.startsWith("/work/") ? pathname.split("/").pop() : null) ??
-      (pathname.startsWith("/blog/") ? pathname.split("/").pop() : null);
-    if (!label) return;
-
-    setTransitionLabel(label);
-    setIsTransitioning(true);
-
-    const exitTimer = setTimeout(() => {
-      setIsTransitioning(false);
-    }, 700);
-
-    return () => clearTimeout(exitTimer);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  const update = useCallback(value => {
+    active.current = value;
+    setNavigation(value);
   }, []);
 
-  // Reset transition state when route changes (with delay for exit animation)
-  useEffect(() => {
-    if (isTransitioning) {
-      // Wait for pause duration before triggering exit animation
-      const exitTimer = setTimeout(() => {
-        setIsTransitioning(false);
-      }, 700); // 0.4s slide in + 0.3s pause = 0.7s total before exit starts
+  const reveal = useCallback(id => {
+    if (active.current?.id !== id) return;
+    clearTimeout(timeout.current);
+    update({ ...active.current, phase: "revealing" });
+  }, [update]);
 
-      return () => clearTimeout(exitTimer);
+  // Wait for the route to commit and React's pending work to finish. Give the
+  // incoming page a frame underneath the cover, then reveal it.
+  useLayoutEffect(() => {
+    if (navigation?.phase !== "navigating" || routePending || pathname === navigation.from) return;
+    const frame = requestAnimationFrame(() => reveal(navigation.id));
+    return () => cancelAnimationFrame(frame);
+  }, [navigation, pathname, routePending, reveal]);
+
+  useEffect(() => () => {
+    clearTimeout(timeout.current);
+  }, []);
+
+  const navigate = useCallback((href, label) => {
+    if (active.current) return; // One navigation through the full cover/reveal.
+    const destination = new URL(href, window.location.origin);
+    if (destination.origin !== window.location.origin) return;
+    if (destination.pathname === pathname) {
+      if (destination.search !== window.location.search || destination.hash !== window.location.hash) router.push(href);
+      return;
     }
-  }, [pathname, isTransitioning]);
 
-  const navigate = (href, label) => {
-    // Show transition screen first
-    setTransitionLabel(label);
-    setIsTransitioning(true);
+    setError("");
+    const next = { id: ++sequence.current, from: pathname, href, label: label || labelFor(destination.pathname) || "page", phase: "covering", intro: false };
+    update(next);
+    // Prepare the destination while the cover animates, not afterward.
+    router.prefetch(href);
+    timeout.current = setTimeout(() => {
+      if (active.current?.id !== next.id) return;
+      setError("This page is taking longer to open. Please try again.");
+      reveal(next.id);
+    }, 15000);
+  }, [pathname, router, reveal, update]);
 
-    setTimeout(() => {
-      // Flag soft nav to home so StartScreen is skipped
-      if (href === "/") {
-        sessionStorage.setItem("softNavToHome", "true");
-      }
-      router.push(href);
-    }, 700);
-  };
+  const covered = useCallback(() => {
+    const current = active.current;
+    if (current?.phase !== "covering") return;
+    if (current.intro) { reveal(current.id); return; }
+    update({ ...current, phase: "navigating" });
+    if (current.href === "/") sessionStorage.setItem("softNavToHome", "true");
+    // Swap only once the outgoing page is covered. The pending flag holds the
+    // cover on slow routes; there is no fixed navigation or dismissal timer.
+    startRouteTransition(() => router.push(current.href));
+  }, [router, reveal, update, startRouteTransition]);
+
+  // Fade only the outgoing page. Incoming pages render underneath the cover.
+  const isTransitioning = Boolean(navigation && !navigation.intro && navigation.phase !== "revealing" && pathname === navigation.from);
 
   return (
     <TransitionContext.Provider value={{ navigate, isTransitioning }}>
-      {/* Global transition screen that appears before navigation */}
-      <AnimatePresence mode="wait">
-        {isTransitioning && (
+      <AnimatePresence onExitComplete={() => {
+        if (active.current?.phase === "revealing") update(null);
+      }}>
+        {navigation && navigation.phase !== "revealing" && (
           <m.div
+            key={navigation.id}
+            role="status"
+            aria-label={`Opening ${navigation.label}`}
             className="fixed inset-0 z-[100] flex items-center justify-center bg-white"
-            initial={{ y: "100%" }}
+            initial={{ y: reduceMotion ? 0 : "100%" }}
             animate={{ y: 0 }}
-            exit={{ y: "-100%" }}
-            transition={{
-              duration: 0.4,
-              ease: [0.76, 0, 0.24, 1],
-            }}
+            exit={{ y: reduceMotion ? 0 : "-100%" }}
+            onAnimationComplete={covered}
+            transition={{ duration: reduceMotion ? 0 : 0.4, ease: [0.76, 0, 0.24, 1] }}
           >
             <m.span
               className="text-black text-5xl md:text-7xl font-bold px-[10px] md:px-0 text-center block max-w-[90vw]"
-              initial={{ opacity: 0 }}
+              initial={{ opacity: reduceMotion ? 1 : 0 }}
               animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2, delay: 0.2 }}
+              transition={{ duration: reduceMotion ? 0 : 0.2, delay: reduceMotion ? 0 : 0.12 }}
             >
-              {transitionLabel}
+              {navigation.label}
             </m.span>
           </m.div>
         )}
       </AnimatePresence>
-
       {children}
+      {error && <p role="alert" className="fixed bottom-6 left-6 right-6 z-[110] rounded-lg bg-white px-5 py-3 text-sm text-black">{error}</p>}
     </TransitionContext.Provider>
   );
 }
 
 export function useTransition() {
   const context = useContext(TransitionContext);
-  if (!context) {
-    throw new Error("useTransition must be used within TransitionProvider");
-  }
+  if (!context) throw new Error("useTransition must be used within TransitionProvider");
   return context;
 }

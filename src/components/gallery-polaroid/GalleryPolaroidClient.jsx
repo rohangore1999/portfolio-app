@@ -27,7 +27,7 @@ export default function GalleryPolaroidClient() {
       />
       <m.div
         ref={scrollRef}
-        initial={{ opacity: 0 }}
+        initial={false}
         animate={{ opacity: isTransitioning ? 0 : 1 }}
         transition={{ duration: 0.4, delay: 0.1 }}
       >

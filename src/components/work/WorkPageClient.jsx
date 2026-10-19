@@ -22,7 +22,7 @@ export default function WorkPageClient() {
 
       <m.div
         className="flex-1"
-        initial={{ opacity: 0, y: 30 }}
+        initial={false}
         animate={{
           opacity: isTransitioning ? 0 : 1,
           y: isTransitioning ? 30 : 0,
