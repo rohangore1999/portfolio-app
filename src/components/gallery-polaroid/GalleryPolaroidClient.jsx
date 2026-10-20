@@ -6,10 +6,10 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { useTransition } from "@/context/TransitionContext";
 import { galleryItems } from "@/constants/galleryData";
-import PolaroidDeck from "./PolaroidDeck";
+import GallerySphere from "../gallery-sphere/GallerySphere";
 
 export default function GalleryPolaroidClient() {
-  const { navigate, isTransitioning } = useTransition();
+  const { navigate, isTransitioning, isRouteReady } = useTransition();
   const scrollRef = useRef(null);
 
   const handleAboutClick = () => navigate("/about", "about");
@@ -31,7 +31,7 @@ export default function GalleryPolaroidClient() {
         animate={{ opacity: isTransitioning ? 0 : 1 }}
         transition={{ duration: 0.4, delay: 0.1 }}
       >
-        <PolaroidDeck items={galleryItems} />
+        <GallerySphere items={galleryItems} isRouteReady={isRouteReady} />
         <Footer />
       </m.div>
     </div>

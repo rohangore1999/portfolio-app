@@ -82,7 +82,7 @@ export function TransitionProvider({ children }) {
   const isTransitioning = Boolean(navigation && !navigation.intro && navigation.phase !== "revealing" && pathname === navigation.from);
 
   return (
-    <TransitionContext.Provider value={{ navigate, isTransitioning }}>
+    <TransitionContext.Provider value={{ navigate, isTransitioning, isRouteReady: navigation === null }}>
       <AnimatePresence onExitComplete={() => {
         if (active.current?.phase === "revealing") update(null);
       }}>
