@@ -5,10 +5,11 @@
 .title > span { color: #c48b54; }
 .headerAside { text-align: right; padding-bottom: 8px; }
 .headerAside > p { color: #85837f; font-size: 12px; }
-.gridCard:focus-visible { outline: 2px solid #c48b54; outline-offset: 4px; }
+.gridCard:focus, .canvas:focus, .viewer:focus, .viewer button:focus { outline: none; }
+.gallery[data-focus-input="keyboard"] .gridCard:focus-visible { outline: 2px solid #c9c4bb; outline-offset: 4px; }
 .stage { position: relative; height: clamp(500px, 70svh, 850px); max-width: 1600px; margin: -10px auto 0; isolation: isolate; }
 .canvas { position: absolute; inset: 0; cursor: grab; touch-action: pinch-zoom; outline: none; }
-.canvas:focus-visible { outline: 1px solid #c48b54; outline-offset: -12px; border-radius: 12px; }
+.gallery[data-focus-input="keyboard"] .canvas:focus-visible { outline: 1px solid #85837f; outline-offset: -12px; border-radius: 12px; }
 .canvas canvas { display: block; width: 100%; height: 100%; }
 .loading { position: absolute; inset: 0; display: grid; place-items: center; color: #85837f; font-size: 12px; pointer-events: none; }
 .introWordmark { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 12px; pointer-events: none; opacity: 0; transition: opacity .3s; }
@@ -38,7 +39,7 @@
 .viewerTop { position: relative; z-index: 2; }
 .close { cursor: pointer; font-size: 12px; display: flex; gap: 16px; align-items: center; min-height: 44px; }
 .close span { font-size: 25px; font-weight: 300; }
-.viewer button:focus-visible { outline: 1px solid #c48b54; outline-offset: 4px; }
+.gallery[data-focus-input="keyboard"] .viewer button:focus-visible { outline: 1px solid #c9c4bb; outline-offset: 4px; }
 .figure { position: fixed; margin: 0; padding: 0; z-index: 1; will-change: left, top, width, height; }
 .photoSurface { position: absolute; inset: 0; overflow: hidden; background: #0b0b0b; }
 .detailImage { transition: opacity .25s; }

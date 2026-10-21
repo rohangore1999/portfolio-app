@@ -102,6 +102,19 @@ function PhotoViewer({ items, index, origin, onChange, onClose, reducedMotion })
 }
 
 export default function GallerySphere({ items, isRouteReady = true }) {
+  const gallery = useRef(null);
+  useEffect(() => {
+    // Dialog autofocus and focus restoration can match :focus-visible even
+    // after a pointer click. Show rings only when navigating by keyboard.
+    const setKeyboard = () => { gallery.current.dataset.focusInput = "keyboard"; };
+    const setPointer = () => { gallery.current.dataset.focusInput = "pointer"; };
+    document.addEventListener("keydown", setKeyboard, true);
+    document.addEventListener("pointerdown", setPointer, true);
+    return () => {
+      document.removeEventListener("keydown", setKeyboard, true);
+      document.removeEventListener("pointerdown", setPointer, true);
+    };
+  }, []);
   const reducedMotion = useSyncExternalStore(subscribeMotion, readMotion, serverMotion);
   const [unavailable, setUnavailable] = useState(false);
   const [hovered, setHovered] = useState(null);
@@ -116,7 +129,7 @@ export default function GallerySphere({ items, isRouteReady = true }) {
   const showGrid = unavailable || reducedMotion;
 
   return (
-    <section className={styles.gallery} aria-labelledby="memories-title">
+    <section ref={gallery} className={styles.gallery} data-focus-input="pointer" aria-labelledby="memories-title">
       <header className={styles.header}>
         <div>
           <p className={styles.eyebrow}>OFF THE CLOCK. THROUGH MY LENS.</p>
