@@ -2,38 +2,11 @@
 
 import { m } from "framer-motion";
 import Image from "next/image";
-import { useRef, useEffect } from "react";
-import aboutImage from "../../../public/images/home/arnold-pose-2.jpg";
+import aboutImage from "../../../public/images/about/rohan-at-myntra.webp";
 
 export default function AboutHeroSection({ yearsOfExperience }) {
-  const imgRef = useRef(null);
-
-  useEffect(() => {
-    const update = () => {
-      if (imgRef.current) {
-        const width = window.innerWidth;
-        const height = window.innerHeight;
-        
-        // Desktop: center center
-        if (width >= 768) {
-          imgRef.current.style.objectPosition = "center center";
-        } 
-        // Mobile with small height: center 65%
-        else if (height < 800) {
-          imgRef.current.style.objectPosition = "center 65%";
-        }
-        // Mobile with normal height: center 85%
-        else {
-          imgRef.current.style.objectPosition = "center 85%";
-        }
-      }
-    };
-    update();
-    window.addEventListener("resize", update);
-    return () => window.removeEventListener("resize", update);
-  }, []);
   return (
-    <section className="min-h-dvh md:h-dvh flex flex-col px-6 pt-[calc(var(--nav-height)+0.5rem)] pb-4 snap-start overflow-hidden">
+    <section className="min-h-dvh md:min-h-[600px] md:h-dvh flex flex-col px-6 pt-[calc(var(--nav-height)+0.5rem)] pb-4 snap-start overflow-hidden">
       {/* Hero Text */}
       <m.div
         initial={{ opacity: 0 }}
@@ -83,34 +56,23 @@ export default function AboutHeroSection({ yearsOfExperience }) {
       </m.div>
 
       {/* Image + Bio Grid — fills remaining height */}
-      <div className="grid md:grid-cols-2 gap-3 md:gap-8 flex-1 min-h-0 md:h-full grid-rows-1">
+      <div className="grid md:grid-cols-2 gap-3 md:gap-8 flex-1 min-h-0 md:h-full md:grid-rows-1">
         {/* Image */}
         <m.div
-          className="relative rounded-lg overflow-hidden order-2 md:order-1 h-[clamp(300px,50vh,500px)] md:h-full"
+          className="relative rounded-lg overflow-hidden order-2 md:order-1 aspect-[3/4] w-full max-w-xl mx-auto md:aspect-auto md:h-full"
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.5 }}
         >
           <Image
-            ref={imgRef}
             src={aboutImage}
-            alt="Rohan Gore - Software Engineer and Fitness Enthusiast"
+            alt="Rohan Gore standing beside the Myntra logo"
             fill
-            className="object-cover"
+            className="object-contain"
+            sizes="(min-width: 768px) 50vw, calc(100vw - 48px)"
             priority
             placeholder="blur"
             quality={90}
-          />
-          <div
-            className="absolute inset-0 pointer-events-none"
-            style={{
-              background: `
-                linear-gradient(rgba(0,0,0,0.8) 1%, transparent 8%),
-                linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 10%),
-                linear-gradient(to right, rgba(0,0,0,0.8) 12%, transparent 15%),
-                linear-gradient(to left, rgba(0,0,0,0.8) 10%, transparent 30%)
-              `,
-            }}
           />
         </m.div>
 
