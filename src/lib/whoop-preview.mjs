@@ -19,12 +19,17 @@ export function summarizeWhoop(records, now = new Date()) {
   }
   const sleepByDay = new Map();
   const recoveryByDay = new Map();
+  const restingHeartRateByDay = new Map();
+  const hrvByDay = new Map();
+  const positiveReading = value => Number.isFinite(value) && value > 0 ? value : null;
   for (const sleep of sleeps) {
     const key = dayKey(sleep.end);
     if (sleepByDay.has(key)) continue;
     sleepByDay.set(key, sleepHours(sleep));
     const recovery = records.recovery.find(item => item.cycle_id === sleep.cycle_id && item.score_state === "SCORED");
     recoveryByDay.set(key, recovery?.score?.recovery_score ?? null);
+    restingHeartRateByDay.set(key, positiveReading(recovery?.score?.resting_heart_rate));
+    hrvByDay.set(key, positiveReading(recovery?.score?.hrv_rmssd_milli));
   }
   const strainByDay = new Map();
   const coverage = new Set();
@@ -52,12 +57,17 @@ export function summarizeWhoop(records, now = new Date()) {
   const strainValues = strainTrend.filter(point => !point.ongoing).map(point => point.value).filter(Number.isFinite);
   const recoveryTrend = days.map(day => ({ date: day.date, value: recoveryByDay.get(day.date) ?? null }));
   const recoveryValues = recoveryTrend.map(point => point.value).filter(Number.isFinite);
+  const restingHeartRateTrend = days.map(day => ({ date: day.date, value: restingHeartRateByDay.get(day.date) ?? null }));
+  const hrvTrend = days.map(day => ({ date: day.date, value: hrvByDay.get(day.date) ?? null }));
+  const restingHeartRateValues = restingHeartRateTrend.map(point => point.value).filter(Number.isFinite);
+  const hrvValues = hrvTrend.map(point => point.value).filter(Number.isFinite);
   const average = values => values.length ? values.reduce((total, value) => total + value, 0) / values.length : null;
   return {
     syncedAt: now.toISOString(), periodStart: days[0].date, periodEnd: days.at(-1).date,
     sleep: average(sleepValues), recovery: average(recoveryValues), strain: average(strainValues),
-    samples: { sleep: sleepValues.length, recovery: recoveryValues.length, strain: strainValues.length },
-    sleepTrend, recoveryTrend, strainTrend,
+    restingHeartRate: average(restingHeartRateValues), hrv: average(hrvValues),
+    samples: { sleep: sleepValues.length, recovery: recoveryValues.length, strain: strainValues.length, restingHeartRate: restingHeartRateValues.length, hrv: hrvValues.length },
+    sleepTrend, recoveryTrend, strainTrend, restingHeartRateTrend, hrvTrend,
     days, workoutDays: days.filter(day => day.activities.length).length,
     sessions: days.reduce((total, day) => total + day.activities.length, 0),
   };

@@ -64,12 +64,12 @@ export default function WhoopConstellation({ data, progress, active }) {
   }, []);
   const point = selected == null ? null : data?.[`${series[active]}Trend`]?.[selected];
   return <div className="relative w-full">
-    <m.svg viewBox="0 0 600 240" role="group" aria-label={`${names[active]} over the last 30 days. Each shape is one day.`} className="h-auto aspect-[5/2] md:aspect-auto md:h-[clamp(7rem,24dvh,12rem)] w-full overflow-visible">
+    <m.svg data-recovery-chart={active === 1 ? "true" : undefined} viewBox="0 0 600 240" role="group" aria-label={`${names[active]} over the last 30 days. Each shape is one day.`} className={`${active === 1 ? "h-24 md:h-[clamp(5rem,15dvh,8rem)]" : "h-auto aspect-[5/2] md:aspect-auto md:h-[clamp(7rem,24dvh,12rem)]"} w-full overflow-visible`}>
       <defs><linearGradient id={id} x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#ffb474" /><stop offset="45%" stopColor="#f97316" /><stop offset="100%" stopColor="#743015" /></linearGradient></defs>
       <path d="M 14 207 H 586" stroke="white" strokeOpacity="0.07" strokeDasharray="2 7" />
       {Array.from({ length: 30 }, (_, index) => <DayShape key={index} index={index} data={data} progress={progress} active={active} selected={selected} select={setHovered} pin={togglePin} pinned={pinned} gradient={id} />)}
     </m.svg>
-    <div className="flex min-h-10 md:min-h-16 items-center justify-between gap-3 md:rounded-xl md:border md:border-white/[0.06] md:bg-white/[0.025] md:px-3 text-[10px] text-white/70 sm:text-xs">
+    <div data-chart-readout className={`flex ${active === 1 ? "min-h-8 md:min-h-10" : "min-h-10 md:min-h-16"} items-center justify-between gap-3 md:rounded-xl md:border md:border-white/[0.06] md:bg-white/[0.025] md:px-3 text-[10px] text-white/70 sm:text-xs`}>
       <div className="flex min-w-0 flex-wrap items-center gap-x-3 gap-y-1 py-2">
         {active === 1 && point?.value != null && <span className="text-3xl font-light tracking-tight tabular-nums" style={{ color: recoveryShade(point.value) }}>{Math.round(point.value)}<span className="ml-0.5 text-sm">%</span></span>}
         <span>{point ? active === 1 && point.value != null ? `${label(point, active).split(" · ")[0]} · Recovery` : label(point, active) : <><span className="md:hidden">Tap a day to explore.</span><span className="hidden md:inline">Hover to explore. Tap to keep a day in focus.</span></>}</span>

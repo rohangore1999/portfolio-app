@@ -37,3 +37,11 @@ test('a failed refresh does not replace the previous cached summary', async () =
   await assert.rejects(createPreviewLoader({ ...state.options, load: async () => { throw new Error('whoop_fetch_failed'); } })(), /whoop_fetch_failed/);
   assert.equal(state.entry(), previous);
 });
+
+test('old summary schemas are refreshed even before their TTL expires', async () => {
+  let entry = { v: 1, cachedAt: 1000, data: { recovery: 75 } };
+  const data = { recovery: 75, hrv: 80, restingHeartRate: 52 };
+  const result = await createPreviewLoader({ store: { read: async () => entry, save: async value => { entry = value; } }, now: () => 1000, serialize: operation => operation(), load: async () => data })();
+  assert.deepEqual(result, data);
+  assert.equal(entry.v, 2);
+});

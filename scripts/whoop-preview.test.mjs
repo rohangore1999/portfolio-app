@@ -57,7 +57,7 @@ test('monthly averages use recorded samples only and exclude unfinished cycles a
   assert.equal(result.sleep, 6);
   assert.equal(result.recovery, 70);
   assert.equal(result.strain, 8);
-  assert.deepEqual(result.samples, { sleep: 2, recovery: 2, strain: 2 });
+  assert.deepEqual(result.samples, { sleep: 2, recovery: 2, strain: 2, restingHeartRate: 0, hrv: 0 });
   assert.equal(result.strainTrend.at(-1).value, 4);
 });
 
@@ -73,4 +73,34 @@ test('strain follows the main sleep waking date and keeps ongoing values out of 
   assert.deepEqual(result.strainTrend.at(-1), {date: '2026-10-11', value: 4.06, ongoing: true});
   assert.equal(result.strain, 17.85);
   assert.equal(result.samples.strain, 1);
+});
+
+test('HRV and resting heart rate average valid daily readings independently in the rolling window', () => {
+  const days = [
+    [42, '2026-10-11', { resting_heart_rate: 52, hrv_rmssd_milli: 78.5 }],
+    [43, '2026-10-10', { resting_heart_rate: 56, hrv_rmssd_milli: null }],
+    [44, '2026-10-09', { resting_heart_rate: 0, hrv_rmssd_milli: 81.5 }],
+    [45, '2026-10-08', { resting_heart_rate: '60', hrv_rmssd_milli: -1 }],
+    [46, '2026-09-01', { resting_heart_rate: 100, hrv_rmssd_milli: 200 }],
+  ];
+  const result = summarizeWhoop({ ...records,
+    sleep: days.map(([id, date]) => ({ ...sleep, cycle_id: id, end: `${date}T01:00:00Z` })),
+    recovery: days.map(([id, , score]) => ({ cycle_id: id, score_state: 'SCORED', score })),
+  }, now);
+  assert.equal(result.restingHeartRate, 54);
+  assert.equal(result.hrv, 80);
+  assert.equal(result.samples.restingHeartRate, 2);
+  assert.equal(result.samples.hrv, 2);
+  assert.equal(result.hrvTrend.length, 30);
+  assert.equal(result.hrvTrend.at(-2).value, null);
+  assert.equal(result.restingHeartRateTrend.at(-3).value, null);
+  assert.equal(result.restingHeartRateTrend.at(-1).date, '2026-10-11');
+});
+
+test('unscored recovery and missing measurements remain unavailable, never zero averages', () => {
+  const result = summarizeWhoop({ ...records, recovery: [{ cycle_id: 42, score_state: 'PENDING_SCORE', score: { resting_heart_rate: 52, hrv_rmssd_milli: 70 } }] }, now);
+  assert.equal(result.restingHeartRate, null);
+  assert.equal(result.hrv, null);
+  assert.equal(result.samples.hrv, 0);
+  assert.ok(result.hrvTrend.every(point => point.value === null));
 });

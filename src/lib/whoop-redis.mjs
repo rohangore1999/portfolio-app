@@ -7,7 +7,7 @@ const ownerContext = new AsyncLocalStorage();
 // measurements in this token record. PREVIEW_KEY separately caches the summary
 // shown on the homepage. LOCK_KEY is a short-lived coordination lock.
 const TOKEN_KEY = 'whoop:owner:tokens:v1';
-export const PREVIEW_KEY = 'whoop:owner:preview:v1';
+export const PREVIEW_KEY = 'whoop:owner:preview:v2';
 export const PREVIEW_TTL_SECONDS = 6 * 60 * 60;
 const LOCK_KEY = 'whoop:owner:lock:v1';
 const LEASE_MS = 120000;

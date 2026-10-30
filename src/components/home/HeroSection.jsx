@@ -1,11 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import { m, useAnimationFrame, useMotionValue, wrap } from "framer-motion";
+import { m, useAnimationFrame, useMotionValue, useReducedMotion, wrap } from "framer-motion";
 import { useRef } from "react";
 import heroImage from "../../../public/images/home/hero-section-web.jpg";
 
-function MarqueeName() {
+function MarqueeName({ active }) {
+  const reduceMotion = useReducedMotion();
   const baseX = useMotionValue(0);
   const speed = 100;
   const prevTime = useRef(null);
@@ -13,6 +14,7 @@ function MarqueeName() {
   const itemWidth = useRef(0);
 
   useAnimationFrame((t) => {
+    if (!active || reduceMotion) { prevTime.current = null; return; }
     if (prevTime.current === null) {
       prevTime.current = t;
       // measure one item's width (half the track = 2 copies)
@@ -49,7 +51,8 @@ function MarqueeName() {
   );
 }
 
-export default function HeroSection() {
+export default function HeroSection({ active = true }) {
+  const reduceMotion = useReducedMotion();
   return (
     <section
       className="relative snap-start overflow-hidden flex items-center justify-center"
@@ -84,7 +87,7 @@ export default function HeroSection() {
         className="md:hidden absolute inset-x-0 z-10 overflow-hidden"
         style={{ bottom: "calc(6rem + env(safe-area-inset-bottom))" }}
       >
-        <MarqueeName />
+        <MarqueeName active={active} />
       </div>
 
       {/* Designation — mobile only, pinned to bottom */}
@@ -92,9 +95,9 @@ export default function HeroSection() {
         className="md:hidden absolute left-6 z-10"
         style={{ bottom: "calc(2rem + env(safe-area-inset-bottom))" }}
         initial={{ y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
+        animate={{ opacity: 1, y: active || reduceMotion ? 0 : 20 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+        transition={{ duration: reduceMotion ? 0 : 0.8, delay: 0.2, ease: "easeOut" }}
       >
         <p
           className="font-sans text-white/80 font-light tracking-widest uppercase"
@@ -125,9 +128,9 @@ export default function HeroSection() {
           className="font-sans text-white font-light text-center whitespace-nowrap leading-none tracking-tight"
           style={{ fontSize: "clamp(5rem, 10vw, 12rem)" }}
           initial={{ y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          animate={{ opacity: 1, y: active || reduceMotion ? 0 : 20 }}
           viewport={{ once: true }}
-          transition={{ duration: 1, ease: "easeOut" }}
+          transition={{ duration: reduceMotion ? 0 : 1, ease: "easeOut" }}
         >
           Rohan Gore
         </m.p>
@@ -136,9 +139,9 @@ export default function HeroSection() {
           className="font-sans text-white/50 font-light tracking-widest uppercase"
           style={{ fontSize: "clamp(0.75rem, 1vw, 1rem)" }}
           initial={{ y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          animate={{ opacity: 1, y: active || reduceMotion ? 0 : 20 }}
           viewport={{ once: true }}
-          transition={{ duration: 1, delay: 0.3, ease: "easeOut" }}
+          transition={{ duration: reduceMotion ? 0 : 1, delay: 0.3, ease: "easeOut" }}
         >
           Software Engineer
         </m.p>

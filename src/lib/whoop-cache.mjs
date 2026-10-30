@@ -8,7 +8,7 @@ export function createPreviewLoader({ store, load = fetchWhoopPreview, serialize
     read: async () => memory,
     save: async entry => { memory = entry; },
   });
-  const fresh = entry => entry?.v === 1 && Number.isFinite(entry.cachedAt) &&
+  const fresh = entry => entry?.v === 2 && Number.isFinite(entry.cachedAt) &&
     now() >= entry.cachedAt && now() - entry.cachedAt < PREVIEW_TTL_SECONDS * 1000 &&
     entry.data && typeof entry.data === 'object';
   return async () => {
@@ -20,7 +20,7 @@ export function createPreviewLoader({ store, load = fetchWhoopPreview, serialize
       const latest = await cache.read();
       if (fresh(latest)) return latest.data;
       const data = await load();
-      await cache.save({ v: 1, cachedAt: now(), data });
+      await cache.save({ v: 2, cachedAt: now(), data });
       return data;
     });
   };

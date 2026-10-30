@@ -1,0 +1,49 @@
+/* Keep the complete Recovery story visible within a short phone's pinned scene. */
+@media (max-width: 767px) and (max-height: 740px) {
+  .recoveryScene [data-scene-grid] { gap: 12px; }
+  .recoveryScene [data-primary-number] { margin-top: 8px; font-size: 48px; }
+  .recoveryScene [data-recovery-chart] { height: 72px; }
+  .recoveryScene [data-chart-readout] { min-height: 24px; }
+  .recoveryScene [data-chart-readout] > div { padding-block: 4px; }
+  .recoveryScene [data-sample-count] { display: none; }
+  .recoveryScene [data-supporting-metrics] { margin-top: 8px; padding-top: 8px; }
+  .recoveryScene [data-vital-chart] { height: 32px; }
+  .recoveryScene [data-vital-reading] { min-height: 20px; }
+  .recoveryScene [data-scene-caption] h3 { font-size: 22px; }
+  .recoveryScene [data-scene-caption] p { margin-top: 4px; }
+}
+@media (min-width: 768px) and (max-height: 850px) {
+  .recoveryScene [data-primary-number] { margin-top: 12px; font-size: 80px; }
+  .recoveryScene [data-primary-chart] { margin-top: 12px; }
+  .recoveryScene [data-sample-count] { margin-top: 8px; }
+  .recoveryScene [data-recovery-chart] { height: 96px; }
+  .recoveryScene [data-chart-readout] { min-height: 32px; }
+  .recoveryScene [data-chart-readout] > div { padding-block: 4px; }
+  .recoveryScene [data-supporting-metrics] { margin-top: 12px; padding-top: 12px; }
+  .recoveryScene [data-supporting-metrics] > div > p:nth-child(2) { font-size: 28px; }
+  .recoveryScene [data-vital-reading] { min-height: 20px; }
+}
+
+/* Preserve the chapter geometry while data arrives; never imply missing readings. */
+.loadingMetrics { position: relative; pointer-events: none; }
+.loadingMetrics > * { visibility: hidden; }
+.loadingMetrics::after {
+  content: "Gathering the receipts…";
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  color: rgb(255 255 255 / 45%);
+  font-size: 12px;
+  background: linear-gradient(110deg, rgb(255 255 255 / 2%) 25%, rgb(255 255 255 / 6%) 45%, rgb(255 255 255 / 2%) 65%);
+  animation: loadingSweep 2s ease-in-out infinite;
+}
+@keyframes loadingSweep { 0%, 100% { opacity: .55; } 50% { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .loadingMetrics::after { animation: none; } }
+
+.loadingMetrics[data-loading-error]::after { content: "Readings unavailable"; animation: none; }
+.loadedMetrics { animation: metricsAppear .45s ease-out both; }
+@keyframes metricsAppear { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .loadedMetrics { animation: none; } }

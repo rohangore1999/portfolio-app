@@ -50,7 +50,7 @@ The lock covers refresh work and is released in a `finally` block, including whe
 | Redis key | Stored value | Lifetime |
 | --- | --- | --- |
 | `whoop:owner:tokens:v1` | AES-256-GCM encrypted JSON containing `access_token`, `refresh_token`, `scope`, and `expires_at`. The outer JSON has `v`, `iv`, `tag`, and `body`. | No Redis TTL. The pair is replaced on refresh. WHOOP still controls token validity. |
-| `whoop:owner:preview:v1` | Readable JSON containing `{ v: 1, cachedAt, data }`. `data` is the curated homepage summary. | `EX 21600`: six hours from a successful cache write. |
+| `whoop:owner:preview:v2` | Readable JSON containing `{ v: 2, cachedAt, data }`. `data` is the curated homepage summary. | `EX 21600`: six hours from a successful cache write. |
 | `whoop:owner:lock:v1` | Random owner identifier for the server request holding the lock. | Two-minute lease, renewed every 30 seconds while running; normally removed when work finishes. |
 
 The summary includes `syncedAt`, period dates, averages, sample counts, 30-day sleep/recovery/strain graph points, tracked-day activity summaries, workout-day count, and session count. It does not contain credentials or raw WHOOP API records. The summary is deliberately readable JSON; token encryption does not encrypt this separate cache entry.

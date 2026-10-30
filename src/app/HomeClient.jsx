@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import Navigation from "@/components/Navigation";
 import StartScreen from "@/components/StartScreen";
 import HeroSection from "@/components/home/HeroSection";
@@ -12,16 +12,18 @@ import { m } from "framer-motion";
 import { useTransition } from "@/context/TransitionContext";
 
 export default function Home({ whoopPreviewEnabled = false }) {
-  const [showLoading, setShowLoading] = useState(false);
+  const [showLoading, setShowLoading] = useState(true);
   const { navigate } = useTransition();
   const scrollContainerRef = useRef(null);
 
   useEffect(() => {
     const isSoftNav = sessionStorage.getItem("softNavToHome");
     if (isSoftNav) {
-      sessionStorage.removeItem("softNavToHome");
-    } else {
-      setShowLoading(true);
+      const frame = requestAnimationFrame(() => {
+        sessionStorage.removeItem("softNavToHome");
+        setShowLoading(false);
+      });
+      return () => cancelAnimationFrame(frame);
     }
   }, []);
 
@@ -32,7 +34,7 @@ export default function Home({ whoopPreviewEnabled = false }) {
     footer?.scrollIntoView({ behavior: "smooth" });
   };
 
-  const handleGreetingComplete = () => setShowLoading(false);
+  const handleGreetingComplete = useCallback(() => setShowLoading(false), []);
 
   return (
     <>
@@ -47,12 +49,13 @@ export default function Home({ whoopPreviewEnabled = false }) {
 
       <m.div
         ref={scrollContainerRef}
-        className="h-screen h-dvh overflow-y-scroll bg-black snap-y snap-proximity"
+        inert={showLoading}
+        className={`h-screen h-dvh ${showLoading ? "overflow-y-hidden" : "overflow-y-scroll"} bg-black snap-y snap-proximity`}
         initial={false}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5, delay: 0.3 }}
       >
-        <HeroSection />
+        <HeroSection active={!showLoading} />
 
         <AboutSection onAboutClick={handleAboutClick} />
 
