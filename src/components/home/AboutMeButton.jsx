@@ -1,34 +1,37 @@
 "use client";
 
-import { useState } from "react";
-import { m } from "framer-motion";
+import { useRef, useState } from "react";
+import { m, useReducedMotion } from "framer-motion";
+
+import { useMagnetic } from "@/hooks/useMagnetic";
 
 export default function AboutMeButton({ onClick }) {
   const [cursorTrails, setCursorTrails] = useState([]);
-  const [buttonPosition, setButtonPosition] = useState({ x: 0, y: 0 });
+  const { position, handleMouseMove, handleMouseLeave } = useMagnetic(0.3);
+  const reduceMotion = useReducedMotion();
+  const lastTrail = useRef(0);
+  const trailId = useRef(0);
 
   return (
     <m.div
       className="relative"
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: false, amount: 0.3 }}
+      viewport={{ once: true, amount: 0.3 }}
       transition={{ duration: 0.8, ease: "easeOut", delay: 0.3 }}
       onMouseMove={(e) => {
+        handleMouseMove(e);
+        if (reduceMotion || !window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+        const now = performance.now();
+        if (now - lastTrail.current < 40) return;
+        lastTrail.current = now;
         const rect = e.currentTarget.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
 
-        // Calculate magnetic effect (button follows cursor)
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-        const offsetX = (x - centerX) * 0.3; // 30% of distance
-        const offsetY = (y - centerY) * 0.3;
-        setButtonPosition({ x: offsetX, y: offsetY });
-
         // Add new trail particle
         const newTrail = {
-          id: Date.now(),
+          id: ++trailId.current,
           x,
           y,
         };
@@ -36,7 +39,7 @@ export default function AboutMeButton({ onClick }) {
       }}
       onMouseLeave={() => {
         setCursorTrails([]);
-        setButtonPosition({ x: 0, y: 0 });
+        handleMouseLeave();
       }}
     >
       {/* Cursor trail particles */}
@@ -63,12 +66,8 @@ export default function AboutMeButton({ onClick }) {
       <m.button
         className="relative w-48 h-48 rounded-full text-lg font-medium flex items-center justify-center overflow-hidden cursor-pointer"
         style={{
-          x: buttonPosition.x,
-          y: buttonPosition.y,
-        }}
-        animate={{
-          x: buttonPosition.x,
-          y: buttonPosition.y,
+          x: position.x,
+          y: position.y,
         }}
         whileHover="hover"
         whileTap={{

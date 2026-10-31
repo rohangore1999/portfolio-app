@@ -1,24 +1,18 @@
-import { useState } from "react";
+"use client";
+
+import { useMotionValue, useReducedMotion, useSpring } from "framer-motion";
 
 export function useMagnetic(strength = 0.3) {
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-
-  const handleMouseMove = (e) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-
-    // Calculate magnetic effect
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-    const offsetX = (x - centerX) * strength;
-    const offsetY = (y - centerY) * strength;
-    setPosition({ x: offsetX, y: offsetY });
-  };
-
-  const handleMouseLeave = () => {
-    setPosition({ x: 0, y: 0 });
-  };
-
-  return { position, handleMouseMove, handleMouseLeave };
+  const reduceMotion = useReducedMotion();
+  const targetX = useMotionValue(0), targetY = useMotionValue(0);
+  const spring = { stiffness: 150, damping: 18, mass: 0.2 };
+  const x = useSpring(targetX, spring), y = useSpring(targetY, spring);
+  function handleMouseMove(event) {
+    if (reduceMotion || !window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+    const rect = event.currentTarget.getBoundingClientRect();
+    targetX.set((event.clientX - rect.left - rect.width / 2) * strength);
+    targetY.set((event.clientY - rect.top - rect.height / 2) * strength);
+  }
+  function handleMouseLeave() { targetX.set(0); targetY.set(0); }
+  return { position: { x, y }, handleMouseMove, handleMouseLeave };
 }

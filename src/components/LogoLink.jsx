@@ -7,12 +7,12 @@ import { useMagnetic } from "@/hooks/useMagnetic";
 
 const MotionLink = m.create(Link);
 
-export default function LogoLink({ onClick }) {
+export default function LogoLink({ onClick, lightSurface = false }) {
   const { position, handleMouseMove, handleMouseLeave: magneticMouseLeave } = useMagnetic(0.3);
   const [isHovered, setIsHovered] = useState(false);
 
   const handleMouseEnter = () => {
-    setIsHovered(true);
+    if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) setIsHovered(true);
   };
 
   const handleMouseLeave = () => {
@@ -25,11 +25,11 @@ export default function LogoLink({ onClick }) {
       href="/"
       prefetch={true}
       onNavigate={onClick}
-      className="relative text-xl font-semibold text-black dark:text-white hover:opacity-70 transition-opacity overflow-hidden inline-block cursor-pointer"
+      className={`relative text-xl font-semibold ${lightSurface ? "text-black" : "text-black dark:text-white"} hover:opacity-70 transition-opacity overflow-hidden inline-block cursor-pointer`}
       onMouseMove={handleMouseMove}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      animate={{ x: position.x, y: position.y }}
+      style={{ x: position.x, y: position.y }}
       transition={{
         type: "spring",
         stiffness: 150,

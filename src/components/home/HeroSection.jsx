@@ -1,8 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import { m, useAnimationFrame, useMotionValue, useReducedMotion, wrap } from "framer-motion";
+import { m, useAnimationFrame, useInView, useMotionValue, useReducedMotion, wrap } from "framer-motion";
 import { useRef } from "react";
+import { usePageActivity } from "@/hooks/usePageActivity";
 import heroImage from "../../../public/images/home/hero-section-web.jpg";
 
 function MarqueeName({ active }) {
@@ -12,9 +13,11 @@ function MarqueeName({ active }) {
   const prevTime = useRef(null);
   const trackRef = useRef(null);
   const itemWidth = useRef(0);
+  const visible = useInView(trackRef);
+  const pageActive = usePageActivity();
 
   useAnimationFrame((t) => {
-    if (!active || reduceMotion) { prevTime.current = null; return; }
+    if (!active || !visible || !pageActive || reduceMotion || !window.matchMedia("(max-width: 767px)").matches) { prevTime.current = null; return; }
     if (prevTime.current === null) {
       prevTime.current = t;
       // measure one item's width (half the track = 2 copies)
@@ -23,7 +26,7 @@ function MarqueeName({ active }) {
       }
       return;
     }
-    const delta = t - prevTime.current;
+    const delta = Math.min(t - prevTime.current, 50);
     prevTime.current = t;
 
     const next = baseX.get() - (speed * delta) / 1000;

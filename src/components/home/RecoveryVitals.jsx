@@ -11,9 +11,11 @@ function dateLabel(date) {
 
 function Vital({ label, unit, value, points = [], samples = 0, progress }) {
   const gradient = useId();
+  const clip = useId();
   const [active, setActive] = useState(null);
   const reduceMotion = useReducedMotion();
   const reveal = useTransform(progress, [0.08, 0.28], [0, 1]);
+  const revealWidth = useTransform(reveal, [0, 1], [0, 200]);
   const segments = useMemo(() => sparklineGeometry(points), [points]);
   const selected = active == null ? null : points[active];
   const reading = selected ? `${dateLabel(selected.date)} · ${selected.value == null ? "No reading" : `${Math.round(selected.value)} ${unit}`}` : null;
@@ -39,13 +41,13 @@ function Vital({ label, unit, value, points = [], samples = 0, progress }) {
       onPointerMove={event => { if (points.length) pointAt(event); }} onPointerDown={event => { if (points.length) pointAt(event); }} onPointerLeave={event => { if (event.pointerType === "mouse") setActive(null); }} onFocus={event => { if (event.currentTarget.matches(":focus-visible")) setActive(points.length - 1); }} onBlur={() => setActive(null)} onKeyDown={navigate}
       className="mt-1 h-11 cursor-crosshair rounded-sm focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-orange-300">
       <svg viewBox="0 0 200 44" preserveAspectRatio="none" aria-hidden="true" className="h-full w-full overflow-visible">
-        <defs><linearGradient id={gradient} x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#fb923c" stopOpacity=".15" /><stop offset="100%" stopColor="#fb923c" stopOpacity="0" /></linearGradient></defs>
+        <defs><clipPath id={clip}><m.rect x="0" y="0" height="44" width={reduceMotion ? 200 : revealWidth} /></clipPath><linearGradient id={gradient} x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#fb923c" stopOpacity=".15" /><stop offset="100%" stopColor="#fb923c" stopOpacity="0" /></linearGradient></defs>
         <path d="M4 42H196" stroke="white" strokeOpacity=".08" />
         {segments.map((segment, index) => {
           const path = segment.map((point, i) => `${i ? "L" : "M"}${point.x},${point.y}`).join(" ");
-          return <g key={index}>
+          return <g key={index} clipPath={`url(#${clip})`}>
             {segment.length > 1 && <m.path d={`${path} L${segment.at(-1).x},44 L${segment[0].x},44 Z`} fill={`url(#${gradient})`} style={{ opacity: reduceMotion ? 1 : reveal }} />}
-            {segment.length === 1 ? <m.circle cx={segment[0].x} cy={segment[0].y} r="1.7" fill="#fb923c" style={{ opacity: reduceMotion ? 1 : reveal }} /> : <m.path d={path} fill="none" stroke="#fb923c" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" vectorEffect="non-scaling-stroke" style={{ pathLength: reduceMotion ? 1 : reveal }} />}
+            {segment.length === 1 ? <m.circle cx={segment[0].x} cy={segment[0].y} r="1.7" fill="#fb923c" style={{ opacity: reduceMotion ? 1 : reveal }} /> : <m.path d={path} fill="none" stroke="#fb923c" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" vectorEffect="non-scaling-stroke"  />}
           </g>;
         })}
         {selected && <line x1={4 + active / Math.max(1, points.length - 1) * 192} x2={4 + active / Math.max(1, points.length - 1) * 192} y1="2" y2="42" stroke="#fed7aa" strokeOpacity=".6" strokeDasharray="2 3" />}

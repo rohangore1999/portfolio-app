@@ -49,6 +49,7 @@ export default function Home({ whoopPreviewEnabled = false }) {
 
       <m.div
         ref={scrollContainerRef}
+        data-page-scroll
         inert={showLoading}
         className={`h-screen h-dvh ${showLoading ? "overflow-y-hidden" : "overflow-y-scroll"} bg-black snap-y snap-proximity`}
         initial={false}

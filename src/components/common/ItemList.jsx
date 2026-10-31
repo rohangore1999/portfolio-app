@@ -35,6 +35,7 @@ export default function ItemList({
   });
 
   const handleMouseMove = (e) => {
+    if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
     const rect = listRef.current?.getBoundingClientRect();
     if (!rect) return;
     cursorX.set(e.clientX - rect.left);
@@ -72,7 +73,7 @@ export default function ItemList({
             ? "w-80 aspect-[16/10]"
             : "w-48 h-60"
         }`}
-        style={{ left: springX, top: springY }}
+        style={{ x: springX, y: springY, left: 0, top: 0 }}
         animate={{ opacity: isHovering ? 1 : 0, scale: isHovering ? 1 : 0.6 }}
         transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
       >
@@ -81,6 +82,7 @@ export default function ItemList({
             src={hoveredImage}
             alt=""
             fill
+            sizes="320px"
             className={hoveredImageFit === "contain" ? "object-contain p-2" : "object-cover"}
           />
         )}
@@ -126,6 +128,7 @@ export default function ItemList({
               className="group flex items-center justify-between py-5 md:py-8 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-4 focus-visible:ring-offset-black"
               onClick={(event) => handleItemClick(event, item)}
               onMouseEnter={() => {
+                if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
                 if (item.image) {
                   setIsHovering(true);
                   setHoveredImage(item.image);

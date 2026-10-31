@@ -35,6 +35,7 @@ export default function WorkSection() {
   };
 
   const handleMouseMove = (e) => {
+    if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
     const rect = sectionRef.current?.getBoundingClientRect();
     if (!rect) return;
     cursorX.set(e.clientX - rect.left);
@@ -50,8 +51,8 @@ export default function WorkSection() {
       {/* Floating cursor image
           left/top = cursor position, -translate-x/y-1/2 shifts it so center = cursor */}
       <m.div
-        className="absolute pointer-events-none z-50 w-48 h-60 rounded-lg overflow-hidden -translate-x-1/2 -translate-y-1/2"
-        style={{ left: springX, top: springY }}
+        className="hidden md:block absolute pointer-events-none z-50 w-48 h-60 rounded-lg overflow-hidden -translate-x-1/2 -translate-y-1/2"
+        style={{ x: springX, y: springY, left: 0, top: 0 }}
         animate={{ opacity: isHovering ? 1 : 0, scale: isHovering ? 1 : 0.6 }}
         transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
       >
@@ -60,6 +61,7 @@ export default function WorkSection() {
             src={hoveredImage}
             alt="Project preview"
             fill
+            sizes="320px"
             className="object-cover"
           />
         )}
@@ -99,6 +101,7 @@ export default function WorkSection() {
             className="group flex items-center justify-between py-4 md:py-6 border-b border-white/20 cursor-pointer"
             onClick={(event) => handleNavigation(event, item.href, item.title.toLowerCase())}
             onMouseEnter={() => {
+                if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
               if (item.image) {
                 setIsHovering(true);
                 setHoveredImage(item.image);

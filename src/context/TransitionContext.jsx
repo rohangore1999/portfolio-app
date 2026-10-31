@@ -91,7 +91,7 @@ export function TransitionProvider({ children }) {
             key={navigation.id}
             role="status"
             aria-label={`Opening ${navigation.label}`}
-            className="fixed inset-0 z-[100] flex items-center justify-center bg-white"
+            className="fixed inset-0 z-[200] flex items-center justify-center bg-white"
             initial={{ y: reduceMotion ? 0 : "100%" }}
             animate={{ y: 0 }}
             exit={{ y: reduceMotion ? 0 : "-100%" }}

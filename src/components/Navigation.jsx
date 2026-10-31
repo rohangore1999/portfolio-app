@@ -1,16 +1,51 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { m, AnimatePresence, useReducedMotion } from "framer-motion";
+import { m, useReducedMotion } from "framer-motion";
 import MagneticLink from "./MagneticLink";
 import LogoLink from "./LogoLink";
+import styles from "./navigation.module.css";
 import { useTransition } from "@/context/TransitionContext";
 
 export default function Navigation({ onAboutClick, onContactClick }) {
   const reduceMotion = useReducedMotion();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { navigate } = useTransition();
+  const menuButton = useRef(null);
+  const drawer = useRef(null);
+
+  useEffect(() => {
+    if (!isMobileMenuOpen) return;
+    const trigger = menuButton.current;
+    const desktop = window.matchMedia("(min-width: 768px)");
+    const closeOnDesktop = () => { if (desktop.matches) setIsMobileMenuOpen(false); };
+    desktop.addEventListener("change", closeOnDesktop);
+    document.documentElement.dataset.menuOpen = "true";
+    window.dispatchEvent(new Event("site-menu-change"));
+    const surfaces = [document.documentElement, document.body, ...document.querySelectorAll('[data-page-scroll]')];
+    const previous = surfaces.map(element => element.style.overflow);
+    surfaces.forEach(element => { element.style.overflow = "hidden"; });
+    const frame = requestAnimationFrame(() => drawer.current?.querySelector('button')?.focus({ preventScroll: true }));
+    return () => {
+      cancelAnimationFrame(frame);
+      desktop.removeEventListener("change", closeOnDesktop);
+      surfaces.forEach((element, index) => { element.style.overflow = previous[index]; });
+      delete document.documentElement.dataset.menuOpen;
+      window.dispatchEvent(new Event("site-menu-change"));
+      if (trigger?.isConnected) trigger.focus({ preventScroll: true });
+    };
+  }, [isMobileMenuOpen]);
+
+  function handleMenuKey(event) {
+    if (event.key === "Escape") { setIsMobileMenuOpen(false); return; }
+    if (event.key !== "Tab") return;
+    const targets = drawer.current?.querySelectorAll('a[href], button');
+    if (!targets?.length) return;
+    const first = targets[0], last = targets[targets.length - 1];
+    if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+    else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+  }
 
   const handleHomeClick = (e) => {
     e.preventDefault();
@@ -39,22 +74,24 @@ export default function Navigation({ onAboutClick, onContactClick }) {
   const handleContactClick = (e) => {
     e.preventDefault();
     setIsMobileMenuOpen(false);
-    onContactClick?.();
+    if (onContactClick) onContactClick();
+    else navigate("/contact", "contact");
   };
 
   const handleAboutClickMobile = (e) => {
     e.preventDefault();
     setIsMobileMenuOpen(false);
-    onAboutClick();
+    if (onAboutClick) onAboutClick();
+    else navigate("/about", "about");
   };
 
   return (
     <>
       <m.nav
-        className="fixed md:absolute top-0 left-0 right-0 z-40 backdrop-blur-xs"
+        className={`fixed md:absolute top-0 left-0 right-0 z-40 ${isMobileMenuOpen ? "" : "backdrop-blur-xs"}`}
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
+        transition={{ duration: reduceMotion ? 0 : 0.45, ease: "easeOut" }}
       >
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           {/* Left: Rohan - with special hover effect */}
@@ -95,6 +132,7 @@ export default function Navigation({ onAboutClick, onContactClick }) {
 
           {/* Right: Menu Button - Mobile */}
           <button
+            ref={menuButton}
             aria-expanded={isMobileMenuOpen}
             aria-controls="mobile-navigation"
             onClick={() => setIsMobileMenuOpen(true)}
@@ -106,70 +144,62 @@ export default function Navigation({ onAboutClick, onContactClick }) {
       </m.nav>
 
       {/* Mobile Menu - Full Screen Overlay */}
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-          <m.div
-            id="mobile-navigation"
-            role="dialog"
-            aria-modal="true"
-            aria-label="Navigation menu"
-            onKeyDown={event => { if (event.key === "Escape") setIsMobileMenuOpen(false); }}
-            className="fixed inset-0 z-[150] bg-white dark:bg-white flex flex-col"
-            initial={{ x: reduceMotion ? 0 : "100%" }}
-            animate={{ x: 0 }}
-            exit={{ x: reduceMotion ? 0 : "100%" }}
-            transition={{ duration: reduceMotion ? 0 : 0.4, ease: [0.22, 1, 0.36, 1] }}
+      <div
+        ref={drawer}
+        id="mobile-navigation"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Navigation menu"
+        aria-hidden={!isMobileMenuOpen}
+        inert={!isMobileMenuOpen}
+        onKeyDown={handleMenuKey}
+        data-open={isMobileMenuOpen}
+        className={styles.drawer}
+      >
+        {/* Header with Logo and Close */}
+        <div className="flex items-center justify-between px-6 py-4">
+          <LogoLink onClick={handleHomeClick} lightSurface />
+          <button
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="text-xl font-medium text-black hover:opacity-70 transition-opacity"
           >
-            {/* Header with Logo and Close */}
-            <div className="flex items-center justify-between px-6 py-4">
-              <LogoLink onClick={handleHomeClick} />
-              <button
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="text-xl font-medium text-black hover:opacity-70 transition-opacity"
-              >
-                Close
-              </button>
-            </div>
+            Close
+          </button>
+        </div>
 
-            {/* Navigation Links - Vertical */}
-            <m.nav aria-label="Mobile navigation" className="flex-1 flex flex-col items-center justify-center gap-8"
-              initial={{ opacity: 0, y: reduceMotion ? 0 : 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: reduceMotion ? 0 : 0.25, delay: reduceMotion ? 0 : 0.12, ease: "easeOut" }}
-            >
-              <Link href="/about" prefetch={true} onNavigate={handleAboutClickMobile}>
-                <span className="inline-block text-4xl font-semibold text-black hover:opacity-70 cursor-pointer">
-                  About
-                </span>
-              </Link>
+        {/* Navigation Links - Vertical */}
+        <nav aria-label="Mobile navigation" className={styles.links}>
+          <Link href="/about" prefetch={false} onNavigate={handleAboutClickMobile}>
+            <span className="inline-block text-4xl font-semibold text-black hover:opacity-70 cursor-pointer">
+              About
+            </span>
+          </Link>
 
-              <Link href="/work" prefetch={true} onNavigate={handleWorkClick}>
-                <span className="inline-block text-4xl font-semibold text-black hover:opacity-70 cursor-pointer">
-                  Work
-                </span>
-              </Link>
+          <Link href="/work" prefetch={false} onNavigate={handleWorkClick}>
+            <span className="inline-block text-4xl font-semibold text-black hover:opacity-70 cursor-pointer">
+              Work
+            </span>
+          </Link>
 
-              <Link href="/blog" prefetch={true} onNavigate={handleBlogClick}>
-                <span className="inline-block text-4xl font-semibold text-black hover:opacity-70 cursor-pointer">
-                  Blog
-                </span>
-              </Link>
+          <Link href="/blog" prefetch={false} onNavigate={handleBlogClick}>
+            <span className="inline-block text-4xl font-semibold text-black hover:opacity-70 cursor-pointer">
+              Blog
+            </span>
+          </Link>
 
-              <Link href="/gallery" prefetch={true} onNavigate={handleGalleryClick}>
-                <span className="inline-block text-4xl font-semibold text-black hover:opacity-70 cursor-pointer">
-                  Gallery
-                </span>
-              </Link>
+          <Link href="/gallery" prefetch={false} onNavigate={handleGalleryClick}>
+            <span className="inline-block text-4xl font-semibold text-black hover:opacity-70 cursor-pointer">
+              Gallery
+            </span>
+          </Link>
 
-              <Link href="/contact" prefetch={true} onNavigate={handleContactClick}>
-                <span className="inline-block text-4xl font-semibold text-black hover:opacity-70 cursor-pointer">
-                  Contact
-                </span>
-              </Link>
-            </m.nav>
-          </m.div>
-        )}
-      </AnimatePresence>
+          <Link href="/contact" prefetch={false} onNavigate={handleContactClick}>
+            <span className="inline-block text-4xl font-semibold text-black hover:opacity-70 cursor-pointer">
+              Contact
+            </span>
+          </Link>
+        </nav>
+      </div>
     </>
   );
 }

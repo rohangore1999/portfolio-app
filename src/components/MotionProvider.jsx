@@ -1,6 +1,6 @@
 "use client";
 
-import { LazyMotion, domMax } from "framer-motion";
+import { LazyMotion, MotionConfig, domMax } from "framer-motion";
 
 /**
  * Loads framer-motion's animation features lazily (as a separate async chunk)
@@ -9,8 +9,10 @@ import { LazyMotion, domMax } from "framer-motion";
  */
 export default function MotionProvider({ children }) {
   return (
+    <MotionConfig reducedMotion="user">
     <LazyMotion features={domMax} strict>
       {children}
     </LazyMotion>
+    </MotionConfig>
   );
 }

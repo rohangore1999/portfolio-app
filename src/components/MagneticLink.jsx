@@ -9,13 +9,14 @@ export default function MagneticLink({ href, onClick, children, className = "", 
 
   // If it's a button (no href)
   if (!href) {
+    const Element = onClick ? m.button : m.span;
     return (
-      <m.button
+      <Element
         onClick={onClick}
-        className={className}
+        className={`inline-block ${className}`}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
-        animate={{ x: position.x, y: position.y }}
+        style={{ x: position.x, y: position.y }}
         transition={{
           type: "spring",
           stiffness: 150,
@@ -24,7 +25,7 @@ export default function MagneticLink({ href, onClick, children, className = "", 
         }}
       >
         {children}
-      </m.button>
+      </Element>
     );
   }
 
@@ -34,7 +35,7 @@ export default function MagneticLink({ href, onClick, children, className = "", 
       className="inline-block"
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      animate={{ x: position.x, y: position.y }}
+      style={{ x: position.x, y: position.y }}
       transition={{
         type: "spring",
         stiffness: 150,

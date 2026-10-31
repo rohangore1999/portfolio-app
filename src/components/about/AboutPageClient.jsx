@@ -30,6 +30,7 @@ export default function AboutPageClient({ yearsOfExperience }) {
       {/* Snap Scroll Container */}
       <m.div
         ref={scrollContainerRef}
+        data-page-scroll
         className="h-screen h-dvh overflow-y-scroll md:snap-y md:snap-mandatory"
         initial={false}
         animate={{ opacity: isTransitioning ? 0 : 1 }}

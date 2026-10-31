@@ -2,9 +2,11 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createPhotoSphere } from "./createPhotoSphere";
+import { usePageActivity } from "@/hooks/usePageActivity";
 import styles from "./gallerySphere.module.css";
 
 export default function PhotoSphere({ items, onSelect, onHover, onError, paused, selectedIndex }) {
+  const pageActive = usePageActivity();
   const host = useRef(null);
   const engine = useRef(null);
   const [ready, setReady] = useState(false);
@@ -20,7 +22,7 @@ export default function PhotoSphere({ items, onSelect, onHover, onError, paused,
     }
   }, [items, onSelect, onHover, onError, handleReady]);
 
-  useEffect(() => { engine.current?.setPaused(paused); }, [paused]);
+  useEffect(() => { engine.current?.setPaused(paused || !pageActive); }, [paused, pageActive]);
   useEffect(() => { engine.current?.setSelection(selectedIndex); }, [selectedIndex]);
 
   return (
@@ -33,6 +35,7 @@ export default function PhotoSphere({ items, onSelect, onHover, onError, paused,
         aria-label="Interactive photo sphere"
         aria-describedby="orbit-instructions"
         data-ready={ready}
+        data-paused={paused || !pageActive}
         data-intro-phase={phase}
       />
       <div className={styles.introWordmark} aria-hidden="true" data-visible={phase === "gather" || phase === "spin"}>
