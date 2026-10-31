@@ -6,7 +6,7 @@ import aboutImage from "../../../public/images/about/rohan-at-myntra.webp";
 
 export default function AboutHeroSection({ yearsOfExperience }) {
   return (
-    <section className="min-h-dvh md:min-h-0 md:h-dvh flex flex-col px-6 pt-[calc(var(--nav-height)+0.5rem)] pb-4 snap-start overflow-hidden">
+    <section className="min-h-dvh md:min-h-0 md:h-dvh flex flex-col px-6 pt-[calc(var(--nav-height)+0.5rem)] pb-4 snap-start md:overflow-hidden">
       {/* Hero Text */}
       <m.div
         initial={{ opacity: 0 }}
@@ -56,7 +56,7 @@ export default function AboutHeroSection({ yearsOfExperience }) {
       </m.div>
 
       {/* Image + Bio Grid — fills remaining height */}
-      <div className="grid md:grid-cols-2 gap-3 md:gap-8 flex-1 min-h-0 md:grid-rows-1">
+      <div className="grid md:grid-cols-2 gap-3 md:gap-8 shrink-0 md:flex-1 md:min-h-0 md:grid-rows-1">
         {/* Image */}
         <m.div
           className="relative rounded-lg overflow-hidden order-2 md:order-1 aspect-[3/4] max-h-[70svh] w-full max-w-xl mx-auto md:aspect-auto md:h-full md:min-h-0 md:max-h-none"
