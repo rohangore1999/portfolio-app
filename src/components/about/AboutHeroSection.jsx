@@ -6,7 +6,7 @@ import aboutImage from "../../../public/images/about/rohan-at-myntra.webp";
 
 export default function AboutHeroSection({ yearsOfExperience }) {
   return (
-    <section className="min-h-dvh md:min-h-[600px] md:h-dvh flex flex-col px-6 pt-[calc(var(--nav-height)+0.5rem)] pb-4 snap-start overflow-hidden">
+    <section className="min-h-dvh md:min-h-0 md:h-dvh flex flex-col px-6 pt-[calc(var(--nav-height)+0.5rem)] pb-4 snap-start overflow-hidden">
       {/* Hero Text */}
       <m.div
         initial={{ opacity: 0 }}
@@ -14,7 +14,7 @@ export default function AboutHeroSection({ yearsOfExperience }) {
         transition={{ duration: 0.8 }}
         className="text-center shrink-0 mb-3 md:mb-2"
       >
-        <h1 className="text-2xl md:text-5xl lg:text-6xl font-bold w-[92vw] mb-4 [@media(min-height:700px)]:mb-8 md:mb-0">
+        <h1 className="text-2xl md:text-5xl lg:text-6xl md:[@media(max-height:600px)]:text-4xl font-bold w-full mb-4 [@media(min-height:700px)]:mb-8 md:mb-0">
           {["About", "me,", "a", "Software", "Engineer"].map((word, index) => (
             <m.span
               key={`line1-${index}`}
@@ -56,10 +56,10 @@ export default function AboutHeroSection({ yearsOfExperience }) {
       </m.div>
 
       {/* Image + Bio Grid — fills remaining height */}
-      <div className="grid md:grid-cols-2 gap-3 md:gap-8 flex-1 min-h-0 md:h-full md:grid-rows-1">
+      <div className="grid md:grid-cols-2 gap-3 md:gap-8 flex-1 min-h-0 md:grid-rows-1">
         {/* Image */}
         <m.div
-          className="relative rounded-lg overflow-hidden order-2 md:order-1 aspect-[3/4] w-full max-w-xl mx-auto md:aspect-auto md:h-full"
+          className="relative rounded-lg overflow-hidden order-2 md:order-1 aspect-[3/4] max-h-[70svh] w-full max-w-xl mx-auto md:aspect-auto md:h-full md:min-h-0 md:max-h-none"
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.5 }}

@@ -2,12 +2,13 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { m, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence, useReducedMotion } from "framer-motion";
 import MagneticLink from "./MagneticLink";
 import LogoLink from "./LogoLink";
 import { useTransition } from "@/context/TransitionContext";
 
 export default function Navigation({ onAboutClick, onContactClick }) {
+  const reduceMotion = useReducedMotion();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { navigate } = useTransition();
 
@@ -94,6 +95,8 @@ export default function Navigation({ onAboutClick, onContactClick }) {
 
           {/* Right: Menu Button - Mobile */}
           <button
+            aria-expanded={isMobileMenuOpen}
+            aria-controls="mobile-navigation"
             onClick={() => setIsMobileMenuOpen(true)}
             className="md:hidden text-base font-medium text-black dark:text-white hover:opacity-70 transition-opacity"
           >
@@ -106,10 +109,16 @@ export default function Navigation({ onAboutClick, onContactClick }) {
       <AnimatePresence>
         {isMobileMenuOpen && (
           <m.div
+            id="mobile-navigation"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Navigation menu"
+            onKeyDown={event => { if (event.key === "Escape") setIsMobileMenuOpen(false); }}
             className="fixed inset-0 z-[150] bg-white dark:bg-white flex flex-col"
-            initial={{ x: "100%" }}
+            initial={{ x: reduceMotion ? 0 : "100%" }}
             animate={{ x: 0 }}
-            transition={{ duration: 0.5, ease: [0.43, 0.13, 0.23, 0.96] }}
+            exit={{ x: reduceMotion ? 0 : "100%" }}
+            transition={{ duration: reduceMotion ? 0 : 0.4, ease: [0.22, 1, 0.36, 1] }}
           >
             {/* Header with Logo and Close */}
             <div className="flex items-center justify-between px-6 py-4">
@@ -123,62 +132,41 @@ export default function Navigation({ onAboutClick, onContactClick }) {
             </div>
 
             {/* Navigation Links - Vertical */}
-            <div className="flex-1 flex flex-col items-center justify-center gap-8">
+            <m.nav aria-label="Mobile navigation" className="flex-1 flex flex-col items-center justify-center gap-8"
+              initial={{ opacity: 0, y: reduceMotion ? 0 : 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: reduceMotion ? 0 : 0.25, delay: reduceMotion ? 0 : 0.12, ease: "easeOut" }}
+            >
               <Link href="/about" prefetch={true} onNavigate={handleAboutClickMobile}>
-                <m.span
-                  className="text-4xl font-semibold text-black hover:opacity-70 transition-opacity cursor-pointer"
-                  initial={{ opacity: 0, x: 50 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.3, delay: 0.1 }}
-                >
+                <span className="inline-block text-4xl font-semibold text-black hover:opacity-70 cursor-pointer">
                   About
-                </m.span>
+                </span>
               </Link>
 
               <Link href="/work" prefetch={true} onNavigate={handleWorkClick}>
-                <m.span
-                  className="text-4xl font-semibold text-black hover:opacity-70 transition-opacity cursor-pointer"
-                  initial={{ opacity: 0, x: 50 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.3, delay: 0.2 }}
-                >
+                <span className="inline-block text-4xl font-semibold text-black hover:opacity-70 cursor-pointer">
                   Work
-                </m.span>
+                </span>
               </Link>
 
               <Link href="/blog" prefetch={true} onNavigate={handleBlogClick}>
-                <m.span
-                  className="text-4xl font-semibold text-black hover:opacity-70 transition-opacity cursor-pointer"
-                  initial={{ opacity: 0, x: 50 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.3, delay: 0.3 }}
-                >
+                <span className="inline-block text-4xl font-semibold text-black hover:opacity-70 cursor-pointer">
                   Blog
-                </m.span>
+                </span>
               </Link>
 
               <Link href="/gallery" prefetch={true} onNavigate={handleGalleryClick}>
-                <m.span
-                  className="text-4xl font-semibold text-black hover:opacity-70 transition-opacity cursor-pointer"
-                  initial={{ opacity: 0, x: 50 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.3, delay: 0.4 }}
-                >
+                <span className="inline-block text-4xl font-semibold text-black hover:opacity-70 cursor-pointer">
                   Gallery
-                </m.span>
+                </span>
               </Link>
 
               <Link href="/contact" prefetch={true} onNavigate={handleContactClick}>
-                <m.span
-                  className="text-4xl font-semibold text-black hover:opacity-70 transition-opacity cursor-pointer"
-                  initial={{ opacity: 0, x: 50 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.3, delay: 0.5 }}
-                >
+                <span className="inline-block text-4xl font-semibold text-black hover:opacity-70 cursor-pointer">
                   Contact
-                </m.span>
+                </span>
               </Link>
-            </div>
+            </m.nav>
           </m.div>
         )}
       </AnimatePresence>
