@@ -47,3 +47,25 @@
 .loadedMetrics { animation: metricsAppear .45s ease-out both; }
 @keyframes metricsAppear { from { opacity: 0; } to { opacity: 1; } }
 @media (prefers-reduced-motion: reduce) { .loadedMetrics { animation: none; } }
+
+.chapterButton {
+  position: relative;
+  cursor: pointer;
+  padding: 8px 10px;
+  border: 1px solid rgb(255 255 255 / 12%);
+  border-radius: 999px;
+  color: rgb(255 255 255 / 60%);
+  font-size: 12px;
+  white-space: nowrap;
+  transition: color .2s, background-color .2s, border-color .2s;
+}
+.chapterButton[aria-current="step"] {
+  color: #fdba74;
+  background: rgb(251 146 60 / 10%);
+  border-color: rgb(251 146 60 / 40%);
+}
+@media (hover: hover) {
+  .chapterButton:hover { color: #fed7aa; border-color: rgb(251 146 60 / 40%); background: rgb(251 146 60 / 7%); }
+}
+.chapterButton:focus-visible { outline: 2px solid #fdba74; outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) { .chapterButton { transition: none; } }

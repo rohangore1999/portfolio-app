@@ -73,6 +73,36 @@ export default function WhoopPreview({ scrollContainerRef }) {
   const ref = useRef(null);
   const headerRef = useRef(null);
   const [headerHeight, setHeaderHeight] = useState(0);
+  const [activeChapter, setActiveChapter] = useState(0);
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+    let frame = 0;
+    let current = -1;
+    function update() {
+      frame = 0;
+      // Follow the chapter entering the reading area below the sticky header.
+      const containerTop = container.getBoundingClientRect().top;
+      const readingLine = containerTop + headerHeight + (container.clientHeight - headerHeight) * 0.3;
+      const chapters = ref.current?.querySelectorAll('[data-chapter]') ?? [];
+      let next = 0;
+      chapters.forEach((chapter, index) => {
+        if (chapter.getBoundingClientRect().top <= readingLine) next = index;
+      });
+      // Re-render only when the chapter changes, never on every scroll frame.
+      if (next !== current) { current = next; setActiveChapter(next); }
+    }
+    const schedule = () => { if (!frame) frame = requestAnimationFrame(update); };
+    container.addEventListener("scroll", schedule, { passive: true });
+    const observer = new ResizeObserver(schedule);
+    observer.observe(container);
+    schedule();
+    return () => {
+      container.removeEventListener("scroll", schedule);
+      observer.disconnect();
+      cancelAnimationFrame(frame);
+    };
+  }, [scrollContainerRef, headerHeight]);
   useEffect(() => {
     const header = headerRef.current;
     if (!header) return;
@@ -120,7 +150,7 @@ export default function WhoopPreview({ scrollContainerRef }) {
           <p data-sample-count className="mt-2 md:mt-4 text-[10px] md:text-xs text-white/45">{data ? `${dateLabel(data.periodStart)} – ${dateLabel(data.periodEnd)}` : "Gathering the receipts…"} · WHOOP {process.env.NODE_ENV === "development" && <span className="ml-2 hidden md:inline text-white/25">LOCAL PREVIEW</span>}</p>
         </div>
         <nav aria-label="Metric chapters" className="flex w-full justify-between gap-3 md:w-auto md:justify-start md:gap-5">
-          {metrics.map((item, index) => <button key={item.key} type="button" onClick={() => jump(index)} className="py-2 text-xs text-white/50 transition-colors hover:text-orange-300 focus-visible:outline-orange-400"><span className="hidden md:inline">0{index + 1} </span>{item.label}</button>)}
+          {metrics.map((item, index) => <button key={item.key} type="button" onClick={() => jump(index)} aria-current={activeChapter === index ? "step" : undefined} className={styles.chapterButton}><span className="hidden md:inline">0{index + 1} </span>{item.label}</button>)}
         </nav>
       </header>
       {error && <div role="status" className="fixed bottom-6 left-6 right-6 z-40 mx-auto max-w-sm rounded-xl border border-white/10 bg-[#141414] px-5 py-4 text-sm text-white/60">Couldn’t sync WHOOP. <button onClick={() => { setError(false); setAttempt(value => value + 1); }} className="text-orange-400 underline">Try again</button></div>}<div aria-busy={!data && !error}>
