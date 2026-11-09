@@ -16,7 +16,7 @@ export const metadata = {
     siteName: "Rohan Gore",
     images: [
       {
-        url: "/og-image.jpg",
+        url: "/social-rohan-cobra.jpg",
         width: 1200,
         height: 630,
         alt: "Rohan Gore",
@@ -27,7 +27,7 @@ export const metadata = {
     card: "summary_large_image",
     title: "Contact | Rohan Gore",
     description: "Get in touch with Rohan Gore.",
-    images: ["/og-image.jpg"],
+    images: ["/social-rohan-cobra.jpg"],
   },
 };
 

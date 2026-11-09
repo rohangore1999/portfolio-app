@@ -1,60 +1,104 @@
 "use client";
 
 import Image from "next/image";
-import { m, useAnimationFrame, useInView, useMotionValue, useReducedMotion, wrap } from "framer-motion";
-import { useRef } from "react";
+import { m, useAnimationFrame, useInView, useMotionValue, useReducedMotion } from "framer-motion";
+import { useEffect, useRef } from "react";
+import { advanceHeroMarquee } from "@/lib/hero-marquee.mjs";
 import { usePageActivity } from "@/hooks/usePageActivity";
-import heroImage from "../../../public/images/home/hero-section-web.jpg";
+import heroImage from "../../../public/images/home/rohan-home-mobile.jpg";
+import desktopHeroImage from "../../../public/images/home/rohan-home-desktop.jpg";
+import styles from "./heroSection.module.css";
 
-function MarqueeName({ active }) {
+function MarqueeName({ active, scrollContainerRef }) {
   const reduceMotion = useReducedMotion();
   const baseX = useMotionValue(0);
-  const speed = 100;
+  const direction = useRef(1);
+  const targetDirection = useRef(1);
   const prevTime = useRef(null);
+  const viewportRef = useRef(null);
   const trackRef = useRef(null);
   const itemWidth = useRef(0);
-  const visible = useInView(trackRef);
+  const visible = useInView(viewportRef);
   const pageActive = usePageActivity();
+
+  useEffect(() => {
+    const item = trackRef.current?.firstElementChild;
+    if (!item) return;
+    const measure = () => {
+      const width = item.getBoundingClientRect().width;
+      if (width <= 0) return;
+      const previousWidth = itemWidth.current;
+      if (previousWidth > 0 && previousWidth !== width) {
+        baseX.set(baseX.get() / previousWidth * width);
+      }
+      itemWidth.current = width;
+    };
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(item);
+    return () => observer.disconnect();
+  }, [baseX]);
+
+  useEffect(() => {
+    const container = scrollContainerRef?.current;
+    if (!container) return;
+    let previous = container.scrollTop;
+    const onScroll = () => {
+      const next = container.scrollTop;
+      const delta = next - previous;
+      previous = next;
+      if (Math.abs(delta) > 0.5 && window.matchMedia("(max-width: 767px)").matches) {
+        targetDirection.current = delta > 0 ? 1 : -1;
+      }
+    };
+    container.addEventListener("scroll", onScroll, { passive: true });
+    return () => container.removeEventListener("scroll", onScroll);
+  }, [scrollContainerRef]);
 
   useAnimationFrame((t) => {
     if (!active || !visible || !pageActive || reduceMotion || !window.matchMedia("(max-width: 767px)").matches) { prevTime.current = null; return; }
     if (prevTime.current === null) {
       prevTime.current = t;
-      // measure one item's width (half the track = 2 copies)
-      if (trackRef.current) {
-        itemWidth.current = trackRef.current.scrollWidth / 2;
-      }
       return;
     }
     const delta = Math.min(t - prevTime.current, 50);
     prevTime.current = t;
 
-    const next = baseX.get() - (speed * delta) / 1000;
-    // wrap back to 0 once we've scrolled exactly one "set" (half the track)
-    baseX.set(itemWidth.current > 0 ? wrap(-itemWidth.current, 0, next) : next);
+    const next = advanceHeroMarquee({
+      position: baseX.get(),
+      direction: direction.current,
+      targetDirection: targetDirection.current,
+      width: itemWidth.current,
+      deltaSeconds: delta / 1000,
+    });
+    direction.current = next.direction;
+    baseX.set(next.position);
   });
 
   return (
+    <div ref={viewportRef} className="overflow-hidden" data-name-marquee>
     <m.div
       ref={trackRef}
-      className="flex whitespace-nowrap"
+      className="flex w-max whitespace-nowrap"
       style={{ x: baseX }}
     >
       {[...Array(4)].map((_, i) => (
         <span
           key={i}
           aria-hidden="true"
-          className="font-sans text-white font-light whitespace-nowrap leading-none tracking-tight pr-16"
+          className="inline-flex shrink-0 font-sans text-white font-light whitespace-nowrap leading-none tracking-tight"
           style={{ fontSize: "max(9rem, 15vw)" }}
         >
-          Rohan Gore —
+          <span>Rohan Gore</span>
+          <span className="px-8 tracking-normal">—</span>
         </span>
       ))}
     </m.div>
+    </div>
   );
 }
 
-export default function HeroSection({ active = true }) {
+export default function HeroSection({ active = true, scrollContainerRef }) {
   const reduceMotion = useReducedMotion();
   return (
     <section
@@ -73,34 +117,38 @@ export default function HeroSection({ active = true }) {
         <Image
           src={heroImage}
           alt="Rohan Gore"
+          unoptimized
           fill
           priority
           placeholder="blur"
           sizes="100vw"
-          className="object-cover origin-center scale-105"
-          style={{ objectPosition: "center 60%" }}
+          className="object-cover"
+          style={{ objectPosition: "60% center" }}
         />
       </div>
 
       {/* Gradient overlay — mobile only */}
-      <div className="md:hidden absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20 pointer-events-none" />
+      <div className="md:hidden absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/10 pointer-events-none" />
 
-      {/* Name — mobile only, marquee scrolling near bottom */}
-      <div
+      {/* Separate the entrance from the continuous, scroll-responsive loop. */}
+      <m.div
         className="md:hidden absolute inset-x-0 z-10 overflow-hidden"
+        data-mobile-name-reveal
         style={{ bottom: "calc(6rem + env(safe-area-inset-bottom))" }}
+        initial={{ y: "10svh" }}
+        animate={{ y: active || reduceMotion ? 0 : "10svh" }}
+        transition={{ duration: reduceMotion ? 0 : 1.5, ease: [0.16, 1, 0.3, 1] }}
       >
-        <MarqueeName active={active} />
-      </div>
+        <MarqueeName active={active} scrollContainerRef={scrollContainerRef} />
+      </m.div>
 
       {/* Designation — mobile only, pinned to bottom */}
       <m.div
         className="md:hidden absolute left-6 z-10"
         style={{ bottom: "calc(2rem + env(safe-area-inset-bottom))" }}
-        initial={{ y: 20 }}
-        animate={{ opacity: 1, y: active || reduceMotion ? 0 : 20 }}
-        viewport={{ once: true }}
-        transition={{ duration: reduceMotion ? 0 : 0.8, delay: 0.2, ease: "easeOut" }}
+        initial={{ y: "10svh" }}
+        animate={{ y: active || reduceMotion ? 0 : "10svh" }}
+        transition={{ duration: reduceMotion ? 0 : 1.5, delay: reduceMotion ? 0 : 0.07, ease: [0.16, 1, 0.3, 1] }}
       >
         <p
           className="font-sans text-white/80 font-light tracking-widest uppercase"
@@ -110,41 +158,35 @@ export default function HeroSection({ active = true }) {
         </p>
       </m.div>
 
-      {/* Desktop — full background image with text overlay */}
-      <div className="hidden md:block absolute inset-0 z-0">
+      {/* Preserve the entire photo height; narrower tablets crop only the dark left edge. */}
+      <div className={styles.desktopPhoto} style={{ aspectRatio: `${desktopHeroImage.width} / ${desktopHeroImage.height}` }}>
         <Image
-          src={heroImage}
-          alt="Rohan Gore"
+          src={desktopHeroImage}
+          alt="Rohan Gore at the gym"
+          unoptimized
           fill
           priority
           placeholder="blur"
-          sizes="100vw"
-          className="object-cover object-[center_52%]"
+          sizes="(min-width: 768px) 124vh, 1px"
+          className="object-contain"
         />
-        <div className="absolute inset-0 bg-black/45 pointer-events-none" />
       </div>
 
-      {/* Desktop — text only, centered at bottom */}
-      <div className="hidden md:flex flex-col items-center gap-4 z-10 absolute bottom-12 left-0 right-0">
+      <div className={styles.desktopCopy}>
         <m.p
           aria-hidden="true"
-          className="font-sans text-white font-light text-center whitespace-nowrap leading-none tracking-tight"
-          style={{ fontSize: "clamp(5rem, 10vw, 12rem)" }}
-          initial={{ y: 40 }}
-          animate={{ opacity: 1, y: active || reduceMotion ? 0 : 20 }}
-          viewport={{ once: true }}
-          transition={{ duration: reduceMotion ? 0 : 1, ease: "easeOut" }}
+          className={styles.name}
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: active ? 1 : 0, y: active || reduceMotion ? 0 : 24 }}
+          transition={{ duration: reduceMotion ? 0 : 0.85, ease: [0.22, 1, 0.36, 1] }}
         >
-          Rohan Gore
+          <span>Rohan</span>{" "}<span>Gore</span>
         </m.p>
-
         <m.p
-          className="font-sans text-white/50 font-light tracking-widest uppercase"
-          style={{ fontSize: "clamp(0.75rem, 1vw, 1rem)" }}
-          initial={{ y: 20 }}
-          animate={{ opacity: 1, y: active || reduceMotion ? 0 : 20 }}
-          viewport={{ once: true }}
-          transition={{ duration: reduceMotion ? 0 : 1, delay: 0.3, ease: "easeOut" }}
+          className={styles.designation}
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: active ? 1 : 0, y: active || reduceMotion ? 0 : 12 }}
+          transition={{ duration: reduceMotion ? 0 : 0.7, delay: reduceMotion ? 0 : 0.12, ease: "easeOut" }}
         >
           Software Engineer
         </m.p>

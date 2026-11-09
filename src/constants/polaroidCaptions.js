@@ -25,4 +25,6 @@ export const CAPTIONS = [
   "Nutrient Palette",
   "Lane To Sun",
   "The Arnold Pose",
+  "The Cobra",
+  "Aesthetic over everything",
 ];

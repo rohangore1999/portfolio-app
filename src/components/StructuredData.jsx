@@ -13,7 +13,7 @@ export default function StructuredData() {
     homeLocation: { "@type": "Place", name: "Bangalore, India" },
     description:
       "Technical Lead at Myntra in Bangalore, building full-stack applications, AI tools, and developer experiences.",
-    image: `${baseUrl}/og-image.jpg`,
+    image: `${baseUrl}/social-rohan-cobra.jpg`,
     sameAs: [
       "https://github.com/rohangore1999",
       "https://www.linkedin.com/in/rohan-gore-355178179/",

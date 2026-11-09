@@ -74,7 +74,7 @@ export default async function WorkDetailPage({ params }) {
   const url = `${SITE_URL}/work/${project.slug}`;
   const imageUrl = (project.ogImage || project.image)
     ? `${SITE_URL}${project.ogImage || project.image}`
-    : `${SITE_URL}/og-image.jpg`;
+    : `${SITE_URL}/social-rohan-cobra.jpg`;
   const description =
     project.tagline ||
     project.description ||

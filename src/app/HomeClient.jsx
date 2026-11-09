@@ -56,7 +56,7 @@ export default function Home({ whoopPreviewEnabled = false }) {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5, delay: 0.3 }}
       >
-        <HeroSection active={!showLoading} />
+        <HeroSection active={!showLoading} scrollContainerRef={scrollContainerRef} />
 
         <AboutSection onAboutClick={handleAboutClick} />
 

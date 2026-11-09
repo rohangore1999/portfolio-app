@@ -1,0 +1,52 @@
+.desktopPhoto, .desktopCopy { display: none; }
+
+@media (min-width: 768px) {
+  .desktopPhoto {
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: auto;
+    pointer-events: none;
+  }
+  .desktopPhoto::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, #000, transparent 20%);
+  }
+  .desktopCopy {
+    display: flex;
+    position: relative;
+    z-index: 10;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    padding-inline: clamp(2rem, 7vw, 12rem);
+  }
+  .name {
+    color: white;
+    font-size: clamp(4rem, 8vw, 10rem);
+    font-weight: 300;
+    line-height: 1.05;
+    white-space: nowrap;
+    letter-spacing: -.065em;
+    word-spacing: .08em;
+  }
+  .designation {
+    margin-top: 1.5rem;
+    color: rgb(255 255 255 / 65%);
+    font-size: clamp(.7rem, 1vw, 1rem);
+    font-weight: 300;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+  }
+}
+
+/* Keep the name together on tall iPads. */
+@media (min-width: 768px) and (max-aspect-ratio: 1/1) {
+  .desktopCopy { padding-inline: 5vw; }
+  .name { font-size: clamp(4rem, 8.5vw, 6.5rem); }
+  .designation { max-width: 38vw; font-size: .7rem; line-height: 1.7; }
+}

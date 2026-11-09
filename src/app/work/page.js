@@ -23,7 +23,7 @@ export const metadata = {
     siteName: "Rohan Gore",
     images: [
       {
-        url: "/og-image.jpg",
+        url: "/social-rohan-cobra.jpg",
         width: 1200,
         height: 630,
         alt: "Rohan Gore — Work",
@@ -35,7 +35,7 @@ export const metadata = {
     title: "Work | Rohan Gore",
     description:
       "Selected projects by Rohan Gore — native macOS apps, AI products, developer tools, and full-stack web.",
-    images: ["/og-image.jpg"],
+    images: ["/social-rohan-cobra.jpg"],
   },
 };
 

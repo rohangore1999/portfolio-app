@@ -24,7 +24,7 @@ export async function generateMetadata({ params }) {
   }
 
   const url = `/blog/${post.slug}`;
-  const imageUrl = post.image ? `${SITE_URL}${post.image}` : `${SITE_URL}/og-image.jpg`;
+  const imageUrl = post.image ? `${SITE_URL}${post.image}` : `${SITE_URL}/social-rohan-cobra.jpg`;
 
   return {
     title: post.title,
@@ -70,7 +70,7 @@ export default async function BlogDetailPage({ params }) {
   });
 
   const url = `${SITE_URL}/blog/${post.slug}`;
-  const imageUrl = post.image ? `${SITE_URL}${post.image}` : `${SITE_URL}/og-image.jpg`;
+  const imageUrl = post.image ? `${SITE_URL}${post.image}` : `${SITE_URL}/social-rohan-cobra.jpg`;
 
   const blogPostingSchema = {
     "@context": "https://schema.org",

@@ -17,7 +17,7 @@ export const metadata = {
     siteName: "Rohan Gore",
     images: [
       {
-        url: "/og-image.jpg",
+        url: "/social-rohan-cobra.jpg",
         width: 1200,
         height: 630,
         alt: "Rohan Gore Photography Gallery",
@@ -29,7 +29,7 @@ export const metadata = {
     title: "Gallery | Rohan Gore",
     description:
       "Mobile photography collection showcasing urban landscapes and street scenes.",
-    images: ["/og-image.jpg"],
+    images: ["/social-rohan-cobra.jpg"],
   },
 };
 
