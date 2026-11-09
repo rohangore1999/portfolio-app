@@ -7,7 +7,7 @@ export default function AboutSection({ onAboutClick }) {
   const reduceMotion = useReducedMotion();
 
   return (
-    <section className="min-h-screen min-h-dvh flex items-center justify-center snap-start px-8 py-24 relative">
+    <section className="min-h-screen min-h-dvh flex items-center justify-center px-8 py-24 relative">
       <div className="max-w-6xl w-full">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-10 md:gap-16">
         <div className="w-full max-w-2xl min-w-0">

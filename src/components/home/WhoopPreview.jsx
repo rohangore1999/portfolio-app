@@ -141,7 +141,7 @@ export default function WhoopPreview({ scrollContainerRef }) {
     container.scrollTo({ top: Math.max(0, chapterTop - headerHeight + settledOffset), behavior: reduceMotion ? "instant" : "smooth" });
   }
 
-  return <section ref={ref} aria-label="My last 30 days, measured by WHOOP" className="relative isolate snap-start overflow-clip bg-[#080808] px-6 text-white sm:px-8">
+  return <section ref={ref} aria-label="My last 30 days, measured by WHOOP" className="relative isolate overflow-clip bg-[#080808] px-6 text-white sm:px-8">
     <div className="relative mx-auto w-full max-w-6xl perspective-[1200px]">
       <header ref={headerRef} className="sticky top-0 z-30 flex flex-wrap items-start justify-between gap-3 md:gap-4 border-b border-white/10 bg-[#080808] pt-20 pb-4 md:pt-28 md:pb-8">
         <div>

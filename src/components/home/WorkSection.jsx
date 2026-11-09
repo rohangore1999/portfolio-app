@@ -46,7 +46,7 @@ export default function WorkSection() {
     <section
       ref={sectionRef}
       onMouseMove={handleMouseMove}
-      className="relative bg-black flex flex-col snap-start px-8 md:px-16 pt-20 md:pt-28 pb-8 md:pb-12 overflow-hidden h-[calc(100vh-70px)] md:h-screen"
+      className="relative bg-black flex flex-col px-8 md:px-16 pt-20 md:pt-28 pb-8 md:pb-12 overflow-hidden h-[calc(100vh-70px)] md:h-screen"
     >
       {/* Floating cursor image
           left/top = cursor position, -translate-x/y-1/2 shifts it so center = cursor */}

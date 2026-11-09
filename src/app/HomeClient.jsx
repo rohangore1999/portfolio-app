@@ -51,7 +51,7 @@ export default function Home({ whoopPreviewEnabled = false }) {
         ref={scrollContainerRef}
         data-page-scroll
         inert={showLoading}
-        className={`h-screen h-dvh ${showLoading ? "overflow-y-hidden" : "overflow-y-scroll"} bg-black snap-y snap-proximity`}
+        className={`h-screen h-dvh ${showLoading ? "overflow-y-hidden" : "overflow-y-scroll"} bg-black`}
         initial={false}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5, delay: 0.3 }}
@@ -65,7 +65,7 @@ export default function Home({ whoopPreviewEnabled = false }) {
         <WorkSection />
 
         {/* Contact scrolls into view as the final section. */}
-        <section className="snap-start">
+        <section>
           <Footer />
         </section>
       </m.div>

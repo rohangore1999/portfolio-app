@@ -102,7 +102,7 @@ export default function HeroSection({ active = true, scrollContainerRef }) {
   const reduceMotion = useReducedMotion();
   return (
     <section
-      className="relative snap-start overflow-hidden flex items-center justify-center"
+      className="relative overflow-hidden flex items-center justify-center"
       style={{
         backgroundColor: "#000",
         height: "100dvh",
