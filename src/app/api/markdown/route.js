@@ -4,7 +4,7 @@ import { SITE_URL as BASE_URL } from "@/lib/site";
 const PAGE_MARKDOWN = {
   "/": `# Rohan Gore - Technical Lead & Software Engineer
 
-> Rohan Gore is a Technical Lead at Myntra in Bangalore, building full-stack applications, AI tools, and developer experiences.
+> Rohan Gore is a Technical Lead at Myntra in Bangalore. Turning AI slop into something I can put my name on.
 
 ## About
 

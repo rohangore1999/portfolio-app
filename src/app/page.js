@@ -3,14 +3,14 @@ import HomeClient from "./HomeClient";
 export const metadata = {
   title: { absolute: "Rohan Gore - Software Engineer" },
   description:
-    "Rohan Gore is a Technical Lead at Myntra in Bangalore, building full-stack applications, AI tools, and developer experiences.",
+    "Rohan Gore is a Technical Lead at Myntra in Bangalore. Turning AI slop into something I can put my name on.",
   alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     url: "/",
     title: "Rohan Gore - Software Engineer",
     description:
-      "Technical Lead at Myntra in Bangalore, building full-stack applications, AI tools, and developer experiences.",
+      "Technical Lead at Myntra in Bangalore. Turning AI slop into something I can put my name on.",
     siteName: "Rohan Gore",
     images: [
       {
@@ -25,7 +25,7 @@ export const metadata = {
     card: "summary_large_image",
     title: "Rohan Gore - Software Engineer",
     description:
-      "Technical Lead at Myntra in Bangalore, building full-stack applications, AI tools, and developer experiences.",
+      "Technical Lead at Myntra in Bangalore. Turning AI slop into something I can put my name on.",
     images: ["/social-rohan-cobra.jpg"],
   },
 };

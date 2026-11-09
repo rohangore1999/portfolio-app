@@ -12,7 +12,7 @@ export default function StructuredData() {
     worksFor: { "@type": "Organization", name: "Myntra" },
     homeLocation: { "@type": "Place", name: "Bangalore, India" },
     description:
-      "Technical Lead at Myntra in Bangalore, building full-stack applications, AI tools, and developer experiences.",
+      "Technical Lead at Myntra in Bangalore. Turning AI slop into something I can put my name on.",
     image: `${baseUrl}/social-rohan-cobra.jpg`,
     sameAs: [
       "https://github.com/rohangore1999",

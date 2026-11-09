@@ -7,7 +7,7 @@ export const revalidate = 86400;
 export const metadata = {
   title: "About",
   description:
-    "About Rohan Gore — Technical Lead at Myntra building full-stack web applications, AI tools, and developer experiences. Also into bodybuilding and mobile photography.",
+    "About Rohan Gore — Technical Lead at Myntra. Turning AI slop into something I can put my name on. Also into bodybuilding and mobile photography.",
   keywords: [
     "Rohan Gore",
     "About Rohan Gore",
@@ -22,7 +22,7 @@ export const metadata = {
     url: "/about",
     title: "About | Rohan Gore",
     description:
-      "Technical Lead at Myntra building full-stack applications, AI tools, and developer experiences. Fitness and photography outside work.",
+      "Technical Lead at Myntra. Turning AI slop into something I can put my name on. Fitness and photography outside work.",
     siteName: "Rohan Gore",
     images: [
       {
@@ -37,7 +37,7 @@ export const metadata = {
     card: "summary_large_image",
     title: "About | Rohan Gore",
     description:
-      "Technical Lead at Myntra building full-stack applications, AI tools, and developer experiences.",
+      "Technical Lead at Myntra. Turning AI slop into something I can put my name on.",
     images: ["/social-rohan-cobra.jpg"],
   },
 };
